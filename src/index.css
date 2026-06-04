@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "miatrosse";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Base - fond blanc pur */
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96% 0 0);
+  --color-base-300: oklch(92% 0 0);
+  --color-base-content: oklch(13% 0.01 285);
+
+  /* Primary = #00b649 (vert exact du logo) */
+  --color-primary: oklch(68% 0.19 149);
+  --color-primary-content: oklch(100% 0 0);
+
+  /* Secondary - noir */
+  --color-secondary: oklch(13% 0 0);
+  --color-secondary-content: oklch(100% 0 0);
+
+  /* Accent - même vert */
+  --color-accent: oklch(68% 0.19 149);
+  --color-accent-content: oklch(100% 0 0);
+
+  /* Neutral */
+  --color-neutral: oklch(30% 0.01 285);
+  --color-neutral-content: oklch(100% 0 0);
+
+  /* States */
+  --color-info: oklch(65% 0.18 240);
+  --color-info-content: oklch(100% 0 0);
+  --color-success: oklch(68% 0.19 149);
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: oklch(80% 0.18 85);
+  --color-warning-content: oklch(20% 0 0);
+  --color-error: oklch(65% 0.22 25);
+  --color-error-content: oklch(100% 0 0);
+
+  /* Radius */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
