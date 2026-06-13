@@ -1,0 +1,190 @@
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ShoppingCart, Heart, User, Search, Menu, X, Phone } from 'lucide-react'
+import logoImg from '../../../assets/MiaTrossè-logo1.png'
+
+const NAV_LINKS = [
+  { label: 'Accueil',    to: '/' },
+  { label: 'Catégories', to: '/categories' },
+  { label: 'Offres',     to: '/offres' },
+  { label: 'À propos',   to: '/a-propos' },
+  { label: 'Contact',    to: '/contact' },
+]
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const [scrolled, setScrolled]   = useState(false)
+  const location                  = useLocation()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => setMenuOpen(false), [location])
+
+  return (
+      <header
+        className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${
+          scrolled ? 'shadow-md' : 'shadow-sm'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center md:grid md:grid-cols-[1fr_minmax(18rem,36rem)_1fr]
+                          gap-3 md:gap-6 lg:gap-8 h-14 sm:h-16 overflow-visible">
+
+            {/* Logo — agrandi visuellement, centré verticalement dans la barre */}
+            <Link
+              to="/"
+              className="flex h-14 sm:h-16 items-center shrink-0 justify-self-start relative z-10"
+            >
+              <img
+                src={logoImg}
+                alt="Shop MiaTrossè"
+                className="h-12 w-auto sm:h-14 object-contain origin-left
+                           scale-[1.65] sm:scale-[1.8] md:scale-[2] lg:scale-[2.15]"
+              />
+            </Link>
+
+            {/* Barre de recherche — centrée horizontalement et verticalement */}
+            <div className="hidden md:flex h-14 sm:h-16 w-full items-center justify-center justify-self-center self-center">
+              <div className="flex w-full rounded-xl border border-gray-200 overflow-hidden
+                              focus-within:border-[#00b649] focus-within:ring-2
+                              focus-within:ring-[#00b649]/20 transition-all shadow-sm">
+                <input
+                  type="text"
+                  placeholder="Rechercher un produit, une catégorie…"
+                  className="flex-1 px-4 py-2 text-sm outline-none bg-white text-gray-900
+                             placeholder:text-gray-400 min-w-0"
+                />
+                <button className="bg-[#00b649] hover:bg-[#009d3f] px-4 py-2 text-white shrink-0
+                                   transition-colors flex items-center gap-2 text-sm font-medium">
+                  <Search size={16} />
+                  Rechercher
+                </button>
+              </div>
+            </div>
+
+            {/* Icônes — alignées verticalement avec le logo */}
+            <div className="hidden md:flex h-14 sm:h-16 items-center justify-end gap-6 lg:gap-8
+                            justify-self-end self-center pr-1 lg:pr-2">
+              <Link to="/auth"
+                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                <User size={22} />
+                <span className="text-[10px] mt-1">Compte</span>
+              </Link>
+
+              <Link to="/wishlist"
+                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                <Heart size={22} />
+                <span className="text-[10px] mt-1">Favoris</span>
+              </Link>
+
+              <Link to="/cart"
+                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                <div className="relative">
+                  <ShoppingCart size={22} />
+                  <span className="absolute -top-2 -right-2 bg-[#00b649] text-white text-[9px]
+                                   font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    0
+                  </span>
+                </div>
+                <span className="text-[10px] mt-1">Panier</span>
+              </Link>
+            </div>
+
+            {/* Burger — mobile */}
+            <button
+              className="ml-auto md:hidden flex h-14 sm:h-16 items-center text-gray-700"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {/* Liens de navigation — desktop */}
+          <nav className="hidden md:flex items-center gap-1 py-1.5">
+            {NAV_LINKS.map(({ label, to }) => {
+              const active = location.pathname === to
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors group ${
+                    active ? 'text-[#00b649]' : 'text-gray-600 hover:text-[#00b649]'
+                  }`}
+                >
+                  {label}
+                  <span
+                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-[#00b649] rounded-full
+                                transition-transform duration-300 origin-left ${
+                      active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </Link>
+              )
+            })}
+            <Link
+              to="/contact"
+              className="ml-auto flex items-center gap-1.5 text-sm text-gray-500
+                         hover:text-[#00b649] transition-colors"
+            >
+              <Phone size={14} /> Nous contacter
+            </Link>
+          </nav>
+        </div>
+
+        {/* Menu mobile */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+            >
+              <div className="px-4 py-3 space-y-1">
+                {/* Recherche mobile */}
+                <div className="flex rounded-xl border border-gray-200 overflow-hidden mb-3">
+                  <input type="text" placeholder="Rechercher…"
+                    className="flex-1 px-3 py-2 text-sm outline-none bg-white text-gray-900
+                               placeholder:text-gray-400" />
+                  <button className="bg-[#00b649] px-4 text-white">
+                    <Search size={16} />
+                  </button>
+                </div>
+
+                {NAV_LINKS.map(({ label, to }) => (
+                  <Link key={to} to={to}
+                    className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      location.pathname === to
+                        ? 'bg-[#00b649]/10 text-[#00b649]'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
+
+                <div className="flex gap-4 pt-3 border-t border-gray-100 mt-2">
+                  <Link to="/auth" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                    <User size={16} /> Compte
+                  </Link>
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                    <Heart size={16} /> Favoris
+                  </button>
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                    <ShoppingCart size={16} /> Panier (0)
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+  )
+}

@@ -63,3 +63,24 @@ body {
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+select {
+  color: #111827;
+  background-color: #ffffff;
+  accent-color: #00b649;
+}
+
+select option {
+  color: #111827;
+  background-color: #ffffff;
+}
+
+input,
+textarea {
+  color: #111827;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
+}
