@@ -116,7 +116,7 @@ function ProductCard({ product, index }) {
         className="group"
       >
         {/* Badge */}
-        <div className="absolute top-3 left-3 bg-[#00b649] text-white text-xs
+        <div className="absolute top-3 left-3 bg-brand text-white text-xs
                         font-bold px-3 py-1 rounded-full flex items-center gap-1">
           <Zap size={12} />
           {product.badge}
@@ -185,7 +185,7 @@ function ProductCard({ product, index }) {
               <AlertTriangle size={14} /> Seulement {product.stock} restants
             </span>
           ) : (
-            <span className="text-[#00b649] font-semibold inline-flex items-center gap-1">
+            <span className="text-brand font-semibold inline-flex items-center gap-1">
               <Check size={14} /> En stock ({product.stock})
             </span>
           )}
@@ -193,7 +193,7 @@ function ProductCard({ product, index }) {
 
         {/* Bouton panier */}
         <button
-          className="w-full bg-[#00b649] hover:bg-[#009d3f] text-white
+          className="w-full bg-brand hover:bg-brand-hover text-white
                      font-bold py-2.5 rounded-xl transition-colors flex items-center
                      justify-center gap-2 text-sm"
         >
@@ -248,7 +248,7 @@ export default function OffresPage() {
           <div className="grid grid-cols-3 gap-4 md:gap-6 mb-8">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-br from-[#00b649] to-green-600 text-white
+              className="bg-gradient-to-br from-brand to-brand-hover text-white
                          rounded-2xl p-6 shadow-lg"
             >
               <p className="text-sm opacity-90 font-medium">Économies totales</p>
@@ -287,7 +287,7 @@ export default function OffresPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full font-semibold text-sm transition-all
                              shrink-0 ${selectedCategory === cat
-                    ? 'bg-[#00b649] text-white'
+                    ? 'bg-brand text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                   }`}
               >
@@ -303,8 +303,8 @@ export default function OffresPage() {
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
               className="px-4 py-2 border border-gray-200 rounded-xl text-sm
-                         outline-none focus:border-[#00b649] focus:ring-2
-                         focus:ring-[#00b649]/20 bg-white text-gray-900 cursor-pointer"
+                         outline-none focus:border-brand focus:ring-2
+                         focus:ring-brand/20 bg-white text-gray-900 cursor-pointer"
             >
               <option value="popular">Les plus populaires</option>
               <option value="price-low">Prix : bas au haut</option>
@@ -324,7 +324,7 @@ export default function OffresPage() {
         {/* CTA section */}
         <motion.div
           whileHover={{ scale: 1.02 }}
-          className="bg-gradient-to-r from-[#00b649] to-green-600 text-white
+          className="bg-gradient-to-r from-brand to-brand-hover text-white
                      rounded-2xl p-8 md:p-12 text-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -333,7 +333,7 @@ export default function OffresPage() {
           <p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
             Parcourez toutes les catégories pour découvrir d'autres produits exceptionnels.
           </p>
-          <button className="bg-white text-[#00b649] px-8 py-3 rounded-xl
+          <button className="bg-white text-brand px-8 py-3 rounded-xl
                              font-bold hover:bg-gray-100 transition-colors">
             Voir toutes les catégories
           </button>

@@ -9,6 +9,7 @@ import {
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
+import { BRAND, BRAND_HOVER } from '../../config/brand'
 
 // ── Images carrousel hero (fond transparent) ─────────────────────────────────
 import heroSlideCasque from '../../assets/hero/casque-noir.png'
@@ -41,7 +42,7 @@ const HERO_SLIDES = [
     price: 'Dès 15 000 FCFA',
     img: heroSlideCasque,
     bg: 'bg-gray-900',
-    accent: '#00b649',
+    accent: BRAND,
   },
   {
     id: 2,
@@ -64,8 +65,8 @@ const HERO_SLIDES = [
     cta: 'Explorer',
     price: 'Dès 18 000 FCFA',
     img: heroSlideSport,
-    bg: 'bg-green-950',
-    accent: '#00b649',
+    bg: 'bg-[#1e2d5a]',
+    accent: BRAND,
   },
   {
     id: 4,
@@ -132,7 +133,7 @@ function SectionHeader({ title, linkTo, linkLabel = 'Voir tout' }) {
       <h2 className="text-xl font-bold text-gray-900">{title}</h2>
       {linkTo && (
         <Link to={linkTo}
-          className="text-sm text-[#00b649] font-medium hover:underline flex items-center gap-1 group">
+          className="text-sm text-brand font-medium hover:underline flex items-center gap-1 group">
           {linkLabel}
           <motion.span whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
             <ArrowRight size={14} />
@@ -378,7 +379,7 @@ function ProductCard({ product }) {
   const [liked, setLiked] = useState(false)
 
   const BADGE_COLORS = {
-    'Populaire': 'bg-[#00b649] text-white',
+    'Populaire': 'bg-brand text-white',
     'Nouveau': 'bg-blue-500 text-white',
     'Promo': 'bg-red-500 text-white',
     'Top ventes': 'bg-amber-500 text-white',
@@ -430,7 +431,7 @@ function ProductCard({ product }) {
         {/* Bouton panier au hover */}
         <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0
                         transition-transform duration-300 ease-out">
-          <button className="w-full bg-[#00b649] hover:bg-[#009d3f] text-white text-sm font-semibold
+          <button className="w-full bg-brand hover:bg-brand-hover text-white text-sm font-semibold
                              py-2.5 flex items-center justify-center gap-2 transition-colors">
             <ShoppingCart size={15} /> Ajouter au panier
           </button>
@@ -439,7 +440,7 @@ function ProductCard({ product }) {
 
       {/* Infos */}
       <div className="p-4">
-        <p className="text-xs text-[#00b649] font-medium mb-1">{product.cat}</p>
+        <p className="text-xs text-brand font-medium mb-1">{product.cat}</p>
         <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2 mb-2">
           {product.name}
         </h3>
@@ -499,16 +500,16 @@ export default function HomePage() {
             <motion.div
               key={title}
               variants={staggerItem}
-              whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(0,182,73,0.12)' }}
+              whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(39,60,117,0.12)' }}
               className="bg-white rounded-xl border border-gray-100 px-4 py-4 flex items-center
                          gap-3 shadow-sm cursor-default"
             >
               <motion.div
                 whileHover={{ rotate: [0, -8, 8, 0], scale: 1.08 }}
                 transition={{ duration: 0.45 }}
-                className="w-10 h-10 rounded-xl bg-[#00b649]/10 flex items-center justify-center shrink-0"
+                className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0"
               >
-                <Icon size={18} className="text-[#00b649]" />
+                <Icon size={18} className="text-brand" />
               </motion.div>
               <div>
                 <p className="text-xs font-bold text-gray-800">{title}</p>
@@ -564,7 +565,7 @@ export default function HomePage() {
           {...fadeUp(0.1)}
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
-          className="bg-gradient-to-r from-[#00b649] to-[#009d3f] rounded-2xl px-6 py-5
+          className="bg-gradient-to-r from-brand to-brand-hover rounded-2xl px-6 py-5
                      flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg
                      overflow-hidden relative"
         >
@@ -611,7 +612,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="relative z-10 shrink-0">
             <Link to="/offres"
-              className="bg-white text-[#00b649] font-bold text-sm px-5 py-2.5 rounded-xl
+              className="bg-white text-brand font-bold text-sm px-5 py-2.5 rounded-xl
                          hover:bg-gray-50 transition-colors inline-block">
               Voir les offres
             </Link>
@@ -631,7 +632,7 @@ export default function HomePage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`relative px-4 py-1.5 rounded-lg text-sm font-medium transition-colors z-10 ${
-                  activeTab === tab ? 'text-[#00b649]' : 'text-gray-500 hover:text-gray-700'
+                  activeTab === tab ? 'text-brand' : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
                 {activeTab === tab && (
@@ -647,7 +648,7 @@ export default function HomePage() {
           </div>
 
           <Link to="/categories"
-            className="text-sm text-[#00b649] font-medium hover:underline flex items-center gap-1">
+            className="text-sm text-brand font-medium hover:underline flex items-center gap-1">
             Voir tout <ArrowRight size={14} />
           </Link>
         </motion.div>
@@ -697,7 +698,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-[#00b649] font-semibold text-sm mb-2 inline-flex items-center gap-1.5"
+              className="text-brand font-semibold text-sm mb-2 inline-flex items-center gap-1.5"
             >
               <Store size={16} /> Vendez sur MiaTrossè
             </motion.p>
@@ -724,7 +725,7 @@ export default function HomePage() {
               whileTap={{ scale: 0.97 }}
             >
               <Link to="/auth"
-                className="inline-flex items-center gap-2 bg-[#00b649] hover:bg-[#009d3f]
+                className="inline-flex items-center gap-2 bg-brand hover:bg-brand-hover
                            text-white font-bold px-6 py-3 rounded-xl transition-colors">
                 Commencer gratuitement <ArrowRight size={16} />
               </Link>

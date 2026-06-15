@@ -94,7 +94,7 @@ function StatCard({ number, label, index }) {
       transition={{ delay: index * 0.1 }}
       className="text-center"
     >
-      <div className="text-4xl md:text-5xl font-bold text-[#00b649] mb-2">
+      <div className="text-4xl md:text-5xl font-bold text-brand mb-2">
         {number}
       </div>
       <p className="text-gray-600">{label}</p>
@@ -109,7 +109,7 @@ export default function AProposPage() {
 
       <main>
         {/* Hero section */}
-        <section className="bg-gradient-to-b from-[#00b649]/10 to-transparent py-16 md:py-24">
+        <section className="bg-gradient-to-b from-brand/10 to-transparent py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -117,7 +117,7 @@ export default function AProposPage() {
               className="text-center"
             >
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                À propos de <span className="text-[#00b649]">MiaTrossè</span>
+                À propos de <span className="text-brand">MiaTrossè</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Votre marketplace de confiance au Togo — où acheter et vendre devient
@@ -200,9 +200,9 @@ export default function AProposPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   className="bg-white rounded-2xl p-8 border border-gray-200
-                             hover:border-[#00b649] hover:shadow-lg transition-all"
+                             hover:border-brand hover:shadow-lg transition-all"
                 >
-                  <Icon size={40} className="text-[#00b649] mb-4" />
+                  <Icon size={40} className="text-brand mb-4" />
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
                   <p className="text-gray-600">{value.desc}</p>
                 </motion.div>
@@ -229,9 +229,9 @@ export default function AProposPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   className="bg-gray-800 rounded-2xl p-8 border border-gray-700
-                             hover:border-[#00b649] transition-colors"
+                             hover:border-brand transition-colors"
                 >
-                  <div className="text-[#00b649] text-3xl font-bold mb-3">
+                  <div className="text-brand text-3xl font-bold mb-3">
                     {milestone.year}
                   </div>
                   <h3 className="text-xl font-bold mb-2">{milestone.title}</h3>
@@ -262,7 +262,7 @@ export default function AProposPage() {
                 className="text-center"
               >
                 <div className="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100
-                                ring-2 ring-[#00b649]/25 shadow-md">
+                                ring-2 ring-brand/25 shadow-md">
                   <img
                     src={member.img}
                     alt={member.imgAlt}
@@ -270,14 +270,14 @@ export default function AProposPage() {
                   />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                <p className="text-[#00b649] text-sm font-medium mt-1">{member.role}</p>
+                <p className="text-brand text-sm font-medium mt-1">{member.role}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
         {/* CTA section */}
-        <section className="bg-gradient-to-r from-[#00b649] to-green-600 text-white py-16 md:py-20">
+        <section className="bg-gradient-to-r from-brand to-brand-hover text-white py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Rejoignez notre communauté
@@ -287,7 +287,7 @@ export default function AProposPage() {
               transforme le commerce au Togo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#00b649] px-8 py-3 rounded-xl
+              <button className="bg-white text-brand px-8 py-3 rounded-xl
                                font-bold hover:bg-gray-100 transition-colors">
                 Commencer à acheter
               </button>

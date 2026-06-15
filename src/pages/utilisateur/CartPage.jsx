@@ -91,7 +91,7 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
           <button
             onClick={decreaseQty}
             className="w-8 h-8 rounded-lg border border-gray-300 flex items-center
-                       justify-center hover:border-[#00b649] hover:text-[#00b649] transition-all"
+                       justify-center hover:border-brand hover:text-brand transition-all"
           >
             <Minus size={16} />
           </button>
@@ -100,7 +100,7 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
             onClick={increaseQty}
             disabled={item.quantity >= item.stock}
             className="w-8 h-8 rounded-lg border border-gray-300 flex items-center
-                       justify-center hover:border-[#00b649] hover:text-[#00b649]
+                       justify-center hover:border-brand hover:text-brand
                        transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus size={16} />
@@ -201,7 +201,7 @@ export default function CartPage() {
             <p className="text-gray-600 mb-6">Ajoutez des produits pour commencer vos achats</p>
             <Link
               to="/categories"
-              className="inline-flex items-center gap-2 bg-[#00b649] hover:bg-[#009d3f]
+              className="inline-flex items-center gap-2 bg-brand hover:bg-brand-hover
                          text-white font-bold px-6 py-3 rounded-xl transition-colors"
             >
               Parcourir les catégories <ArrowRight size={18} />
@@ -240,14 +240,14 @@ export default function CartPage() {
                     Code promo
                   </label>
                   {appliedPromo ? (
-                    <div className="flex items-center gap-2 bg-green-50 border border-green-200
+                    <div className="flex items-center gap-2 bg-brand/10 border border-brand/20
                                 rounded-lg px-3 py-2">
-                      <span className="text-sm font-semibold text-green-700 flex-1">
+                      <span className="text-sm font-semibold text-brand flex-1">
                         {appliedPromo.code} (-{appliedPromo.discount}%)
                       </span>
                       <button
                         onClick={handleRemovePromo}
-                        className="text-green-600 hover:text-green-700"
+                        className="text-brand hover:text-brand-hover"
                       >
                         <X size={16} />
                       </button>
@@ -263,7 +263,7 @@ export default function CartPage() {
                         }}
                         placeholder="Entrez un code"
                         className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl
-                                   outline-none focus:border-[#00b649] text-sm"
+                                   outline-none focus:border-brand text-sm"
                       />
                       <button
                         onClick={handleApplyPromo}
@@ -286,7 +286,7 @@ export default function CartPage() {
                     <span>{subtotal.toLocaleString('fr-FR')} FCFA</span>
                   </div>
                   {discount > 0 && (
-                    <div className="flex justify-between text-green-600">
+                    <div className="flex justify-between text-brand">
                       <span>Réduction</span>
                       <span>-{discount.toLocaleString('fr-FR')} FCFA</span>
                     </div>
@@ -309,7 +309,7 @@ export default function CartPage() {
                 </div>
 
                 {/* Bouton commander */}
-                <button className="w-full bg-[#00b649] hover:bg-[#009d3f] text-white font-bold
+                <button className="w-full bg-brand hover:bg-brand-hover text-white font-bold
                            py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mb-4">
                   Passer la commande <ArrowRight size={18} />
                 </button>
@@ -322,7 +322,7 @@ export default function CartPage() {
                     { icon: RefreshCw, text: 'Retour gratuit sous 14 jours' }
                   ].map(({ icon: Icon, text }) => (
                     <div key={text} className="flex items-center gap-3 text-sm text-gray-600">
-                      <Icon size={16} className="text-[#00b649] shrink-0" />
+                      <Icon size={16} className="text-brand shrink-0" />
                       {text}
                     </div>
                   ))}

@@ -89,12 +89,12 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Bande newsletter */}
-      <div className="bg-[#00b649]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row
-                        items-center justify-between gap-4">
+      <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-2 flex flex-col md:flex-row
+                        items-center justify-between gap-2">
           <div>
-            <p className="text-white font-bold text-lg">Inscrivez-vous à notre newsletter</p>
-            <p className="text-white/80 text-sm mt-0.5">Soyez les premiers informés de nos offres et nouveautés</p>
+            <p className="text-white font-bold text-base">Inscrivez-vous à notre newsletter</p>
+            <p className="text-gray-400 text-xs mt-0.5">Soyez les premiers informés de nos offres et nouveautés</p>
           </div>
           <div className="w-full md:w-auto flex flex-col items-stretch md:items-end gap-1">
             <form
@@ -111,15 +111,16 @@ export default function Footer() {
                 }}
                 required
                 placeholder="Votre email…"
-                className="flex-1 md:w-72 px-4 py-2.5 rounded-xl text-sm text-gray-800
-                           outline-none border-2 border-transparent focus:border-white bg-white"
+                className="flex-1 md:w-60 px-3 py-1.5 rounded-lg text-sm text-gray-800
+                           outline-none border border-gray-700 focus:border-brand focus:ring-2
+                           focus:ring-brand/20 bg-white"
               />
               <button
                 type="submit"
                 disabled={newsletterLoading}
-                className="bg-gray-900 hover:bg-gray-800 disabled:opacity-60 text-white px-5 py-2.5
-                           rounded-xl text-sm font-semibold transition-colors shrink-0
-                           flex items-center justify-center gap-2 min-w-[7.5rem]"
+                className="bg-brand hover:bg-brand-hover disabled:opacity-60 text-white px-4 py-1.5
+                           rounded-lg text-sm font-semibold transition-colors shrink-0
+                           flex items-center justify-center gap-2 min-w-[6.5rem]"
               >
                 {newsletterLoading ? (
                   <Loader2 size={16} className="animate-spin" />
@@ -130,7 +131,7 @@ export default function Footer() {
             </form>
             {(newsletterSuccess || newsletterError) && (
               <p className={`text-sm flex items-center gap-1.5 ${
-                newsletterSuccess ? 'text-white' : 'text-red-100'
+                newsletterSuccess ? 'text-brand' : 'text-red-400'
               }`}>
                 {newsletterSuccess && (
                   <>
@@ -146,15 +147,15 @@ export default function Footer() {
       </div>
 
       {/* Corps du footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-1 pb-6 grid grid-cols-2 md:grid-cols-4 gap-6">
 
         {/* Logo + description */}
         <div className="col-span-2 md:col-span-1">
-          <img src={logoImg} alt="Shop MiaTrossè" className="h-16 sm:h-20 w-auto mb-5 brightness-0 invert object-contain" />
+          <img src={logoImg} alt="Shop MiaTrossè" className="h-12 sm:h-14 w-auto mb-3 object-contain" />
           <p className="text-sm text-gray-400 leading-relaxed">
             La marketplace de référence au Togo pour acheter et vendre des produits de qualité.
           </p>
-          <div className="flex gap-3 mt-5">
+          <div className="flex gap-2.5 mt-3">
             {SOCIAL_LINKS.map(({ Icon, label, href }) => (
               <a
                 key={label}
@@ -162,7 +163,7 @@ export default function Footer() {
                 aria-label={label}
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="w-8 h-8 rounded-full bg-gray-800 hover:bg-[#00b649] flex items-center
+                className="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand flex items-center
                            justify-center transition-colors"
               >
                 <Icon />
@@ -173,40 +174,40 @@ export default function Footer() {
 
         {/* À propos */}
         <div>
-          <p className="text-white font-semibold mb-4">À propos</p>
-          <ul className="space-y-2 text-sm">
+          <p className="text-white font-semibold mb-2">À propos</p>
+          <ul className="space-y-1.5 text-sm">
             {['Qui sommes-nous', 'Nos valeurs', 'Conditions générales', 'Politique de confidentialité'].map(l => (
-              <li key={l}><a href="#" className="hover:text-[#00b649] transition-colors">{l}</a></li>
+              <li key={l}><a href="#" className="hover:text-brand transition-colors">{l}</a></li>
             ))}
           </ul>
         </div>
 
         {/* Mon compte */}
         <div>
-          <p className="text-white font-semibold mb-4">Mon compte</p>
-          <ul className="space-y-2 text-sm">
+          <p className="text-white font-semibold mb-2">Mon compte</p>
+          <ul className="space-y-1.5 text-sm">
             {['Mes commandes', 'Mes favoris', 'Mes achats', 'Paramètres'].map(l => (
-              <li key={l}><a href="#" className="hover:text-[#00b649] transition-colors">{l}</a></li>
+              <li key={l}><a href="#" className="hover:text-brand transition-colors">{l}</a></li>
             ))}
           </ul>
         </div>
 
         {/* Contact */}
         <div>
-          <p className="text-white font-semibold mb-4">Aide & Contact</p>
-          <ul className="space-y-3 text-sm">
+          <p className="text-white font-semibold mb-2">Aide & Contact</p>
+          <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
-              <Phone size={14} className="text-[#00b649] shrink-0" />
-              <a href="tel:+22890107500" className="hover:text-[#00b649] transition-colors">
+              <Phone size={14} className="text-brand shrink-0" />
+              <a href="tel:+22890107500" className="hover:text-brand transition-colors">
                 +228 90 10 75 00
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={14} className="text-[#00b649] shrink-0" />
+              <Mail size={14} className="text-brand shrink-0" />
               contact@miatrosse.tg
             </li>
             <li className="flex items-start gap-2">
-              <MapPin size={14} className="text-[#00b649] shrink-0 mt-0.5" />
+              <MapPin size={14} className="text-brand shrink-0 mt-0.5" />
               Lomé, Togo
             </li>
           </ul>
@@ -214,7 +215,7 @@ export default function Footer() {
       </div>
 
       {/* Copyright */}
-      <div className="border-t border-gray-800 text-center py-5 text-xs text-gray-500">
+      <div className="border-t border-gray-800 text-center py-3 text-xs text-gray-500">
         © {new Date().getFullYear()} Shop MiaTrossè — Tous droits réservés. &nbsp;|&nbsp;
         Paiement 100% sécurisé &nbsp;|&nbsp; Satisfait ou remboursé 14j
       </div>

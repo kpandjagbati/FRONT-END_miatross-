@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --color-brand: #273c75;
+  --color-brand-hover: #1e2d5a;
+}
+
 @plugin "daisyui/theme" {
   name: "miatrosse";
   default: true;
@@ -13,16 +18,16 @@
   --color-base-300: oklch(92% 0 0);
   --color-base-content: oklch(13% 0.01 285);
 
-  /* Primary = #00b649 (vert exact du logo) */
-  --color-primary: oklch(68% 0.19 149);
+  /* Primary = #273c75 (bleu du logo) */
+  --color-primary: oklch(35% 0.08 264);
   --color-primary-content: oklch(100% 0 0);
 
   /* Secondary - noir */
   --color-secondary: oklch(13% 0 0);
   --color-secondary-content: oklch(100% 0 0);
 
-  /* Accent - même vert */
-  --color-accent: oklch(68% 0.19 149);
+  /* Accent - même bleu */
+  --color-accent: oklch(35% 0.08 264);
   --color-accent-content: oklch(100% 0 0);
 
   /* Neutral */
@@ -32,7 +37,7 @@
   /* States */
   --color-info: oklch(65% 0.18 240);
   --color-info-content: oklch(100% 0 0);
-  --color-success: oklch(68% 0.19 149);
+  --color-success: oklch(35% 0.08 264);
   --color-success-content: oklch(100% 0 0);
   --color-warning: oklch(80% 0.18 85);
   --color-warning-content: oklch(20% 0 0);
@@ -67,7 +72,7 @@ body {
 select {
   color: #111827;
   background-color: #ffffff;
-  accent-color: #00b649;
+  accent-color: #273c75;
 }
 
 select option {

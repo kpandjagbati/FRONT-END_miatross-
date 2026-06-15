@@ -70,7 +70,7 @@ function WishlistItem({ item, onRemove }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-4 border border-gray-200 hover:border-[#00b649]
+      className="bg-white rounded-2xl p-4 border border-gray-200 hover:border-brand
                  hover:shadow-lg transition-all group"
     >
       <div className="flex gap-4">
@@ -89,7 +89,7 @@ function WishlistItem({ item, onRemove }) {
         {/* Infos */}
         <div className="flex-1 min-w-0">
           <Link to={`/product/${item.id}`}>
-            <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-[#00b649] transition-colors">
+            <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-brand transition-colors">
               {item.name}
             </h3>
           </Link>
@@ -124,7 +124,7 @@ function WishlistItem({ item, onRemove }) {
           </div>
 
           {/* Stock */}
-          <p className={`text-xs font-medium ${item.inStock ? 'text-[#00b649]' : 'text-red-500'
+          <p className={`text-xs font-medium ${item.inStock ? 'text-brand' : 'text-red-500'
             }`}>
             {item.inStock ? `En stock (${item.stock} disponibles)` : 'Rupture de stock'}
           </p>
@@ -143,7 +143,7 @@ function WishlistItem({ item, onRemove }) {
           <button
             disabled={!item.inStock}
             className="p-2 rounded-lg border border-gray-200 text-gray-400
-                       hover:border-[#00b649] hover:text-[#00b649] transition-colors
+                       hover:border-brand hover:text-brand transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed"
             title="Ajouter au panier"
           >
@@ -208,7 +208,7 @@ export default function WishlistPage() {
             </p>
             <Link
               to="/categories"
-              className="inline-flex items-center gap-2 bg-[#00b649] hover:bg-[#009d3f]
+              className="inline-flex items-center gap-2 bg-brand hover:bg-brand-hover
                          text-white font-bold px-6 py-3 rounded-xl transition-colors"
             >
               Parcourir les catégories <ArrowRight size={18} />

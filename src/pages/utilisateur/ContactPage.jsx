@@ -73,7 +73,7 @@ function FAQItem({ item, index, isOpen, onToggle }) {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="border border-gray-200 rounded-xl overflow-hidden hover:border-[#00b649]
+      className="border border-gray-200 rounded-xl overflow-hidden hover:border-brand
                  transition-colors"
     >
       <button
@@ -82,7 +82,7 @@ function FAQItem({ item, index, isOpen, onToggle }) {
                    justify-between transition-colors"
       >
         <span className="text-left font-semibold text-gray-900">{item.q}</span>
-        <ChevronDown size={20} className={`text-[#00b649] transition-transform duration-300 shrink-0
+        <ChevronDown size={20} className={`text-brand transition-transform duration-300 shrink-0
                          ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
@@ -154,7 +154,7 @@ export default function ContactPage() {
 
       <main>
         {/* Hero section */}
-        <section className="bg-gradient-to-b from-[#00b649]/10 to-transparent py-16 md:py-20">
+        <section className="bg-gradient-to-b from-brand/10 to-transparent py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -180,9 +180,9 @@ export default function ContactPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   className="bg-white rounded-2xl p-8 border border-gray-200
-                             hover:border-[#00b649] hover:shadow-lg transition-all text-center"
+                             hover:border-brand hover:shadow-lg transition-all text-center"
                 >
-                  <Icon size={40} className="text-[#00b649] mx-auto mb-4" />
+                  <Icon size={40} className="text-brand mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{info.title}</h3>
                   <p className="text-lg font-semibold text-gray-900 mb-2">{info.value}</p>
                   <p className="text-sm text-gray-600">{info.desc}</p>
@@ -202,12 +202,12 @@ export default function ContactPage() {
             </h2>
 
             {sent && (
-              <div className="mb-8 bg-green-50 border border-green-200 rounded-xl p-6
+              <div className="mb-8 bg-brand/10 border border-brand/20 rounded-xl p-6
                               flex items-center gap-3">
-                <CheckCircle2 size={24} className="text-green-600 shrink-0" />
+                <CheckCircle2 size={24} className="text-brand shrink-0" />
                 <div>
-                  <p className="font-bold text-green-900">Message envoyé !</p>
-                  <p className="text-sm text-green-700">
+                  <p className="font-bold text-brand">Message envoyé !</p>
+                  <p className="text-sm text-brand/80">
                     Nous vous répondrons dans les 24h.
                   </p>
                 </div>
@@ -244,8 +244,8 @@ export default function ContactPage() {
                     required
                     placeholder="Votre nom"
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl
-                               outline-none focus:border-[#00b649] focus:ring-2
-                               focus:ring-[#00b649]/20 transition-all"
+                               outline-none focus:border-brand focus:ring-2
+                               focus:ring-brand/20 transition-all"
                   />
                 </div>
 
@@ -262,8 +262,8 @@ export default function ContactPage() {
                     required
                     placeholder="votre@email.com"
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl
-                               outline-none focus:border-[#00b649] focus:ring-2
-                               focus:ring-[#00b649]/20 transition-all"
+                               outline-none focus:border-brand focus:ring-2
+                               focus:ring-brand/20 transition-all"
                   />
                 </div>
               </div>
@@ -280,8 +280,8 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="+228 90 10 75 00"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl
-                             outline-none focus:border-[#00b649] focus:ring-2
-                             focus:ring-[#00b649]/20 transition-all"
+                             outline-none focus:border-brand focus:ring-2
+                             focus:ring-brand/20 transition-all"
                 />
               </div>
 
@@ -296,8 +296,8 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl
-                             outline-none focus:border-[#00b649] focus:ring-2
-                             focus:ring-[#00b649]/20 transition-all cursor-pointer
+                             outline-none focus:border-brand focus:ring-2
+                             focus:ring-brand/20 transition-all cursor-pointer
                              bg-white text-gray-900"
                 >
                   <option value="">Sélectionnez un sujet</option>
@@ -323,8 +323,8 @@ export default function ContactPage() {
                   placeholder="Décrivez votre message en détail…"
                   rows="6"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl
-                             outline-none focus:border-[#00b649] focus:ring-2
-                             focus:ring-[#00b649]/20 transition-all resize-none"
+                             outline-none focus:border-brand focus:ring-2
+                             focus:ring-brand/20 transition-all resize-none"
                 />
               </div>
 
@@ -332,7 +332,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#00b649] hover:bg-[#009d3f] text-white
+                className="w-full bg-brand hover:bg-brand-hover text-white
                            font-bold py-3 px-6 rounded-xl transition-colors
                            flex items-center justify-center gap-2 disabled:opacity-50"
               >

@@ -87,7 +87,7 @@ function ImageGallery({ images }) {
             key={i}
             onClick={() => setCurrent(i)}
             className={`flex-1 rounded-xl overflow-hidden aspect-square bg-white
-                       border-2 transition-all ${current === i ? 'border-[#00b649]' : 'border-gray-100 hover:border-gray-300'
+                       border-2 transition-all ${current === i ? 'border-brand' : 'border-gray-100 hover:border-gray-300'
               }`}
           >
             <img src={img} alt={`Thumbnail ${i}`} className="w-full h-full object-contain p-2" />
@@ -107,8 +107,8 @@ function ReviewCard({ review }) {
       className="bg-white rounded-xl p-5 border border-gray-200"
     >
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#00b649]/10 flex items-center justify-center shrink-0">
-          <User size={20} className="text-[#00b649]" />
+        <div className="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+          <User size={20} className="text-brand" />
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
@@ -156,11 +156,11 @@ export default function ProductDetailPage() {
           animate={{ opacity: 1 }}
           className="flex items-center gap-2 text-sm text-gray-500 mb-6"
         >
-          <Link to="/" className="hover:text-[#00b649]">Accueil</Link>
+          <Link to="/" className="hover:text-brand">Accueil</Link>
           <span>/</span>
-          <Link to="/categories" className="hover:text-[#00b649]">Catégories</Link>
+          <Link to="/categories" className="hover:text-brand">Catégories</Link>
           <span>/</span>
-          <Link to="/categories?cat=electronique" className="hover:text-[#00b649]">Électronique</Link>
+          <Link to="/categories?cat=electronique" className="hover:text-brand">Électronique</Link>
           <span>/</span>
           <span className="text-gray-900">{PRODUCT_DATA.name}</span>
         </motion.div>
@@ -183,7 +183,7 @@ export default function ProductDetailPage() {
             {/* Badge + Catégorie */}
             <div className="flex items-center gap-3">
               {PRODUCT_DATA.badge && (
-                <span className="bg-[#00b649] text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">
                   {PRODUCT_DATA.badge}
                 </span>
               )}
@@ -230,7 +230,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Stock */}
-            <div className={`flex items-center gap-2 text-sm ${PRODUCT_DATA.stock <= 5 ? 'text-red-600' : 'text-[#00b649]'
+            <div className={`flex items-center gap-2 text-sm ${PRODUCT_DATA.stock <= 5 ? 'text-red-600' : 'text-brand'
               }`}>
               <Check size={16} />
               {PRODUCT_DATA.stock <= 5
@@ -247,7 +247,7 @@ export default function ProductDetailPage() {
                     key={color}
                     onClick={() => setSelectedColor(color)}
                     className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${selectedColor === color
-                        ? 'border-[#00b649] bg-[#00b649]/10 text-[#00b649]'
+                        ? 'border-brand bg-brand/10 text-brand'
                         : 'border-gray-200 text-gray-700 hover:border-gray-300'
                       }`}
                   >
@@ -264,7 +264,7 @@ export default function ProductDetailPage() {
                 <button
                   onClick={decreaseQty}
                   className="w-10 h-10 rounded-lg border border-gray-300 flex items-center
-                             justify-center hover:border-[#00b649] hover:text-[#00b649] transition-all"
+                             justify-center hover:border-brand hover:text-brand transition-all"
                 >
                   <Minus size={18} />
                 </button>
@@ -272,7 +272,7 @@ export default function ProductDetailPage() {
                 <button
                   onClick={increaseQty}
                   className="w-10 h-10 rounded-lg border border-gray-300 flex items-center
-                             justify-center hover:border-[#00b649] hover:text-[#00b649] transition-all"
+                             justify-center hover:border-brand hover:text-brand transition-all"
                 >
                   <Plus size={18} />
                 </button>
@@ -281,7 +281,7 @@ export default function ProductDetailPage() {
 
             {/* Actions */}
             <div className="flex gap-4">
-              <button className="flex-1 bg-[#00b649] hover:bg-[#009d3f] text-white font-bold
+              <button className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold
                              py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
                 <ShoppingCart size={18} />
                 Ajouter au panier
@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={() => setIsFav(!isFav)}
                 className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
-                           justify-center hover:border-[#00b649] hover:text-[#00b649] transition-all"
+                           justify-center hover:border-brand hover:text-brand transition-all"
               >
                 <Heart
                   size={22}
@@ -297,7 +297,7 @@ export default function ProductDetailPage() {
                 />
               </button>
               <button className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
-                         justify-center hover:border-[#00b649] hover:text-[#00b649] transition-all">
+                         justify-center hover:border-brand hover:text-brand transition-all">
                 <Share2 size={22} />
               </button>
             </div>
@@ -310,7 +310,7 @@ export default function ProductDetailPage() {
                 { icon: RefreshCw, text: 'Retour 14 jours' }
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="text-center">
-                  <Icon size={20} className="text-[#00b649] mx-auto mb-1" />
+                  <Icon size={20} className="text-brand mx-auto mb-1" />
                   <p className="text-xs text-gray-600">{text}</p>
                 </div>
               ))}
@@ -331,13 +331,13 @@ export default function ProductDetailPage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`pb-3 text-sm font-semibold transition-all relative ${activeTab === tab
-                    ? 'text-[#00b649]'
+                    ? 'text-brand'
                     : 'text-gray-500 hover:text-gray-700'
                   }`}
               >
                 {tab === 'description' ? 'Description' : 'Avis clients'}
                 {activeTab === tab && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00b649]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand" />
                 )}
               </button>
             ))}
@@ -357,7 +357,7 @@ export default function ProductDetailPage() {
                 <ul className="space-y-2">
                   {PRODUCT_DATA.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-2 text-gray-600">
-                      <Check size={16} className="text-[#00b649] shrink-0 mt-0.5" />
+                      <Check size={16} className="text-brand shrink-0 mt-0.5" />
                       {feature}
                     </li>
                   ))}
@@ -391,7 +391,7 @@ export default function ProductDetailPage() {
               <Link
                 key={product.id}
                 to={`/product/${product.id}`}
-                className="bg-white rounded-xl p-4 border border-gray-200 hover:border-[#00b649]
+                className="bg-white rounded-xl p-4 border border-gray-200 hover:border-brand
                           hover:shadow-lg transition-all group"
               >
                 <ProductImageFrame

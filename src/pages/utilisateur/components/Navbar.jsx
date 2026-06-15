@@ -51,15 +51,15 @@ export default function Navbar() {
             {/* Barre de recherche — centrée horizontalement et verticalement */}
             <div className="hidden md:flex h-14 sm:h-16 w-full items-center justify-center justify-self-center self-center">
               <div className="flex w-full rounded-xl border border-gray-200 overflow-hidden
-                              focus-within:border-[#00b649] focus-within:ring-2
-                              focus-within:ring-[#00b649]/20 transition-all shadow-sm">
+                              focus-within:border-brand focus-within:ring-2
+                              focus-within:ring-brand/20 transition-all shadow-sm">
                 <input
                   type="text"
                   placeholder="Rechercher un produit, une catégorie…"
                   className="flex-1 px-4 py-2 text-sm outline-none bg-white text-gray-900
                              placeholder:text-gray-400 min-w-0"
                 />
-                <button className="bg-[#00b649] hover:bg-[#009d3f] px-4 py-2 text-white shrink-0
+                <button className="bg-brand hover:bg-brand-hover px-4 py-2 text-white shrink-0
                                    transition-colors flex items-center gap-2 text-sm font-medium">
                   <Search size={16} />
                   Rechercher
@@ -71,22 +71,22 @@ export default function Navbar() {
             <div className="hidden md:flex h-14 sm:h-16 items-center justify-end gap-6 lg:gap-8
                             justify-self-end self-center pr-1 lg:pr-2">
               <Link to="/auth"
-                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                className="flex flex-col items-center text-gray-500 hover:text-brand transition-colors">
                 <User size={22} />
                 <span className="text-[10px] mt-1">Compte</span>
               </Link>
 
               <Link to="/wishlist"
-                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                className="flex flex-col items-center text-gray-500 hover:text-brand transition-colors">
                 <Heart size={22} />
                 <span className="text-[10px] mt-1">Favoris</span>
               </Link>
 
               <Link to="/cart"
-                className="flex flex-col items-center text-gray-500 hover:text-[#00b649] transition-colors">
+                className="flex flex-col items-center text-gray-500 hover:text-brand transition-colors">
                 <div className="relative">
                   <ShoppingCart size={22} />
-                  <span className="absolute -top-2 -right-2 bg-[#00b649] text-white text-[9px]
+                  <span className="absolute -top-2 -right-2 bg-brand text-white text-[9px]
                                    font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     0
                   </span>
@@ -114,12 +114,12 @@ export default function Navbar() {
                   key={to}
                   to={to}
                   className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors group ${
-                    active ? 'text-[#00b649]' : 'text-gray-600 hover:text-[#00b649]'
+                    active ? 'text-brand' : 'text-gray-600 hover:text-brand'
                   }`}
                 >
                   {label}
                   <span
-                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-[#00b649] rounded-full
+                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-brand rounded-full
                                 transition-transform duration-300 origin-left ${
                       active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
@@ -130,7 +130,7 @@ export default function Navbar() {
             <Link
               to="/contact"
               className="ml-auto flex items-center gap-1.5 text-sm text-gray-500
-                         hover:text-[#00b649] transition-colors"
+                         hover:text-brand transition-colors"
             >
               <Phone size={14} /> Nous contacter
             </Link>
@@ -153,7 +153,7 @@ export default function Navbar() {
                   <input type="text" placeholder="Rechercher…"
                     className="flex-1 px-3 py-2 text-sm outline-none bg-white text-gray-900
                                placeholder:text-gray-400" />
-                  <button className="bg-[#00b649] px-4 text-white">
+                  <button className="bg-brand px-4 text-white">
                     <Search size={16} />
                   </button>
                 </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
                   <Link key={to} to={to}
                     className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       location.pathname === to
-                        ? 'bg-[#00b649]/10 text-[#00b649]'
+                        ? 'bg-brand/10 text-brand'
                         : 'text-gray-700 hover:bg-gray-50'
                     }`}
                   >
@@ -171,13 +171,13 @@ export default function Navbar() {
                 ))}
 
                 <div className="flex gap-4 pt-3 border-t border-gray-100 mt-2">
-                  <Link to="/auth" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                  <Link to="/auth" className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
                     <User size={16} /> Compte
                   </Link>
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
                     <Heart size={16} /> Favoris
                   </button>
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#00b649]">
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
                     <ShoppingCart size={16} /> Panier (0)
                   </button>
                 </div>

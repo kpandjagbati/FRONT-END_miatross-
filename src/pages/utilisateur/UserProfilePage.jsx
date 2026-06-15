@@ -42,8 +42,8 @@ const RECENT_ORDERS = [
 function InfoCard({ icon: Icon, label, value }) {
   return (
     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-      <div className="w-10 h-10 rounded-lg bg-[#00b649]/10 flex items-center justify-center shrink-0">
-        <Icon size={18} className="text-[#00b649]" />
+      <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+        <Icon size={18} className="text-brand" />
       </div>
       <div className="min-w-0">
         <p className="text-xs text-gray-500 mb-0.5">{label}</p>
@@ -58,15 +58,15 @@ function StatCard({ icon: Icon, label, value, to }) {
   return (
     <Link
       to={to}
-      className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#00b649]
+      className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand
                  hover:shadow-lg transition-all group"
     >
-      <div className="w-12 h-12 rounded-xl bg-[#00b649]/10 flex items-center justify-center mb-4">
-        <Icon size={24} className="text-[#00b649]" />
+      <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mb-4">
+        <Icon size={24} className="text-brand" />
       </div>
       <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
       <p className="text-sm text-gray-600 mb-3">{label}</p>
-      <div className="flex items-center gap-1 text-sm text-[#00b649] opacity-0
+      <div className="flex items-center gap-1 text-sm text-brand opacity-0
                   group-hover:opacity-100 transition-opacity">
         Voir <ArrowRight size={14} />
       </div>
@@ -101,8 +101,8 @@ export default function UserProfilePage() {
             {/* Carte profil */}
             <div className="bg-white rounded-2xl p-6 border border-gray-200">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-full bg-[#00b649]/10 flex items-center justify-center shrink-0">
-                  <User size={32} className="text-[#00b649]" />
+                <div className="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                  <User size={32} className="text-brand" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">{USER_DATA.name}</h2>
@@ -141,7 +141,7 @@ export default function UserProfilePage() {
                 <Link
                   to="/categories"
                   className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
-                             transition-colors text-gray-700 hover:text-[#00b649]"
+                             transition-colors text-gray-700 hover:text-brand"
                 >
                   <ShoppingBag size={18} />
                   <span className="text-sm">Nouvel achat</span>
@@ -149,13 +149,13 @@ export default function UserProfilePage() {
                 <Link
                   to="/wishlist"
                   className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
-                             transition-colors text-gray-700 hover:text-[#00b649]"
+                             transition-colors text-gray-700 hover:text-brand"
                 >
                   <Heart size={18} />
                   <span className="text-sm">Mes favoris</span>
                 </Link>
                 <button className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
-                                transition-colors text-gray-700 hover:text-[#00b649] w-full text-left">
+                                transition-colors text-gray-700 hover:text-brand w-full text-left">
                   <Settings size={18} />
                   <span className="text-sm">Paramètres</span>
                 </button>
@@ -195,7 +195,7 @@ export default function UserProfilePage() {
             <div className="bg-white rounded-2xl p-6 border border-gray-200">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-semibold text-gray-900">Commandes récentes</h3>
-                <button className="text-sm text-[#00b649] hover:underline font-medium">
+                <button className="text-sm text-brand hover:underline font-medium">
                   Voir tout
                 </button>
               </div>
@@ -207,8 +207,8 @@ export default function UserProfilePage() {
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-[#00b649]/10 flex items-center justify-center">
-                        <ShoppingBag size={18} className="text-[#00b649]" />
+                      <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                        <ShoppingBag size={18} className="text-brand" />
                       </div>
                       <div>
                         <p className="font-semibold text-gray-900">{order.id}</p>
@@ -218,7 +218,7 @@ export default function UserProfilePage() {
                     <div className="text-right">
                       <p className="font-bold text-gray-900">{order.total.toLocaleString('fr-FR')} FCFA</p>
                       <span className={`text-xs font-medium ${
-                        order.status === 'Livré' ? 'text-[#00b649]' : 'text-orange-500'
+                        order.status === 'Livré' ? 'text-brand' : 'text-orange-500'
                       }`}>
                         {order.status}
                       </span>
@@ -237,7 +237,7 @@ export default function UserProfilePage() {
                     <Mail size={18} className="text-gray-500" />
                     <span className="text-sm text-gray-700">Notifications par email</span>
                   </div>
-                  <div className="w-12 h-6 bg-[#00b649] rounded-full relative">
+                  <div className="w-12 h-6 bg-brand rounded-full relative">
                     <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full" />
                   </div>
                 </div>
