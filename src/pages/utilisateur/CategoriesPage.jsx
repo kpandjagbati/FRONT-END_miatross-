@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Star, Heart, ShoppingCart, Search, Check, LayoutGrid, Footprints, Plug, Home, Sparkles, Dumbbell } from 'lucide-react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
-import { PRODUCTS_BY_CATEGORY, CATEGORY_COUNTS } from '../../data/productsByCategory'
+import { PRODUCTS_BY_CATEGORY, CATEGORY_COUNTS, CATEGORY_LABELS, getAllProductsWithCategory } from '../../data/productsByCategory'
+import { productMatchesSearch } from '../../utils/productSearch'
+import { useShop } from '../../context/ShopContext'
 
 const CATEGORIES = [
   { key: 'tous', label: 'Tous les produits', icon: LayoutGrid, count: CATEGORY_COUNTS.tous },
@@ -17,8 +19,16 @@ const CATEGORIES = [
 ]
 
 // ── Composant carte produit ─────────────────────────────────────────────────
-function ProductCard({ product, index }) {
-  const [isFav, setIsFav] = useState(false)
+function ProductCard({ product, index, categoryLabel }) {
+  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const isFav = isInWishlist(product.id)
+  const [addedFeedback, setAddedFeedback] = useState(false)
+
+  const handleAddToCart = () => {
+    addToCart(product)
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 1500)
+  }
 
   return (
     <motion.div
@@ -41,9 +51,11 @@ function ProductCard({ product, index }) {
         </div>
         {/* Favori */}
         <button
-          onClick={() => setIsFav(!isFav)}
+          type="button"
+          onClick={() => toggleWishlist(product, categoryLabel)}
           className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-sm
                      hover:bg-gray-50 transition-colors border border-gray-100"
+          aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
         >
           <Heart
             size={18}
@@ -90,12 +102,14 @@ function ProductCard({ product, index }) {
 
         {/* Bouton panier */}
         <button
+          type="button"
+          onClick={handleAddToCart}
           className="w-full bg-brand hover:bg-brand-hover text-white
                      font-bold py-2 rounded-xl transition-colors flex items-center
                      justify-center gap-2 text-sm"
         >
           <ShoppingCart size={16} />
-          Ajouter
+          {addedFeedback ? 'Ajouté !' : 'Ajouter'}
         </button>
       </div>
     </motion.div>
@@ -103,34 +117,51 @@ function ProductCard({ product, index }) {
 }
 
 export default function CategoriesPage() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const catParam = searchParams.get('cat')
+  const queryParam = searchParams.get('q') ?? ''
   const initialCategory = catParam && PRODUCTS_BY_CATEGORY[catParam] ? catParam : 'tous'
 
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(queryParam)
   const [sortBy, setSortBy] = useState('popular')
-  const [priceRange, setPriceRange] = useState([0, 1000000])
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get('q') ?? '')
+  }, [searchParams])
+
+  useEffect(() => {
+    if (catParam && PRODUCTS_BY_CATEGORY[catParam]) {
+      setSelectedCategory(catParam)
+    } else if (queryParam && !catParam) {
+      setSelectedCategory('tous')
+    }
+  }, [catParam, queryParam])
+
+  const handleSearchChange = (value) => {
+    setSearchQuery(value)
+    const params = new URLSearchParams(searchParams)
+    if (value.trim()) {
+      params.set('q', value.trim())
+    } else {
+      params.delete('q')
+    }
+    setSearchParams(params, { replace: true })
+  }
 
   // Filtrer les produits
-  let filteredProducts = []
-  if (selectedCategory === 'tous') {
-    filteredProducts = Object.values(PRODUCTS_BY_CATEGORY).flat()
-  } else {
-    filteredProducts = PRODUCTS_BY_CATEGORY[selectedCategory] || []
-  }
+  let filteredProducts = selectedCategory === 'tous'
+    ? getAllProductsWithCategory()
+    : (PRODUCTS_BY_CATEGORY[selectedCategory] || []).map(product => ({
+        ...product,
+        categoryKey: selectedCategory,
+        category: CATEGORY_LABELS[selectedCategory],
+      }))
 
-  // Appliquer recherche
-  if (searchQuery) {
-    filteredProducts = filteredProducts.filter(p =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+  // Appliquer recherche (nom, catégorie, synonymes)
+  if (searchQuery.trim()) {
+    filteredProducts = filteredProducts.filter(p => productMatchesSearch(p, searchQuery))
   }
-
-  // Appliquer filtre prix
-  filteredProducts = filteredProducts.filter(p =>
-    p.price >= priceRange[0] && p.price <= priceRange[1]
-  )
 
   // Appliquer tri
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -153,7 +184,9 @@ export default function CategoriesPage() {
             Toutes les catégories
           </h1>
           <p className="text-gray-600 text-lg">
-            Explorez nos {categoryData?.count.toLocaleString()} produits de qualité
+            {searchQuery.trim()
+              ? `Résultats pour « ${searchQuery.trim()} »`
+              : `Explorez nos ${categoryData?.count.toLocaleString()} produits de qualité`}
           </p>
         </motion.div>
 
@@ -177,7 +210,7 @@ export default function CategoriesPage() {
                     type="text"
                     placeholder="Nom du produit…"
                     value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
+                    onChange={e => handleSearchChange(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 border border-gray-300
                                rounded-xl outline-none focus:border-brand
                                focus:ring-2 focus:ring-brand/20"
@@ -213,38 +246,6 @@ export default function CategoriesPage() {
                     </button>
                     )
                   })}
-                </div>
-              </div>
-
-              {/* Filtre prix */}
-              <div className="mb-6 pb-6 border-b border-gray-200">
-                <label htmlFor="price-min" className="block text-sm font-bold text-gray-900 mb-4">
-                  Plage de prix
-                </label>
-                <div className="space-y-2">
-                  <input
-                    id="price-min"
-                    type="range"
-                    min="0"
-                    max="1000000"
-                    step="10000"
-                    value={priceRange[0]}
-                    onChange={e => setPriceRange([Number.parseInt(e.target.value), priceRange[1]])}
-                    className="w-full"
-                  />
-                  <input
-                    id="price-max"
-                    type="range"
-                    min="0"
-                    max="1000000"
-                    step="10000"
-                    value={priceRange[1]}
-                    onChange={e => setPriceRange([priceRange[0], Number.parseInt(e.target.value)])}
-                    className="w-full"
-                  />
-                  <div className="text-xs text-gray-600 mt-2">
-                    {(priceRange[0] / 1000).toFixed(0)}k - {(priceRange[1] / 1000).toFixed(0)}k FCFA
-                  </div>
                 </div>
               </div>
 
@@ -289,7 +290,12 @@ export default function CategoriesPage() {
             {sortedProducts.length > 0 ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sortedProducts.map((product, index) => (
-                  <ProductCard key={product.id} product={product} index={index} />
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    index={index}
+                    categoryLabel={product.category || (selectedCategory !== 'tous' ? CATEGORY_LABELS[selectedCategory] : undefined)}
+                  />
                 ))}
               </div>
             ) : (

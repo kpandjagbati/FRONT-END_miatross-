@@ -8,43 +8,7 @@ import {
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
-import heroCasque from '../../assets/electronique/casque-sony-wh1000xm4.png'
-import heroNike from '../../assets/mode/baskets-adidas-samba.png'
-import heroEnceinte from '../../assets/electronique/enceinte-jbl.png'
-
-// ── Données panier (mock) ─────────────────────────────────────────────────────
-const CART_ITEMS = [
-  {
-    id: 1,
-    name: 'Casque Sony WH-1000XM4',
-    price: 45000,
-    oldPrice: 55000,
-    quantity: 1,
-    img: heroCasque,
-    color: 'Noir',
-    stock: 5
-  },
-  {
-    id: 2,
-    name: 'Basket Adidas Samba',
-    price: 22000,
-    oldPrice: null,
-    quantity: 2,
-    img: heroNike,
-    color: 'Blanc',
-    stock: 12
-  },
-  {
-    id: 3,
-    name: 'Enceinte JBL Bluetooth',
-    price: 35000,
-    oldPrice: 40000,
-    quantity: 1,
-    img: heroEnceinte,
-    color: 'Bleu',
-    stock: 8
-  },
-]
+import { useShop } from '../../context/ShopContext'
 
 const PROMO_CODES = [
   { code: 'MIATROSSE', discount: 10, description: '10% de réduction' },
@@ -84,7 +48,9 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
       {/* Infos */}
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1">{item.name}</h3>
-        <p className="text-sm text-gray-500 mb-3">Couleur : {item.color}</p>
+        <p className="text-sm text-gray-500 mb-3">
+          {item.stock} en stock
+        </p>
 
         {/* Quantité */}
         <div className="flex items-center gap-3">
@@ -133,21 +99,17 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState(CART_ITEMS)
+  const { cartItems, cartCount, updateCartQuantity, removeFromCart } = useShop()
   const [promoCode, setPromoCode] = useState('')
   const [appliedPromo, setAppliedPromo] = useState(null)
   const [promoError, setPromoError] = useState('')
 
   const handleUpdateQuantity = (id, quantity) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity } : item
-      )
-    )
+    updateCartQuantity(id, quantity)
   }
 
   const handleRemove = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id))
+    removeFromCart(id)
   }
 
   const handleApplyPromo = () => {
@@ -185,7 +147,7 @@ export default function CartPage() {
         >
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Mon panier</h1>
           <p className="text-gray-600">
-            {cartItems.length} article{cartItems.length > 1 ? 's' : ''} dans votre panier
+            {cartCount} article{cartCount > 1 ? 's' : ''} dans votre panier
           </p>
         </motion.div>
 
@@ -309,10 +271,13 @@ export default function CartPage() {
                 </div>
 
                 {/* Bouton commander */}
-                <button className="w-full bg-brand hover:bg-brand-hover text-white font-bold
-                           py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mb-4">
+                <Link
+                  to="/auth"
+                  className="w-full bg-brand hover:bg-brand-hover text-white font-bold
+                             py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mb-4"
+                >
                   Passer la commande <ArrowRight size={18} />
-                </button>
+                </Link>
 
                 {/* Garanties */}
                 <div className="space-y-3 pt-4 border-t border-gray-200">

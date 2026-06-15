@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import {
   ChevronLeft, ChevronRight, Star, Heart, ShoppingCart,
   Shield, Truck, RefreshCw, Headphones, ArrowRight, Zap,
-  Footprints, Backpack, Volume2, Store
+  Store
 } from 'lucide-react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
-import { BRAND, BRAND_HOVER } from '../../config/brand'
+import { useShop } from '../../context/ShopContext'
+import { resolveCatalogProduct } from '../../utils/resolveCatalogProduct'
 
 // ── Images carrousel hero (fond transparent) ─────────────────────────────────
 import heroSlideCasque from '../../assets/hero/casque-noir.png'
@@ -34,51 +35,39 @@ import coverSport from '../../assets/sport/s1.jpeg'
 const HERO_SLIDES = [
   {
     id: 1,
-    badgeIcon: Headphones,
-    badgeLabel: 'Électronique',
-    title: 'Son Exceptionnel',
-    subtitle: 'Casques & Écouteurs premium pour une expérience audio immersive.',
-    cta: 'Découvrir',
-    price: 'Dès 15 000 FCFA',
+    brandLine: 'Casque Sony',
+    titleLine: 'WH-1000XM4',
+    bgWord: 'CASQUE',
+    bgWordColor: 'brand',
+    description: 'Réduction de bruit active, son premium et autonomie jusqu\'à 30 h. L\'expérience audio ultime pour vos déplacements.',
     img: heroSlideCasque,
-    bg: 'bg-gray-900',
-    accent: BRAND,
   },
   {
     id: 2,
-    badgeIcon: Footprints,
-    badgeLabel: 'Mode & Chaussures',
-    title: 'Style & Confort',
-    subtitle: 'Les meilleures sneakers des plus grandes marques mondiales.',
-    cta: 'Voir la collection',
-    price: 'Dès 22 000 FCFA',
+    brandLine: 'Adidas Originals',
+    titleLine: 'Samba OG',
+    bgWord: 'MODE',
+    bgWordColor: 'black',
+    description: 'Icône intemporelle du streetwear. Cuir premium, semelle gomme et confort au quotidien pour un style affirmé.',
     img: heroSlideMode,
-    bg: 'bg-orange-950',
-    accent: '#f97316',
   },
   {
     id: 3,
-    badgeIcon: Backpack,
-    badgeLabel: 'Sport & Loisirs',
-    title: 'Sport & Aventure',
-    subtitle: 'Sacs et équipements pour vos séances d\'entraînement.',
-    cta: 'Explorer',
-    price: 'Dès 18 000 FCFA',
+    brandLine: 'Luxe Fitness',
+    titleLine: 'Sac Sport',
+    bgWord: 'SPORT',
+    bgWordColor: 'brand',
+    description: 'Compartiments intelligents, matériaux résistants et design élégant pour accompagner toutes vos séances.',
     img: heroSlideSport,
-    bg: 'bg-[#1e2d5a]',
-    accent: BRAND,
   },
   {
     id: 4,
-    badgeIcon: Volume2,
-    badgeLabel: 'Audio & Musique',
-    title: 'Musique Partout',
-    subtitle: 'Enceintes Bluetooth puissantes pour une sono de qualité.',
-    cta: 'Voir les offres',
-    price: 'Dès 12 000 FCFA',
+    brandLine: 'JBL Audio',
+    titleLine: 'Bluetooth',
+    bgWord: 'AUDIO',
+    bgWordColor: 'black',
+    description: 'Son puissant, basses profondes et connectivité sans fil. Emportez votre musique partout avec style.',
     img: heroSlideEnceinte,
-    bg: 'bg-blue-950',
-    accent: '#3b82f6',
   },
 ]
 
@@ -172,30 +161,14 @@ function HeroSlider() {
   }, [resetTimer])
 
   const slide = HERO_SLIDES[current]
-  const BadgeIcon = slide.badgeIcon
 
   const slideVariants = reduceMotion
     ? { enter: { opacity: 0 }, center: { opacity: 1 }, exit: { opacity: 0 } }
     : {
-        enter: (d) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0, scale: 0.98 }),
-        center: { x: 0, opacity: 1, scale: 1 },
-        exit: (d) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0, scale: 0.98 }),
+        enter: (d) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
+        center: { opacity: 1, x: 0 },
+        exit: (d) => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
       }
-
-  const textStagger = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
-  }
-
-  const textItem = {
-    hidden: { opacity: 0, y: 28, filter: 'blur(6px)' },
-    show: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { duration: 0.55, ease: EASE },
-    },
-  }
 
   return (
     <motion.section
@@ -204,14 +177,29 @@ function HeroSlider() {
       transition={{ duration: 0.6, ease: EASE }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-      className="relative overflow-hidden rounded-2xl mx-4 sm:mx-6 my-4 shadow-2xl"
-      style={{ minHeight: 420 }}
+      className="relative overflow-hidden rounded-3xl mx-4 sm:mx-6 my-4
+                 bg-gradient-to-br from-[#e4e4e4] via-[#efefef] to-[#e8e8e8]
+                 shadow-[0_20px_60px_rgba(0,0,0,0.08)] min-h-[460px] md:min-h-[520px]"
       aria-roledescription="carousel"
-      aria-label="Promotions en vedette"
+      aria-label="Produits en vedette"
     >
-      <AnimatePresence custom={dir} initial={false} mode="popLayout">
+      {/* Mot géant en arrière-plan */}
+      <div
+        aria-hidden
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
+      >
+        <span className={`text-[5.5rem] sm:text-[7rem] md:text-[9rem] lg:text-[11rem]
+                           font-black tracking-tight uppercase leading-none
+                           translate-y-2 md:translate-y-4 ${
+                             slide.bgWordColor === 'brand'
+                               ? 'text-brand'
+                               : 'text-gray-900'
+                           }`}>
+          {slide.bgWord}
+        </span>
+      </div>
+
+      <AnimatePresence custom={dir} initial={false} mode="wait">
         <motion.div
           key={current}
           custom={dir}
@@ -219,155 +207,96 @@ function HeroSlider() {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: reduceMotion ? 0.2 : 0.65, ease: EASE }}
-          className={`absolute inset-0 ${slide.bg} flex items-center overflow-hidden`}
+          transition={{ duration: reduceMotion ? 0.2 : 0.5, ease: EASE }}
+          className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-4 items-stretch
+                     px-6 sm:px-10 md:px-12 py-10 md:py-12 min-h-[460px] md:min-h-[520px]"
         >
-          {/* Blobs décoratifs */}
-          {!reduceMotion && (
-            <>
-              <motion.div
-                aria-hidden
-                animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl"
-                style={{ backgroundColor: slide.accent }}
-              />
-              <motion.div
-                aria-hidden
-                animate={{ scale: [1.1, 1, 1.1], opacity: [0.08, 0.18, 0.08] }}
-                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-32 -left-16 w-96 h-96 rounded-full bg-white blur-3xl"
-              />
-            </>
-          )}
-
-          <div className="max-w-7xl mx-auto px-8 sm:px-12 w-full grid grid-cols-1 md:grid-cols-2
-                          gap-8 items-center py-12 relative z-10">
-            {/* Texte */}
-            <motion.div
-              key={`text-${current}`}
-              variants={textStagger}
-              initial="hidden"
-              animate="show"
-              className="text-white space-y-5"
-            >
-              <motion.span variants={textItem}
-                className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white/90
-                           text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
-                <BadgeIcon size={14} />
-                {slide.badgeLabel}
-              </motion.span>
-
-              <motion.h2 variants={textItem}
-                className="text-4xl sm:text-5xl font-black leading-tight">
-                {slide.title}
-              </motion.h2>
-
-              <motion.p variants={textItem}
-                className="text-white/70 text-base max-w-sm leading-relaxed">
-                {slide.subtitle}
-              </motion.p>
-
-              <motion.div variants={textItem}
-                className="flex items-center gap-4 flex-wrap">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Link
-                    to="/categories"
-                    className="inline-flex items-center gap-2 text-sm font-bold px-6 py-3 rounded-xl text-white"
-                    style={{ backgroundColor: slide.accent }}
-                  >
-                    {slide.cta}
-                    <motion.span
-                      animate={reduceMotion ? {} : { x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <ArrowRight size={16} />
-                    </motion.span>
-                  </Link>
-                </motion.div>
-                <span className="text-white/80 text-sm font-semibold bg-white/10 px-3 py-1.5 rounded-lg">
-                  {slide.price}
-                </span>
-              </motion.div>
+          {/* Marque + titre + CTA */}
+          <div className="md:col-span-3 flex flex-col justify-between pt-2 md:pt-8 pb-4 md:pb-10 order-1 min-h-[220px] md:min-h-0">
+            <div>
+              <p className="text-sm font-semibold text-gray-900 tracking-wide">
+                {slide.brandLine}
+              </p>
+              <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] font-bold text-gray-900
+                             leading-[1.05] mt-1">
+                {slide.titleLine}
+              </h2>
+            </div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="mt-10 md:mt-0">
+              <Link
+                to="/categories"
+                className="inline-flex items-center justify-center bg-red-500 hover:bg-red-600
+                           text-white text-sm font-semibold px-8 py-3 rounded-full
+                           shadow-md shadow-red-500/25 transition-colors"
+              >
+                Parcourir les catégories
+              </Link>
             </motion.div>
+          </div>
 
-            {/* Image produit */}
-            <motion.div
-              key={`img-${current}`}
-              initial={{ opacity: 0, scale: 0.8, rotate: reduceMotion ? 0 : -4 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
-              className="relative flex items-center justify-center"
-            >
-              {!reduceMotion && (
-                <motion.div
-                  aria-hidden
-                  animate={{ scale: [1, 1.08, 1], opacity: [0.4, 0.65, 0.4] }}
-                  transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/15 blur-2xl"
-                />
-              )}
-              <motion.img
-                src={slide.img}
-                alt={slide.title}
-                animate={reduceMotion ? {} : { y: [0, -14, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative max-h-64 md:max-h-80 w-auto object-contain"
-                style={{ filter: 'drop-shadow(0 24px 48px rgba(0,0,0,0.55))' }}
-              />
-            </motion.div>
+          {/* Image produit flottante */}
+          <div className="md:col-span-6 flex items-center justify-center order-2 md:order-2 relative">
+            <div
+              aria-hidden
+              className="absolute bottom-4 md:bottom-8 w-48 md:w-64 h-8 md:h-10
+                         bg-black/10 blur-2xl rounded-full"
+            />
+            <motion.img
+              src={slide.img}
+              alt={`${slide.brandLine} ${slide.titleLine}`}
+              animate={reduceMotion ? {} : { y: [0, -12, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative max-h-52 sm:max-h-64 md:max-h-80 lg:max-h-[22rem] w-auto object-contain z-10"
+              style={{ filter: 'drop-shadow(0 28px 40px rgba(0,0,0,0.18))' }}
+            />
+          </div>
+
+          {/* Description */}
+          <div className="md:col-span-3 flex flex-col justify-end items-start md:items-end
+                          pb-2 md:pb-6 order-3">
+            <p className="text-sm font-bold text-gray-900">Description</p>
+            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed mt-2
+                           max-w-xs md:text-right">
+              {slide.description}
+            </p>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Contrôles */}
+      {/* Contrôles carousel */}
       <motion.button
-        whileHover={{ scale: 1.08, backgroundColor: 'rgba(0,0,0,0.55)' }}
+        whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         onClick={() => { go(current - 1); resetTimer() }}
-        aria-label="Slide précédent"
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-black/30
-                   text-white p-2 rounded-full backdrop-blur-sm"
+        aria-label="Produit précédent"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white
+                   text-gray-700 p-2 rounded-full shadow-md backdrop-blur-sm border border-gray-200/80"
       >
         <ChevronLeft size={20} />
       </motion.button>
       <motion.button
-        whileHover={{ scale: 1.08, backgroundColor: 'rgba(0,0,0,0.55)' }}
+        whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         onClick={() => { go(current + 1); resetTimer() }}
-        aria-label="Slide suivant"
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-black/30
-                   text-white p-2 rounded-full backdrop-blur-sm"
+        aria-label="Produit suivant"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white
+                   text-gray-700 p-2 rounded-full shadow-md backdrop-blur-sm border border-gray-200/80"
       >
         <ChevronRight size={20} />
       </motion.button>
 
-      {/* Dots + barre de progression */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      {/* Indicateurs */}
+      <div className="absolute bottom-6 sm:bottom-8 right-6 sm:right-10 md:right-12 flex gap-2 z-20">
         {HERO_SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => { go(i); resetTimer() }}
-            aria-label={`Aller au slide ${i + 1}`}
+            aria-label={`Aller au produit ${i + 1}`}
             aria-current={i === current ? 'true' : undefined}
-            className="relative h-2 rounded-full overflow-hidden transition-all duration-300
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            style={{ width: i === current ? 28 : 8 }}
-          >
-            <span className={`absolute inset-0 rounded-full ${i === current ? 'bg-white/30' : 'bg-white/40'}`} />
-            {i === current && !reduceMotion && !paused && (
-              <motion.span
-                key={`progress-${current}`}
-                className="absolute inset-y-0 left-0 bg-white rounded-full"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 5.5, ease: 'linear' }}
-              />
-            )}
-            {i === current && (reduceMotion || paused) && (
-              <span className="absolute inset-0 bg-white rounded-full" />
-            )}
-          </button>
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === current ? 'w-7 bg-gray-900' : 'w-2 bg-gray-400/70 hover:bg-gray-500'
+            }`}
+          />
         ))}
       </div>
     </motion.section>
@@ -376,7 +305,16 @@ function HeroSlider() {
 
 // ── Carte produit ─────────────────────────────────────────────────────────────
 function ProductCard({ product }) {
-  const [liked, setLiked] = useState(false)
+  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const catalogProduct = resolveCatalogProduct(product)
+  const isFav = isInWishlist(catalogProduct.id)
+  const [addedFeedback, setAddedFeedback] = useState(false)
+
+  const handleAddToCart = () => {
+    addToCart(catalogProduct)
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 1500)
+  }
 
   const BADGE_COLORS = {
     'Populaire': 'bg-brand text-white',
@@ -414,26 +352,32 @@ function ProductCard({ product }) {
 
         {/* Favori */}
         <motion.button
+          type="button"
           whileHover={{ scale: 1.12 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => setLiked(!liked)}
+          onClick={() => toggleWishlist(catalogProduct, product.cat)}
           className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full shadow flex
                      items-center justify-center border border-gray-100"
+          aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
         >
           <motion.div
-            animate={liked ? { scale: [1, 1.35, 1] } : { scale: 1 }}
+            animate={isFav ? { scale: [1, 1.35, 1] } : { scale: 1 }}
             transition={{ duration: 0.35 }}
           >
-            <Heart size={15} className={liked ? 'fill-red-500 text-red-500' : 'text-gray-400'} />
+            <Heart size={15} className={isFav ? 'fill-red-500 text-red-500' : 'text-gray-400'} />
           </motion.div>
         </motion.button>
 
         {/* Bouton panier au hover */}
         <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0
                         transition-transform duration-300 ease-out">
-          <button className="w-full bg-brand hover:bg-brand-hover text-white text-sm font-semibold
-                             py-2.5 flex items-center justify-center gap-2 transition-colors">
-            <ShoppingCart size={15} /> Ajouter au panier
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className="w-full bg-brand hover:bg-brand-hover text-white text-sm font-semibold
+                             py-2.5 flex items-center justify-center gap-2 transition-colors"
+          >
+            <ShoppingCart size={15} /> {addedFeedback ? 'Ajouté !' : 'Ajouter au panier'}
           </button>
         </div>
       </ProductImageFrame>

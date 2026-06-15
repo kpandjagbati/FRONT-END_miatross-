@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Heart, User, Search, Menu, X, Phone } from 'lucide-react'
+import { ShoppingCart, Heart, User, Search, Menu, X } from 'lucide-react'
 import logoImg from '../../../assets/MiaTrossè-logo1.png'
+import { useShop } from '../../../context/ShopContext'
 
 const NAV_LINKS = [
   { label: 'Accueil',    to: '/' },
@@ -15,7 +16,11 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen]   = useState(false)
   const [scrolled, setScrolled]   = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const location                  = useLocation()
+  const navigate                  = useNavigate()
+  const { cartCount, wishlistItems } = useShop()
+  const wishlistCount = wishlistItems.length
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -24,6 +29,24 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => setMenuOpen(false), [location])
+
+  useEffect(() => {
+    if (location.pathname === '/categories') {
+      const q = new URLSearchParams(location.search).get('q') ?? ''
+      setSearchTerm(q)
+    }
+  }, [location])
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    const q = searchTerm.trim()
+    if (q) {
+      navigate(`/categories?q=${encodeURIComponent(q)}`)
+    } else {
+      navigate('/categories')
+    }
+    setMenuOpen(false)
+  }
 
   return (
       <header
@@ -38,33 +61,42 @@ export default function Navbar() {
             {/* Logo — agrandi visuellement, centré verticalement dans la barre */}
             <Link
               to="/"
-              className="flex h-14 sm:h-16 items-center shrink-0 justify-self-start relative z-10"
+              className="flex h-14 sm:h-16 items-start shrink-0 justify-self-start relative z-10 pt-3 sm:pt-4 md:pt-5"
             >
               <img
                 src={logoImg}
                 alt="Shop MiaTrossè"
-                className="h-12 w-auto sm:h-14 object-contain origin-left
-                           scale-[1.65] sm:scale-[1.8] md:scale-[2] lg:scale-[2.15]"
+                className="h-12 w-auto sm:h-14 object-contain origin-bottom-left
+                           scale-[1.55] sm:scale-[1.7] md:scale-[1.9] lg:scale-[2]
+                           translate-y-2 sm:translate-y-3 md:translate-y-4"
               />
             </Link>
 
             {/* Barre de recherche — centrée horizontalement et verticalement */}
             <div className="hidden md:flex h-14 sm:h-16 w-full items-center justify-center justify-self-center self-center">
-              <div className="flex w-full rounded-xl border border-gray-200 overflow-hidden
-                              focus-within:border-brand focus-within:ring-2
-                              focus-within:ring-brand/20 transition-all shadow-sm">
+              <form
+                onSubmit={handleSearch}
+                className="flex w-full rounded-xl border border-gray-200 overflow-hidden
+                           focus-within:border-brand focus-within:ring-2
+                           focus-within:ring-brand/20 transition-all shadow-sm"
+              >
                 <input
-                  type="text"
+                  type="search"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
                   placeholder="Rechercher un produit, une catégorie…"
                   className="flex-1 px-4 py-2 text-sm outline-none bg-white text-gray-900
                              placeholder:text-gray-400 min-w-0"
                 />
-                <button className="bg-brand hover:bg-brand-hover px-4 py-2 text-white shrink-0
-                                   transition-colors flex items-center gap-2 text-sm font-medium">
+                <button
+                  type="submit"
+                  className="bg-brand hover:bg-brand-hover px-4 py-2 text-white shrink-0
+                             transition-colors flex items-center gap-2 text-sm font-medium"
+                >
                   <Search size={16} />
                   Rechercher
                 </button>
-              </div>
+              </form>
             </div>
 
             {/* Icônes — alignées verticalement avec le logo */}
@@ -78,7 +110,15 @@ export default function Navbar() {
 
               <Link to="/wishlist"
                 className="flex flex-col items-center text-gray-500 hover:text-brand transition-colors">
-                <Heart size={22} />
+                <div className="relative">
+                  <Heart size={22} />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-brand text-white text-[9px]
+                                     font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                      {wishlistCount > 9 ? '9+' : wishlistCount}
+                    </span>
+                  )}
+                </div>
                 <span className="text-[10px] mt-1">Favoris</span>
               </Link>
 
@@ -86,10 +126,12 @@ export default function Navbar() {
                 className="flex flex-col items-center text-gray-500 hover:text-brand transition-colors">
                 <div className="relative">
                   <ShoppingCart size={22} />
-                  <span className="absolute -top-2 -right-2 bg-brand text-white text-[9px]
-                                   font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    0
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-brand text-white text-[9px]
+                                     font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                      {cartCount > 9 ? '9+' : cartCount}
+                    </span>
+                  )}
                 </div>
                 <span className="text-[10px] mt-1">Panier</span>
               </Link>
@@ -105,35 +147,33 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Liens de navigation — desktop */}
-          <nav className="hidden md:flex items-center gap-1 py-1.5">
-            {NAV_LINKS.map(({ label, to }) => {
-              const active = location.pathname === to
-              return (
-                <Link
-                  key={to}
-                  to={to}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors group ${
-                    active ? 'text-brand' : 'text-gray-600 hover:text-brand'
-                  }`}
-                >
-                  {label}
-                  <span
-                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-brand rounded-full
-                                transition-transform duration-300 origin-left ${
-                      active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+          {/* Liens de navigation — centrés sous la barre de recherche */}
+          <nav className="hidden md:grid md:grid-cols-[1fr_minmax(18rem,36rem)_1fr]
+                          gap-3 md:gap-6 lg:gap-8 pb-2">
+            <div aria-hidden="true" />
+            <div className="flex items-center justify-center gap-1">
+              {NAV_LINKS.map(({ label, to }) => {
+                const active = location.pathname === to
+                return (
+                  <Link
+                    key={to}
+                    to={to}
+                    className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors group ${
+                      active ? 'text-brand' : 'text-gray-600 hover:text-brand'
                     }`}
-                  />
-                </Link>
-              )
-            })}
-            <Link
-              to="/contact"
-              className="ml-auto flex items-center gap-1.5 text-sm text-gray-500
-                         hover:text-brand transition-colors"
-            >
-              <Phone size={14} /> Nous contacter
-            </Link>
+                  >
+                    {label}
+                    <span
+                      className={`absolute bottom-0 left-4 right-4 h-0.5 bg-brand rounded-full
+                                  transition-transform duration-300 origin-left ${
+                        active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}
+                    />
+                  </Link>
+                )
+              })}
+            </div>
+            <div aria-hidden="true" />
           </nav>
         </div>
 
@@ -149,14 +189,19 @@ export default function Navbar() {
             >
               <div className="px-4 py-3 space-y-1">
                 {/* Recherche mobile */}
-                <div className="flex rounded-xl border border-gray-200 overflow-hidden mb-3">
-                  <input type="text" placeholder="Rechercher…"
+                <form onSubmit={handleSearch} className="flex rounded-xl border border-gray-200 overflow-hidden mb-3">
+                  <input
+                    type="search"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    placeholder="Rechercher…"
                     className="flex-1 px-3 py-2 text-sm outline-none bg-white text-gray-900
-                               placeholder:text-gray-400" />
-                  <button className="bg-brand px-4 text-white">
+                               placeholder:text-gray-400"
+                  />
+                  <button type="submit" className="bg-brand px-4 text-white">
                     <Search size={16} />
                   </button>
-                </div>
+                </form>
 
                 {NAV_LINKS.map(({ label, to }) => (
                   <Link key={to} to={to}
@@ -174,12 +219,12 @@ export default function Navbar() {
                   <Link to="/auth" className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
                     <User size={16} /> Compte
                   </Link>
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
-                    <Heart size={16} /> Favoris
-                  </button>
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
-                    <ShoppingCart size={16} /> Panier (0)
-                  </button>
+                  <Link to="/wishlist" className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
+                    <Heart size={16} /> Favoris ({wishlistCount})
+                  </Link>
+                  <Link to="/cart" className="flex items-center gap-2 text-sm text-gray-600 hover:text-brand">
+                    <ShoppingCart size={16} /> Panier ({cartCount})
+                  </Link>
                 </div>
               </div>
             </motion.div>

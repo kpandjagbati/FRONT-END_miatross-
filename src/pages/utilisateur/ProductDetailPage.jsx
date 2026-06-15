@@ -8,6 +8,9 @@ import {
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
+import { findProductById } from '../../data/productsByCategory'
+import { useShop } from '../../context/ShopContext'
+import { resolveCatalogProduct } from '../../utils/resolveCatalogProduct'
 import heroCasque from '../../assets/electronique/casque-sony-wh1000xm4.png'
 import heroEnceinte from '../../assets/electronique/enceinte-jbl.png'
 import heroAirpods from '../../assets/electronique/casque-airpods-max.png'
@@ -135,15 +138,49 @@ function ReviewCard({ review }) {
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function ProductDetailPage() {
+  const { id } = useParams()
+  const { addToCart, toggleWishlist, isInWishlist } = useShop()
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState('Noir')
-  const [isFav, setIsFav] = useState(false)
+  const [addedFeedback, setAddedFeedback] = useState(false)
   const [activeTab, setActiveTab] = useState('description')
 
+  const catalogProduct = findProductById(Number(id)) || resolveCatalogProduct({
+    id: PRODUCT_DATA.id,
+    name: PRODUCT_DATA.name,
+    price: PRODUCT_DATA.price,
+    oldPrice: PRODUCT_DATA.oldPrice,
+    img: PRODUCT_DATA.images[0],
+    rating: PRODUCT_DATA.rating,
+    reviews: PRODUCT_DATA.reviews,
+    stock: PRODUCT_DATA.stock,
+    category: PRODUCT_DATA.category,
+  })
+
+  const product = {
+    ...PRODUCT_DATA,
+    id: catalogProduct.id,
+    name: catalogProduct.name,
+    price: catalogProduct.price,
+    oldPrice: catalogProduct.oldPrice,
+    rating: catalogProduct.rating,
+    reviews: catalogProduct.reviews,
+    category: catalogProduct.category || PRODUCT_DATA.category,
+    stock: catalogProduct.inStock ?? PRODUCT_DATA.stock,
+    images: [catalogProduct.img, catalogProduct.img, catalogProduct.img, catalogProduct.img],
+  }
+
+  const isFav = isInWishlist(catalogProduct.id)
   const colors = ['Noir', 'Argent', 'Bleu']
 
   const decreaseQty = () => setQuantity(q => Math.max(1, q - 1))
-  const increaseQty = () => setQuantity(q => Math.min(PRODUCT_DATA.stock, q + 1))
+  const increaseQty = () => setQuantity(q => Math.min(product.stock, q + 1))
+
+  const handleAddToCart = () => {
+    addToCart(catalogProduct, quantity)
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 1500)
+  }
 
   return (
     <div className="min-h-dvh bg-gray-50">
@@ -162,7 +199,7 @@ export default function ProductDetailPage() {
           <span>/</span>
           <Link to="/categories?cat=electronique" className="hover:text-brand">Électronique</Link>
           <span>/</span>
-          <span className="text-gray-900">{PRODUCT_DATA.name}</span>
+          <span className="text-gray-900">{product.name}</span>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
@@ -171,7 +208,7 @@ export default function ProductDetailPage() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <ImageGallery images={PRODUCT_DATA.images} />
+            <ImageGallery images={product.images} />
           </motion.div>
 
           {/* Infos produit */}
@@ -182,17 +219,17 @@ export default function ProductDetailPage() {
           >
             {/* Badge + Catégorie */}
             <div className="flex items-center gap-3">
-              {PRODUCT_DATA.badge && (
+              {product.badge && (
                 <span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {PRODUCT_DATA.badge}
+                  {product.badge}
                 </span>
               )}
-              <span className="text-sm text-gray-500">{PRODUCT_DATA.category}</span>
+              <span className="text-sm text-gray-500">{product.category}</span>
             </div>
 
             {/* Titre */}
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              {PRODUCT_DATA.name}
+              {product.name}
             </h1>
 
             {/* Rating */}
@@ -202,39 +239,39 @@ export default function ProductDetailPage() {
                   <Star
                     key={i}
                     size={18}
-                    className={i < Math.floor(PRODUCT_DATA.rating)
+                    className={i < Math.floor(product.rating)
                       ? 'fill-amber-400 text-amber-400'
                       : 'text-gray-200'}
                   />
                 ))}
               </div>
-              <span className="text-sm font-semibold text-gray-900">{PRODUCT_DATA.rating}</span>
-              <span className="text-sm text-gray-500">({PRODUCT_DATA.reviews} avis)</span>
+              <span className="text-sm font-semibold text-gray-900">{product.rating}</span>
+              <span className="text-sm text-gray-500">({product.reviews} avis)</span>
             </div>
 
             {/* Prix */}
             <div className="flex items-baseline gap-3">
               <span className="text-4xl font-bold text-gray-900">
-                {PRODUCT_DATA.price.toLocaleString('fr-FR')} FCFA
+                {product.price.toLocaleString('fr-FR')} FCFA
               </span>
-              {PRODUCT_DATA.oldPrice && (
+              {product.oldPrice && (
                 <span className="text-xl text-gray-400 line-through">
-                  {PRODUCT_DATA.oldPrice.toLocaleString('fr-FR')} FCFA
+                  {product.oldPrice.toLocaleString('fr-FR')} FCFA
                 </span>
               )}
-              {PRODUCT_DATA.oldPrice && (
+              {product.oldPrice && (
                 <span className="bg-red-100 text-red-600 text-sm font-bold px-2 py-1 rounded">
-                  -{Math.round((1 - PRODUCT_DATA.price / PRODUCT_DATA.oldPrice) * 100)}%
+                  -{Math.round((1 - product.price / product.oldPrice) * 100)}%
                 </span>
               )}
             </div>
 
             {/* Stock */}
-            <div className={`flex items-center gap-2 text-sm ${PRODUCT_DATA.stock <= 5 ? 'text-red-600' : 'text-brand'
+            <div className={`flex items-center gap-2 text-sm ${product.stock <= 5 ? 'text-red-600' : 'text-brand'
               }`}>
               <Check size={16} />
-              {PRODUCT_DATA.stock <= 5
-                ? `Seulement ${PRODUCT_DATA.stock} articles en stock`
+              {product.stock <= 5
+                ? `Seulement ${product.stock} articles en stock`
                 : 'En stock'}
             </div>
 
@@ -281,15 +318,21 @@ export default function ProductDetailPage() {
 
             {/* Actions */}
             <div className="flex gap-4">
-              <button className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold
-                             py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold
+                           py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+              >
                 <ShoppingCart size={18} />
-                Ajouter au panier
+                {addedFeedback ? 'Ajouté !' : 'Ajouter au panier'}
               </button>
               <button
-                onClick={() => setIsFav(!isFav)}
+                type="button"
+                onClick={() => toggleWishlist(catalogProduct, product.category)}
                 className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
                            justify-center hover:border-brand hover:text-brand transition-all"
+                aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               >
                 <Heart
                   size={22}

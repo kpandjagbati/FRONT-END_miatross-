@@ -1,71 +1,15 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Heart, Trash2, ShoppingBag, ArrowRight, Star
 } from 'lucide-react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
-import heroCasque from '../../assets/electronique/casque-sony-wh1000xm4.png'
-import heroSacHermes from '../../assets/mode/sac-hermes-birkin.png'
-import heroPS5 from '../../assets/electronique/console-ps5.png'
-import heroCardigan from '../../assets/mode/cardigan-ami-paris.png'
-
-// ── Données favoris (mock) ───────────────────────────────────────────────────
-const WISHLIST_ITEMS = [
-  {
-    id: 1,
-    name: 'Casque Sony WH-1000XM4',
-    price: 45000,
-    oldPrice: 55000,
-    rating: 4.8,
-    reviews: 120,
-    img: heroCasque,
-    category: 'Électronique',
-    inStock: true,
-    stock: 5
-  },
-  {
-    id: 2,
-    name: 'Sac Hermès Birkin',
-    price: 120000,
-    oldPrice: 150000,
-    rating: 4.9,
-    reviews: 45,
-    img: heroSacHermes,
-    category: 'Mode',
-    inStock: true,
-    stock: 3
-  },
-  {
-    id: 3,
-    name: 'Console PlayStation 5',
-    price: 180000,
-    oldPrice: 210000,
-    rating: 4.9,
-    reviews: 350,
-    img: heroPS5,
-    category: 'Électronique',
-    inStock: false,
-    stock: 0
-  },
-  {
-    id: 4,
-    name: 'Cardigan Ami Paris',
-    price: 35000,
-    oldPrice: 45000,
-    rating: 4.6,
-    reviews: 28,
-    img: heroCardigan,
-    category: 'Mode',
-    inStock: true,
-    stock: 7
-  },
-]
+import { useShop } from '../../context/ShopContext'
 
 // ── Composant carte favori ───────────────────────────────────────────────────
-function WishlistItem({ item, onRemove }) {
+function WishlistItem({ item, onRemove, onOrder }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -141,11 +85,13 @@ function WishlistItem({ item, onRemove }) {
             <Trash2 size={18} />
           </button>
           <button
+            type="button"
+            onClick={() => onOrder(item)}
             disabled={!item.inStock}
             className="p-2 rounded-lg border border-gray-200 text-gray-400
                        hover:border-brand hover:text-brand transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Ajouter au panier"
+            title="Passer commande"
           >
             <ShoppingBag size={18} />
           </button>
@@ -157,14 +103,19 @@ function WishlistItem({ item, onRemove }) {
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function WishlistPage() {
-  const [wishlistItems, setWishlistItems] = useState(WISHLIST_ITEMS)
+  const navigate = useNavigate()
+  const { wishlistItems, removeFromWishlist, clearWishlist } = useShop()
 
   const handleRemove = (id) => {
-    setWishlistItems(items => items.filter(item => item.id !== id))
+    removeFromWishlist(id)
   }
 
   const handleRemoveAll = () => {
-    setWishlistItems([])
+    clearWishlist()
+  }
+
+  const handleOrder = () => {
+    navigate('/auth')
   }
 
   return (
@@ -226,6 +177,7 @@ export default function WishlistPage() {
                 key={item.id}
                 item={item}
                 onRemove={handleRemove}
+                onOrder={handleOrder}
               />
             ))}
           </motion.div>

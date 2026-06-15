@@ -187,3 +187,31 @@ export const CATEGORY_COUNTS = {
   beaute: PRODUCTS_BY_CATEGORY.beaute.length,
   sport: PRODUCTS_BY_CATEGORY.sport.length,
 }
+
+export const CATEGORY_LABELS = {
+  mode: 'Mode & Accessoires',
+  electronique: 'Électronique',
+  maison: 'Maison & Bureau',
+  beaute: 'Beauté & Santé',
+  sport: 'Sports & Loisirs',
+}
+
+export function findProductById(id) {
+  for (const [key, products] of Object.entries(PRODUCTS_BY_CATEGORY)) {
+    const product = products.find(p => p.id === id)
+    if (product) {
+      return { ...product, categoryKey: key, category: CATEGORY_LABELS[key] }
+    }
+  }
+  return null
+}
+
+export function getAllProductsWithCategory() {
+  return Object.entries(PRODUCTS_BY_CATEGORY).flatMap(([key, products]) =>
+    products.map(product => ({
+      ...product,
+      categoryKey: key,
+      category: CATEGORY_LABELS[key],
+    }))
+  )
+}

@@ -4,6 +4,8 @@ import { Star, Heart, ShoppingCart, Zap, Filter, Flame, AlertTriangle, Check } f
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProductImageFrame from './components/ProductImageFrame'
+import { useShop } from '../../context/ShopContext'
+import { resolveCatalogProduct } from '../../utils/resolveCatalogProduct'
 
 // ── Images produits ────────────────────────────────────────────────────────
 import heroCasque from '../../assets/electronique/casque-sony-wh1000xm4.png'
@@ -99,7 +101,16 @@ const CATEGORIES = ['Tous', 'Électronique', 'Mode', 'Sport', 'Maison', 'Beauté
 
 // ── Carte produit ─────────────────────────────────────────────────────────
 function ProductCard({ product, index }) {
-  const [isFav, setIsFav] = useState(false)
+  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const catalogProduct = resolveCatalogProduct(product)
+  const isFav = isInWishlist(catalogProduct.id)
+  const [addedFeedback, setAddedFeedback] = useState(false)
+
+  const handleAddToCart = () => {
+    addToCart(catalogProduct)
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 1500)
+  }
 
   return (
     <motion.div
@@ -128,9 +139,11 @@ function ProductCard({ product, index }) {
         </div>
         {/* Favori button */}
         <button
-          onClick={() => setIsFav(!isFav)}
+          type="button"
+          onClick={() => toggleWishlist(catalogProduct, product.category)}
           className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-sm
                      hover:bg-gray-50 transition-colors border border-gray-100"
+          aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
         >
           <Heart
             size={18}
@@ -193,12 +206,14 @@ function ProductCard({ product, index }) {
 
         {/* Bouton panier */}
         <button
+          type="button"
+          onClick={handleAddToCart}
           className="w-full bg-brand hover:bg-brand-hover text-white
                      font-bold py-2.5 rounded-xl transition-colors flex items-center
                      justify-center gap-2 text-sm"
         >
           <ShoppingCart size={16} />
-          Ajouter au panier
+          {addedFeedback ? 'Ajouté !' : 'Ajouter au panier'}
         </button>
       </div>
     </motion.div>
