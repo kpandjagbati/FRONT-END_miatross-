@@ -29,9 +29,14 @@ export default function AdminLayout() {
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#1a2540]
                          flex flex-col transform transition-transform duration-200
                          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="p-5 border-b border-white/10 text-white">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logoImg} alt="MiaTrossè" className="h-10 w-auto brightness-0 invert" />
+        <div className="px-5 py-5 border-b border-white/10 text-white">
+          <Link to="/" className="flex h-10 items-center overflow-visible">
+            <img
+              src={logoImg}
+              alt="MiaTrossè"
+              className="h-8 w-auto brightness-0 invert object-contain object-left
+                         origin-left scale-[3.35]"
+            />
           </Link>
           <p className="text-xs text-white/50 mt-2 font-medium uppercase tracking-wider">
             Administration

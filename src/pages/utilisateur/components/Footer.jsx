@@ -151,7 +151,14 @@ export default function Footer() {
 
         {/* Logo + description */}
         <div className="col-span-2 md:col-span-1">
-          <img src={logoImg} alt="Shop MiaTrossè" className="h-12 sm:h-14 w-auto mb-3 object-contain" />
+          <div className="h-12 sm:h-14 overflow-visible mb-3 flex items-center">
+            <img
+              src={logoImg}
+              alt="Shop MiaTrossè"
+              className="h-7 w-auto object-contain object-left brightness-0 invert
+                         origin-left scale-[3.35] sm:scale-[3.65]"
+            />
+          </div>
           <p className="text-sm text-gray-400 leading-relaxed">
             La marketplace de référence au Togo pour acheter et vendre des produits de qualité.
           </p>
