@@ -129,6 +129,7 @@ function ProductCard({ product, index, categoryLabel }) {
 }
 
 export default function CategoriesPage() {
+  const { storeProducts, refreshStoreProducts } = useShop()
   const [searchParams, setSearchParams] = useSearchParams()
   const catParam = searchParams.get('cat')
   const queryParam = searchParams.get('q') ?? ''
@@ -137,6 +138,10 @@ export default function CategoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [searchQuery, setSearchQuery] = useState(queryParam)
   const [sortBy, setSortBy] = useState('popular')
+
+  useEffect(() => {
+    refreshStoreProducts()
+  }, [refreshStoreProducts])
 
   useEffect(() => {
     setSearchQuery(searchParams.get('q') ?? '')
@@ -162,13 +167,24 @@ export default function CategoriesPage() {
   }
 
   // Filtrer les produits
+  const apiProducts = storeProducts
+    .filter(p => selectedCategory === 'tous' || p.categoryKey === selectedCategory)
+    .map(product => ({
+      ...product,
+      categoryKey: product.categoryKey || selectedCategory,
+      category: product.category || CATEGORY_LABELS[product.categoryKey] || 'Produit',
+    }))
+
   let filteredProducts = selectedCategory === 'tous'
-    ? getAllProductsWithCategory()
-    : (PRODUCTS_BY_CATEGORY[selectedCategory] || []).map(product => ({
-        ...product,
-        categoryKey: selectedCategory,
-        category: CATEGORY_LABELS[selectedCategory],
-      }))
+    ? [...apiProducts, ...getAllProductsWithCategory()]
+    : [
+        ...apiProducts,
+        ...(PRODUCTS_BY_CATEGORY[selectedCategory] || []).map(product => ({
+          ...product,
+          categoryKey: selectedCategory,
+          category: CATEGORY_LABELS[selectedCategory],
+        })),
+      ]
 
   // Appliquer recherche (nom, catégorie, synonymes)
   if (searchQuery.trim()) {

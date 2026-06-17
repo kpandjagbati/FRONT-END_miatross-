@@ -7,6 +7,9 @@ import { useShop } from '../../../context/ShopContext'
 import { resolveCatalogProduct } from '../../../utils/resolveCatalogProduct'
 
 function buildDescription(product, categoryLabel) {
+  if (product.description?.trim()) {
+    return product.description.trim()
+  }
   return `${product.name} est un produit de qualité dans la catégorie ${categoryLabel || 'notre catalogue'}. Profitez d'un excellent rapport qualité-prix, d'une livraison rapide et d'un service client réactif sur MiaTrossè.`
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
@@ -431,6 +431,19 @@ function ProductCard({ product }) {
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState('Populaires')
   const reduceMotion = useReducedMotion()
+  const { storeProducts, refreshStoreProducts } = useShop()
+
+  useEffect(() => {
+    refreshStoreProducts()
+  }, [refreshStoreProducts])
+
+  const displayProducts = useMemo(
+    () => [
+      ...storeProducts.map(product => ({ ...product, cat: product.category })),
+      ...PRODUCTS,
+    ],
+    [storeProducts]
+  )
 
   return (
     <div className="min-h-dvh bg-gray-50">
@@ -614,9 +627,9 @@ export default function HomePage() {
             transition={{ duration: 0.35, ease: EASE }}
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
           >
-            {PRODUCTS.map((p, i) => (
+            {displayProducts.map((p, i) => (
               <motion.div
-                key={p.id + '-' + i}
+                key={`${p.id}-${i}`}
                 initial={{ opacity: 0, y: 24, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: i * 0.06, duration: 0.4, ease: EASE }}

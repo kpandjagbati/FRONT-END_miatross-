@@ -44,7 +44,7 @@ export default function VendeurAddProductPage() {
 
   return (
     <div>
-      <VendeurPageHeader title="Ajouter un produit" description="Le produit sera soumis à validation admin" />
+      <VendeurPageHeader title="Ajouter un produit" description="Le produit sera publié immédiatement dans la boutique" />
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm max-w-xl space-y-4">
         {error && <p className="text-red-600 text-sm">{error}</p>}

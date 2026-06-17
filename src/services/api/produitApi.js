@@ -1,6 +1,18 @@
 import { apiFetch, getStoredAuth } from './httpClient'
 import { API_BASE_URL } from '../../config/api'
 
+export function fetchCatalogueProduits() {
+  return apiFetch('/api/produit/catalogue')
+}
+
+export function fetchCatalogueProduit(id) {
+  return apiFetch(`/api/produit/catalogue/${id}`)
+}
+
+export function getCatalogueProduitImageUrl(id) {
+  return `${API_BASE_URL}/api/produit/catalogue/${id}/image`
+}
+
 export function fetchProduits() {
   return apiFetch('/api/produit')
 }

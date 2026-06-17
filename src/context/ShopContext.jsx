@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { findProductById } from '../data/productsByCategory'
+import { fetchCatalogueProduits } from '../services/api/produitApi'
+import { mapApiProduitToCatalogProduct } from '../utils/catalogProductMapper'
 import ProductDetailModal from '../pages/utilisateur/components/ProductDetailModal'
 
 const CART_KEY = 'miatrosse_cart'
@@ -20,6 +22,24 @@ export function ShopProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => loadStorage(CART_KEY))
   const [wishlistItems, setWishlistItems] = useState(() => loadStorage(WISHLIST_KEY))
   const [productModal, setProductModal] = useState(null)
+  const [storeProducts, setStoreProducts] = useState([])
+  const [storeProductsLoading, setStoreProductsLoading] = useState(true)
+
+  const refreshStoreProducts = useCallback(async () => {
+    setStoreProductsLoading(true)
+    try {
+      const produits = await fetchCatalogueProduits()
+      setStoreProducts((produits || []).map(mapApiProduitToCatalogProduct))
+    } catch {
+      setStoreProducts([])
+    } finally {
+      setStoreProductsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    refreshStoreProducts()
+  }, [refreshStoreProducts])
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(cartItems))
@@ -119,6 +139,9 @@ export function ShopProvider({ children }) {
     wishlistItems,
     cartCount,
     productModal,
+    storeProducts,
+    storeProductsLoading,
+    refreshStoreProducts,
     addToCart,
     updateCartQuantity,
     removeFromCart,
@@ -133,6 +156,9 @@ export function ShopProvider({ children }) {
     wishlistItems,
     cartCount,
     productModal,
+    storeProducts,
+    storeProductsLoading,
+    refreshStoreProducts,
     addToCart,
     updateCartQuantity,
     removeFromCart,

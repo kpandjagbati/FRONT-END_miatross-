@@ -2,6 +2,10 @@ import { getAllProductsWithCategory } from '../data/productsByCategory'
 
 /** Associe un produit affiché (accueil, offres…) au catalogue central */
 export function resolveCatalogProduct(product) {
+  if (product?.source === 'api' || product?.apiId) {
+    return product
+  }
+
   const name = (product.name || '').toLowerCase()
   const match = getAllProductsWithCategory().find(p => {
     const catalogName = p.name.toLowerCase()
