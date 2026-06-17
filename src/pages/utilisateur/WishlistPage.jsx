@@ -9,7 +9,7 @@ import ProductImageFrame from './components/ProductImageFrame'
 import { useShop } from '../../context/ShopContext'
 
 // ── Composant carte favori ───────────────────────────────────────────────────
-function WishlistItem({ item, onRemove, onOrder }) {
+function WishlistItem({ item, onRemove, onOrder, onOpenDetails }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -19,7 +19,11 @@ function WishlistItem({ item, onRemove, onOrder }) {
     >
       <div className="flex gap-4">
         {/* Image */}
-        <Link to={`/product/${item.id}`} className="shrink-0">
+        <button
+          type="button"
+          onClick={() => onOpenDetails(item)}
+          className="shrink-0 text-left"
+        >
           <ProductImageFrame
             src={item.img}
             alt={item.name}
@@ -28,15 +32,19 @@ function WishlistItem({ item, onRemove, onOrder }) {
             className="rounded-xl border border-gray-100"
             imgClassName="group-hover:scale-105 transition-transform duration-300"
           />
-        </Link>
+        </button>
 
         {/* Infos */}
         <div className="flex-1 min-w-0">
-          <Link to={`/product/${item.id}`}>
+          <button
+            type="button"
+            onClick={() => onOpenDetails(item)}
+            className="text-left w-full"
+          >
             <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-brand transition-colors">
               {item.name}
             </h3>
-          </Link>
+          </button>
           <p className="text-xs text-gray-500 mb-2">{item.category}</p>
 
           {/* Rating */}
@@ -104,7 +112,7 @@ function WishlistItem({ item, onRemove, onOrder }) {
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function WishlistPage() {
   const navigate = useNavigate()
-  const { wishlistItems, removeFromWishlist, clearWishlist } = useShop()
+  const { wishlistItems, removeFromWishlist, clearWishlist, openProductModal } = useShop()
 
   const handleRemove = (id) => {
     removeFromWishlist(id)
@@ -116,6 +124,10 @@ export default function WishlistPage() {
 
   const handleOrder = () => {
     navigate('/auth')
+  }
+
+  const handleOpenDetails = (item) => {
+    openProductModal(item, { categoryLabel: item.category })
   }
 
   return (
@@ -178,6 +190,7 @@ export default function WishlistPage() {
                 item={item}
                 onRemove={handleRemove}
                 onOrder={handleOrder}
+                onOpenDetails={handleOpenDetails}
               />
             ))}
           </motion.div>

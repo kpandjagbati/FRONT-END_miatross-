@@ -16,7 +16,7 @@ const PROMO_CODES = [
 ]
 
 // ── Composant item panier ─────────────────────────────────────────────────────
-function CartItem({ item, onUpdateQuantity, onRemove }) {
+function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
   const decreaseQty = () => {
     if (item.quantity > 1) {
       onUpdateQuantity(item.id, item.quantity - 1)
@@ -37,17 +37,31 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
                  flex flex-col md:flex-row items-start md:items-center"
     >
       {/* Image */}
-      <ProductImageFrame
-        src={item.img}
-        alt={item.name}
-        size="cart"
-        border={false}
-        className="rounded-xl border border-gray-100"
-      />
+      <button
+        type="button"
+        onClick={() => onOpenDetails(item)}
+        className="shrink-0"
+      >
+        <ProductImageFrame
+          src={item.img}
+          alt={item.name}
+          size="cart"
+          border={false}
+          className="rounded-xl border border-gray-100"
+        />
+      </button>
 
       {/* Infos */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1">{item.name}</h3>
+        <button
+          type="button"
+          onClick={() => onOpenDetails(item)}
+          className="text-left w-full"
+        >
+          <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-brand transition-colors">
+            {item.name}
+          </h3>
+        </button>
         <p className="text-sm text-gray-500 mb-3">
           {item.stock} en stock
         </p>
@@ -99,7 +113,7 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function CartPage() {
-  const { cartItems, cartCount, updateCartQuantity, removeFromCart } = useShop()
+  const { cartItems, cartCount, updateCartQuantity, removeFromCart, openProductModal } = useShop()
   const [promoCode, setPromoCode] = useState('')
   const [appliedPromo, setAppliedPromo] = useState(null)
   const [promoError, setPromoError] = useState('')
@@ -110,6 +124,19 @@ export default function CartPage() {
 
   const handleRemove = (id) => {
     removeFromCart(id)
+  }
+
+  const handleOpenDetails = (item) => {
+    openProductModal({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      oldPrice: item.oldPrice,
+      img: item.img,
+      inStock: item.stock,
+      rating: 4.5,
+      reviews: 0,
+    })
   }
 
   const handleApplyPromo = () => {
@@ -183,6 +210,7 @@ export default function CartPage() {
                   item={item}
                   onUpdateQuantity={handleUpdateQuantity}
                   onRemove={handleRemove}
+                  onOpenDetails={handleOpenDetails}
                 />
               ))}
             </motion.div>

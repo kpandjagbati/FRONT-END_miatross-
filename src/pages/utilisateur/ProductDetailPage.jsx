@@ -139,7 +139,7 @@ function ReviewCard({ review }) {
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function ProductDetailPage() {
   const { id } = useParams()
-  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const { addToCart, toggleWishlist, isInWishlist, openProductModal } = useShop()
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState('Noir')
   const [addedFeedback, setAddedFeedback] = useState(false)
@@ -431,11 +431,15 @@ export default function ProductDetailPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Produits similaires</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {RELATED_PRODUCTS.map(product => (
-              <Link
+              <button
                 key={product.id}
-                to={`/product/${product.id}`}
+                type="button"
+                onClick={() => openProductModal(
+                  resolveCatalogProduct(product),
+                  { categoryLabel: 'Électronique' }
+                )}
                 className="bg-white rounded-xl p-4 border border-gray-200 hover:border-brand
-                          hover:shadow-lg transition-all group"
+                          hover:shadow-lg transition-all group text-left"
               >
                 <ProductImageFrame
                   src={product.img}
@@ -451,7 +455,7 @@ export default function ProductDetailPage() {
                 <p className="text-sm font-bold text-gray-900">
                   {product.price.toLocaleString('fr-FR')} FCFA
                 </p>
-              </Link>
+              </button>
             ))}
           </div>
         </motion.div>

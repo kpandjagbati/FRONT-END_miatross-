@@ -20,14 +20,19 @@ const CATEGORIES = [
 
 // ── Composant carte produit ─────────────────────────────────────────────────
 function ProductCard({ product, index, categoryLabel }) {
-  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const { addToCart, toggleWishlist, isInWishlist, openProductModal } = useShop()
   const isFav = isInWishlist(product.id)
   const [addedFeedback, setAddedFeedback] = useState(false)
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation()
     addToCart(product)
     setAddedFeedback(true)
     setTimeout(() => setAddedFeedback(false), 1500)
+  }
+
+  const handleOpenDetails = () => {
+    openProductModal(product, { categoryLabel })
   }
 
   return (
@@ -35,8 +40,12 @@ function ProductCard({ product, index, categoryLabel }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
+      onClick={handleOpenDetails}
+      onKeyDown={e => e.key === 'Enter' && handleOpenDetails()}
+      role="button"
+      tabIndex={0}
       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl
-                 transition-shadow duration-300 flex flex-col"
+                 transition-shadow duration-300 flex flex-col cursor-pointer"
     >
       <ProductImageFrame
         src={product.img}
@@ -52,7 +61,10 @@ function ProductCard({ product, index, categoryLabel }) {
         {/* Favori */}
         <button
           type="button"
-          onClick={() => toggleWishlist(product, categoryLabel)}
+          onClick={e => {
+            e.stopPropagation()
+            toggleWishlist(product, categoryLabel)
+          }}
           className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-sm
                      hover:bg-gray-50 transition-colors border border-gray-100"
           aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}

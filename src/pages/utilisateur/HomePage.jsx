@@ -38,7 +38,6 @@ const HERO_SLIDES = [
     brandLine: 'Casque Sony',
     titleLine: 'WH-1000XM4',
     bgWord: 'CASQUE',
-    bgWordColor: 'brand',
     description: 'Réduction de bruit active, son premium et autonomie jusqu\'à 30 h. L\'expérience audio ultime pour vos déplacements.',
     img: heroSlideCasque,
   },
@@ -47,7 +46,6 @@ const HERO_SLIDES = [
     brandLine: 'Adidas Originals',
     titleLine: 'Samba OG',
     bgWord: 'MODE',
-    bgWordColor: 'black',
     description: 'Icône intemporelle du streetwear. Cuir premium, semelle gomme et confort au quotidien pour un style affirmé.',
     img: heroSlideMode,
   },
@@ -56,7 +54,6 @@ const HERO_SLIDES = [
     brandLine: 'Luxe Fitness',
     titleLine: 'Sac Sport',
     bgWord: 'SPORT',
-    bgWordColor: 'brand',
     description: 'Compartiments intelligents, matériaux résistants et design élégant pour accompagner toutes vos séances.',
     img: heroSlideSport,
   },
@@ -65,7 +62,6 @@ const HERO_SLIDES = [
     brandLine: 'JBL Audio',
     titleLine: 'Bluetooth',
     bgWord: 'AUDIO',
-    bgWordColor: 'black',
     description: 'Son puissant, basses profondes et connectivité sans fil. Emportez votre musique partout avec style.',
     img: heroSlideEnceinte,
   },
@@ -188,13 +184,10 @@ function HeroSlider() {
         aria-hidden
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
       >
-        <span className={`text-[5.5rem] sm:text-[7rem] md:text-[9rem] lg:text-[11rem]
+        <span className="text-[5.5rem] sm:text-[7rem] md:text-[9rem] lg:text-[11rem]
                            font-black tracking-tight uppercase leading-none
-                           translate-y-2 md:translate-y-4 ${
-                             slide.bgWordColor === 'brand'
-                               ? 'text-brand'
-                               : 'text-gray-900'
-                           }`}>
+                           translate-y-2 md:translate-y-4
+                           text-gray-900/[0.06]">
           {slide.bgWord}
         </span>
       </div>
@@ -305,15 +298,23 @@ function HeroSlider() {
 
 // ── Carte produit ─────────────────────────────────────────────────────────────
 function ProductCard({ product }) {
-  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const { addToCart, toggleWishlist, isInWishlist, openProductModal } = useShop()
   const catalogProduct = resolveCatalogProduct(product)
   const isFav = isInWishlist(catalogProduct.id)
   const [addedFeedback, setAddedFeedback] = useState(false)
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation()
     addToCart(catalogProduct)
     setAddedFeedback(true)
     setTimeout(() => setAddedFeedback(false), 1500)
+  }
+
+  const handleOpenDetails = () => {
+    openProductModal(catalogProduct, {
+      categoryLabel: product.cat,
+      badge: product.badge,
+    })
   }
 
   const BADGE_COLORS = {
@@ -328,8 +329,12 @@ function ProductCard({ product }) {
       whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.25, ease: EASE }}
+      onClick={handleOpenDetails}
+      onKeyDown={e => e.key === 'Enter' && handleOpenDetails()}
+      role="button"
+      tabIndex={0}
       className="group relative bg-white rounded-2xl border border-gray-100
-                 shadow-sm overflow-hidden"
+                 shadow-sm overflow-hidden cursor-pointer"
     >
       <ProductImageFrame
         src={product.img}
@@ -355,7 +360,10 @@ function ProductCard({ product }) {
           type="button"
           whileHover={{ scale: 1.12 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => toggleWishlist(catalogProduct, product.cat)}
+          onClick={e => {
+            e.stopPropagation()
+            toggleWishlist(catalogProduct, product.cat)
+          }}
           className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full shadow flex
                      items-center justify-center border border-gray-100"
           aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
@@ -526,7 +534,7 @@ export default function HomePage() {
               animate={reduceMotion ? {} : { scale: [1, 1.15, 1], rotate: [0, -8, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <Zap size={28} className="fill-white" />
+              <Zap size={28} className="text-white" strokeWidth={2.25} />
             </motion.div>
             <div>
               <p className="font-black text-lg">Flash Sale !</p>
@@ -668,7 +676,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.05, x: 4 }}
               whileTap={{ scale: 0.97 }}
             >
-              <Link to="/auth"
+              <Link to="/auth?tab=signup"
                 className="inline-flex items-center gap-2 bg-brand hover:bg-brand-hover
                            text-white font-bold px-6 py-3 rounded-xl transition-colors">
                 Commencer gratuitement <ArrowRight size={16} />

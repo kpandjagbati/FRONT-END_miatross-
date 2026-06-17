@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { findProductById } from '../data/productsByCategory'
+import ProductDetailModal from '../pages/utilisateur/components/ProductDetailModal'
 
 const CART_KEY = 'miatrosse_cart'
 const WISHLIST_KEY = 'miatrosse_wishlist'
@@ -18,6 +19,7 @@ function loadStorage(key) {
 export function ShopProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => loadStorage(CART_KEY))
   const [wishlistItems, setWishlistItems] = useState(() => loadStorage(WISHLIST_KEY))
+  const [productModal, setProductModal] = useState(null)
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(cartItems))
@@ -94,6 +96,19 @@ export function ShopProvider({ children }) {
     [wishlistItems]
   )
 
+  const openProductModal = useCallback((product, options = {}) => {
+    setProductModal({
+      product,
+      categoryLabel: options.categoryLabel ?? product.category ?? product.cat ?? null,
+      badge: options.badge ?? null,
+      discount: options.discount ?? null,
+    })
+  }, [])
+
+  const closeProductModal = useCallback(() => {
+    setProductModal(null)
+  }, [])
+
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
     [cartItems]
@@ -103,6 +118,7 @@ export function ShopProvider({ children }) {
     cartItems,
     wishlistItems,
     cartCount,
+    productModal,
     addToCart,
     updateCartQuantity,
     removeFromCart,
@@ -110,10 +126,13 @@ export function ShopProvider({ children }) {
     removeFromWishlist,
     clearWishlist,
     isInWishlist,
+    openProductModal,
+    closeProductModal,
   }), [
     cartItems,
     wishlistItems,
     cartCount,
+    productModal,
     addToCart,
     updateCartQuantity,
     removeFromCart,
@@ -121,11 +140,14 @@ export function ShopProvider({ children }) {
     removeFromWishlist,
     clearWishlist,
     isInWishlist,
+    openProductModal,
+    closeProductModal,
   ])
 
   return (
     <ShopContext.Provider value={value}>
       {children}
+      <ProductDetailModal />
     </ShopContext.Provider>
   )
 }

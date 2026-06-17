@@ -101,15 +101,24 @@ const CATEGORIES = ['Tous', 'Électronique', 'Mode', 'Sport', 'Maison', 'Beauté
 
 // ── Carte produit ─────────────────────────────────────────────────────────
 function ProductCard({ product, index }) {
-  const { addToCart, toggleWishlist, isInWishlist } = useShop()
+  const { addToCart, toggleWishlist, isInWishlist, openProductModal } = useShop()
   const catalogProduct = resolveCatalogProduct(product)
   const isFav = isInWishlist(catalogProduct.id)
   const [addedFeedback, setAddedFeedback] = useState(false)
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation()
     addToCart(catalogProduct)
     setAddedFeedback(true)
     setTimeout(() => setAddedFeedback(false), 1500)
+  }
+
+  const handleOpenDetails = () => {
+    openProductModal(catalogProduct, {
+      categoryLabel: product.category,
+      badge: product.badge,
+      discount: product.discount,
+    })
   }
 
   return (
@@ -117,8 +126,12 @@ function ProductCard({ product, index }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
+      onClick={handleOpenDetails}
+      onKeyDown={e => e.key === 'Enter' && handleOpenDetails()}
+      role="button"
+      tabIndex={0}
       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl
-                 transition-shadow duration-300 flex flex-col"
+                 transition-shadow duration-300 flex flex-col cursor-pointer"
     >
       <ProductImageFrame
         src={product.img}
@@ -140,7 +153,10 @@ function ProductCard({ product, index }) {
         {/* Favori button */}
         <button
           type="button"
-          onClick={() => toggleWishlist(catalogProduct, product.category)}
+          onClick={e => {
+            e.stopPropagation()
+            toggleWishlist(catalogProduct, product.category)
+          }}
           className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-sm
                      hover:bg-gray-50 transition-colors border border-gray-100"
           aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
