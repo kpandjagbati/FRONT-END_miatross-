@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProductDetailPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProductDetailPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Page de détails de produit
  * @description Affiche les détails complets d'un produit avec images, prix, avis,
  * fonctionnalités et produits connexes. Permet l'ajout au panier et wishlist.
@@ -63,7 +91,7 @@ const RELATED_PRODUCTS = [
  * @param {string[]} images - Tableau des URL d'images à afficher
  * @returns {JSX.Element} Galerie avec image principale et thumbnails
  * @example
- * <ImageGallery images={productImages} />
+ * &lt;ImageGallery images={productImages} />
  */
 // ── Composant galerie images ─────────────────────────────────────────────────
 function ImageGallery({ images }) {
@@ -73,46 +101,46 @@ function ImageGallery({ images }) {
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length)
 
   return (
-    <div className="space-y-4">
+    &lt;div className="space-y-4">
       {/* Image principale */}
-      <ProductImageFrame
+      &lt;ProductImageFrame
         src={images[current]}
         alt="Product"
         size="gallery"
         border={false}
         className="rounded-2xl border border-gray-100"
       >
-        <button
+        &lt;button
           onClick={prev}
           className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white
                      p-2 rounded-full shadow-lg transition-all border border-gray-100"
         >
-          <ChevronLeft size={20} />
-        </button>
-        <button
+          &lt;ChevronLeft size={20} />
+        &lt;/button>
+        &lt;button
           onClick={next}
           className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white
                      p-2 rounded-full shadow-lg transition-all border border-gray-100"
         >
-          <ChevronRight size={20} />
-        </button>
-      </ProductImageFrame>
+          &lt;ChevronRight size={20} />
+        &lt;/button>
+      &lt;/ProductImageFrame>
 
       {/* Thumbnails */}
-      <div className="flex gap-3">
+      &lt;div className="flex gap-3">
         {images.map((img, i) => (
-          <button
+          &lt;button
             key={i}
             onClick={() => setCurrent(i)}
             className={`flex-1 rounded-xl overflow-hidden aspect-square bg-white
                        border-2 transition-all ${current === i ? 'border-brand' : 'border-gray-100 hover:border-gray-300'
               }`}
           >
-            <img src={img} alt={`Thumbnail ${i}`} className="w-full h-full object-contain p-2" />
-          </button>
+            &lt;img src={img} alt={`Thumbnail ${i}`} className="w-full h-full object-contain p-2" />
+          &lt;/button>
         ))}
-      </div>
-    </div>
+      &lt;/div>
+    &lt;/div>
   )
 }
 
@@ -127,40 +155,40 @@ function ImageGallery({ images }) {
  * @param {string} review.comment - Texte de la critique
  * @returns {JSX.Element} Carte de critique animée
  * @example
- * <ReviewCard review={{ id: 1, user: 'Kofi A.', rating: 5, date: '12 Jan 2025', comment: '...' }} />
+ * &lt;ReviewCard review={{ id: 1, user: 'Kofi A.', rating: 5, date: '12 Jan 2025', comment: '...' }} />
  */
 // ── Composant review ───────────────────────────────────────────────────────
 function ReviewCard({ review }) {
   return (
-    <motion.div
+    &lt;motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       className="bg-white rounded-xl p-5 border border-gray-200"
     >
-      <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
-          <User size={20} className="text-brand" />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <p className="font-semibold text-gray-900">{review.user}</p>
-              <p className="text-xs text-gray-500">{review.date}</p>
-            </div>
-            <div className="flex items-center gap-1">
+      &lt;div className="flex items-start gap-4">
+        &lt;div className="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+          &lt;User size={20} className="text-brand" />
+        &lt;/div>
+        &lt;div className="flex-1">
+          &lt;div className="flex items-center justify-between mb-2">
+            &lt;div>
+              &lt;p className="font-semibold text-gray-900">{review.user}&lt;/p>
+              &lt;p className="text-xs text-gray-500">{review.date}&lt;/p>
+            &lt;/div>
+            &lt;div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star
+                &lt;Star
                   key={i}
                   size={14}
-                  className={i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-200'}
+                  className={i &lt; review.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-200'}
                 />
               ))}
-            </div>
-          </div>
-          <p className="text-sm text-gray-600">{review.comment}</p>
-        </div>
-      </div>
-    </motion.div>
+            &lt;/div>
+          &lt;/div>
+          &lt;p className="text-sm text-gray-600">{review.comment}&lt;/p>
+        &lt;/div>
+      &lt;/div>
+    &lt;/motion.div>
   )
 }
 
@@ -222,104 +250,104 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="min-h-dvh bg-gray-50">
-      <Navbar />
+    &lt;div className="min-h-dvh bg-gray-50">
+      &lt;Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      &lt;main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Breadcrumb */}
-        <motion.div
+        &lt;motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="flex items-center gap-2 text-sm text-gray-500 mb-6"
         >
-          <Link to="/" className="hover:text-brand">Accueil</Link>
-          <span>/</span>
-          <Link to="/categories" className="hover:text-brand">Catégories</Link>
-          <span>/</span>
-          <Link to="/categories?cat=electronique" className="hover:text-brand">Électronique</Link>
-          <span>/</span>
-          <span className="text-gray-900">{product.name}</span>
-        </motion.div>
+          &lt;Link to="/" className="hover:text-brand">Accueil&lt;/Link>
+          &lt;span>/&lt;/span>
+          &lt;Link to="/categories" className="hover:text-brand">Catégories&lt;/Link>
+          &lt;span>/&lt;/span>
+          &lt;Link to="/categories?cat=electronique" className="hover:text-brand">Électronique&lt;/Link>
+          &lt;span>/&lt;/span>
+          &lt;span className="text-gray-900">{product.name}&lt;/span>
+        &lt;/motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+        &lt;div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Images */}
-          <motion.div
+          &lt;motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <ImageGallery images={product.images} />
-          </motion.div>
+            &lt;ImageGallery images={product.images} />
+          &lt;/motion.div>
 
           {/* Infos produit */}
-          <motion.div
+          &lt;motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
             {/* Badge + Catégorie */}
-            <div className="flex items-center gap-3">
-              {product.badge && (
-                <span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">
+            &lt;div className="flex items-center gap-3">
+              {product.badge &amp;&amp; (
+                &lt;span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">
                   {product.badge}
-                </span>
+                &lt;/span>
               )}
-              <span className="text-sm text-gray-500">{product.category}</span>
-            </div>
+              &lt;span className="text-sm text-gray-500">{product.category}&lt;/span>
+            &lt;/div>
 
             {/* Titre */}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+            &lt;h1 className="text-3xl md:text-4xl font-bold text-gray-900">
               {product.name}
-            </h1>
+            &lt;/h1>
 
             {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
+            &lt;div className="flex items-center gap-3">
+              &lt;div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <Star
+                  &lt;Star
                     key={i}
                     size={18}
-                    className={i < Math.floor(product.rating)
+                    className={i &lt; Math.floor(product.rating)
                       ? 'fill-amber-400 text-amber-400'
                       : 'text-gray-200'}
                   />
                 ))}
-              </div>
-              <span className="text-sm font-semibold text-gray-900">{product.rating}</span>
-              <span className="text-sm text-gray-500">({product.reviews} avis)</span>
-            </div>
+              &lt;/div>
+              &lt;span className="text-sm font-semibold text-gray-900">{product.rating}&lt;/span>
+              &lt;span className="text-sm text-gray-500">({product.reviews} avis)&lt;/span>
+            &lt;/div>
 
             {/* Prix */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-bold text-gray-900">
+            &lt;div className="flex items-baseline gap-3">
+              &lt;span className="text-4xl font-bold text-gray-900">
                 {product.price.toLocaleString('fr-FR')} FCFA
-              </span>
-              {product.oldPrice && (
-                <span className="text-xl text-gray-400 line-through">
+              &lt;/span>
+              {product.oldPrice &amp;&amp; (
+                &lt;span className="text-xl text-gray-400 line-through">
                   {product.oldPrice.toLocaleString('fr-FR')} FCFA
-                </span>
+                &lt;/span>
               )}
-              {product.oldPrice && (
-                <span className="bg-red-100 text-red-600 text-sm font-bold px-2 py-1 rounded">
+              {product.oldPrice &amp;&amp; (
+                &lt;span className="bg-red-100 text-red-600 text-sm font-bold px-2 py-1 rounded">
                   -{Math.round((1 - product.price / product.oldPrice) * 100)}%
-                </span>
+                &lt;/span>
               )}
-            </div>
+            &lt;/div>
 
             {/* Stock */}
-            <div className={`flex items-center gap-2 text-sm ${product.stock <= 5 ? 'text-red-600' : 'text-brand'
+            &lt;div className={`flex items-center gap-2 text-sm ${product.stock &lt;= 5 ? 'text-red-600' : 'text-brand'
               }`}>
-              <Check size={16} />
-              {product.stock <= 5
+              &lt;Check size={16} />
+              {product.stock &lt;= 5
                 ? `Seulement ${product.stock} articles en stock`
                 : 'En stock'}
-            </div>
+            &lt;/div>
 
             {/* Sélecteur couleur */}
-            <div>
-              <p className="text-sm font-semibold text-gray-900 mb-3">Couleur</p>
-              <div className="flex gap-3">
+            &lt;div>
+              &lt;p className="text-sm font-semibold text-gray-900 mb-3">Couleur&lt;/p>
+              &lt;div className="flex gap-3">
                 {colors.map(color => (
-                  <button
+                  &lt;button
                     key={color}
                     onClick={() => setSelectedColor(color)}
                     className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${selectedColor === color
@@ -328,27 +356,27 @@ export default function ProductDetailPage() {
                       }`}
                   >
                     {color}
-                  </button>
+                  &lt;/button>
                 ))}
-              </div>
-            </div>
+              &lt;/div>
+            &lt;/div>
 
             {/* Quantité */}
-            <div>
-              <p className="text-sm font-semibold text-gray-900 mb-3">Quantité</p>
-              <div className="flex items-center gap-3">
-                <button
+            &lt;div>
+              &lt;p className="text-sm font-semibold text-gray-900 mb-3">Quantité&lt;/p>
+              &lt;div className="flex items-center gap-3">
+                &lt;button
                   type="button"
                   onClick={decreaseQty}
                   className="w-10 h-10 rounded-lg border border-gray-300 text-gray-800 flex items-center
                              justify-center hover:border-brand hover:text-brand transition-all"
                 >
-                  <Minus size={18} />
-                </button>
-                <span className="w-16 text-center font-semibold text-lg text-gray-900 tabular-nums">
+                  &lt;Minus size={18} />
+                &lt;/button>
+                &lt;span className="w-16 text-center font-semibold text-lg text-gray-900 tabular-nums">
                   {quantity}
-                </span>
-                <button
+                &lt;/span>
+                &lt;button
                   type="button"
                   onClick={increaseQty}
                   disabled={quantity >= product.stock}
@@ -357,66 +385,66 @@ export default function ProductDetailPage() {
                              disabled:opacity-60 disabled:text-gray-400 disabled:border-gray-200
                              disabled:cursor-not-allowed"
                 >
-                  <Plus size={18} />
-                </button>
-              </div>
-            </div>
+                  &lt;Plus size={18} />
+                &lt;/button>
+              &lt;/div>
+            &lt;/div>
 
             {/* Actions */}
-            <div className="flex gap-4">
-              <button
+            &lt;div className="flex gap-4">
+              &lt;button
                 type="button"
                 onClick={handleAddToCart}
                 className="flex-1 bg-brand hover:bg-brand-hover text-white font-bold
                            py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
               >
-                <ShoppingCart size={18} />
+                &lt;ShoppingCart size={18} />
                 {addedFeedback ? 'Ajouté !' : 'Ajouter au panier'}
-              </button>
-              <button
+              &lt;/button>
+              &lt;button
                 type="button"
                 onClick={() => toggleWishlist(catalogProduct, product.category)}
                 className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
                            justify-center hover:border-brand hover:text-brand transition-all"
                 aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               >
-                <Heart
+                &lt;Heart
                   size={22}
                   className={isFav ? 'fill-red-500 text-red-500' : ''}
                 />
-              </button>
-              <button className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
+              &lt;/button>
+              &lt;button className="w-14 h-14 rounded-xl border border-gray-300 flex items-center
                          justify-center hover:border-brand hover:text-brand transition-all">
-                <Share2 size={22} />
-              </button>
-            </div>
+                &lt;Share2 size={22} />
+              &lt;/button>
+            &lt;/div>
 
             {/* Garanties */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+            &lt;div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
               {[
                 { icon: Truck, text: 'Livraison rapide' },
                 { icon: Shield, text: 'Paiement sécurisé' },
                 { icon: RefreshCw, text: 'Retour 14 jours' }
               ].map(({ icon: Icon, text }) => (
-                <div key={text} className="text-center">
-                  <Icon size={20} className="text-brand mx-auto mb-1" />
-                  <p className="text-xs text-gray-600">{text}</p>
-                </div>
+                &lt;div key={text} className="text-center">
+                  &lt;Icon size={20} className="text-brand mx-auto mb-1" />
+                  &lt;p className="text-xs text-gray-600">{text}&lt;/p>
+                &lt;/div>
               ))}
-            </div>
-          </motion.div>
-        </div>
+            &lt;/div>
+          &lt;/motion.div>
+        &lt;/div>
 
         {/* Tabs Description / Reviews */}
-        <motion.div
+        &lt;motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl p-6 md:p-8 mb-12"
         >
           {/* Tabs */}
-          <div className="flex gap-6 border-b border-gray-200 mb-6">
+          &lt;div className="flex gap-6 border-b border-gray-200 mb-6">
             {['description', 'reviews'].map(tab => (
-              <button
+              &lt;button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`pb-3 text-sm font-semibold transition-all relative ${activeTab === tab
@@ -425,35 +453,35 @@ export default function ProductDetailPage() {
                   }`}
               >
                 {tab === 'description' ? 'Description' : 'Avis clients'}
-                {activeTab === tab && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand" />
+                {activeTab === tab &amp;&amp; (
+                  &lt;span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand" />
                 )}
-              </button>
+              &lt;/button>
             ))}
-          </div>
+          &lt;/div>
 
           {/* Content */}
-          <AnimatePresence mode="wait">
+          &lt;AnimatePresence mode="wait">
             {activeTab === 'description' ? (
-              <motion.div
+              &lt;motion.div
                 key="desc"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <p className="text-gray-600 leading-relaxed mb-6">{PRODUCT_DATA.description}</p>
-                <h3 className="font-semibold text-gray-900 mb-3">Caractéristiques</h3>
-                <ul className="space-y-2">
+                &lt;p className="text-gray-600 leading-relaxed mb-6">{PRODUCT_DATA.description}&lt;/p>
+                &lt;h3 className="font-semibold text-gray-900 mb-3">Caractéristiques&lt;/h3>
+                &lt;ul className="space-y-2">
                   {PRODUCT_DATA.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-gray-600">
-                      <Check size={16} className="text-brand shrink-0 mt-0.5" />
+                    &lt;li key={i} className="flex items-start gap-2 text-gray-600">
+                      &lt;Check size={16} className="text-brand shrink-0 mt-0.5" />
                       {feature}
-                    </li>
+                    &lt;/li>
                   ))}
-                </ul>
-              </motion.div>
+                &lt;/ul>
+              &lt;/motion.div>
             ) : (
-              <motion.div
+              &lt;motion.div
                 key="reviews"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -461,23 +489,23 @@ export default function ProductDetailPage() {
                 className="space-y-4"
               >
                 {REVIEWS.map(review => (
-                  <ReviewCard key={review.id} review={review} />
+                  &lt;ReviewCard key={review.id} review={review} />
                 ))}
-              </motion.div>
+              &lt;/motion.div>
             )}
-          </AnimatePresence>
-        </motion.div>
+          &lt;/AnimatePresence>
+        &lt;/motion.div>
 
         {/* Produits similaires */}
-        <motion.div
+        &lt;motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Produits similaires</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          &lt;h2 className="text-2xl font-bold text-gray-900 mb-6">Produits similaires&lt;/h2>
+          &lt;div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {RELATED_PRODUCTS.map(product => (
-              <button
+              &lt;button
                 key={product.id}
                 type="button"
                 onClick={() => openProductModal(
@@ -487,7 +515,7 @@ export default function ProductDetailPage() {
                 className="bg-white rounded-xl p-4 border border-gray-200 hover:border-brand
                           hover:shadow-lg transition-all group text-left"
               >
-                <ProductImageFrame
+                &lt;ProductImageFrame
                   src={product.img}
                   alt={product.name}
                   size="square"
@@ -495,19 +523,42 @@ export default function ProductDetailPage() {
                   className="mb-3 rounded-lg border border-gray-100"
                   imgClassName="group-hover:scale-105 transition-transform duration-300"
                 />
-                <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">
+                &lt;h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2">
                   {product.name}
-                </h3>
-                <p className="text-sm font-bold text-gray-900">
+                &lt;/h3>
+                &lt;p className="text-sm font-bold text-gray-900">
                   {product.price.toLocaleString('fr-FR')} FCFA
-                </p>
-              </button>
+                &lt;/p>
+              &lt;/button>
             ))}
-          </div>
-        </motion.div>
-      </main>
+          &lt;/div>
+        &lt;/motion.div>
+      &lt;/main>
 
-      <Footer />
-    </div>
+      &lt;Footer />
+    &lt;/div>
   )
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-README.html">README</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ImageGallery">ImageGallery</a></li><li><a href="global.html#InfoCard">InfoCard</a></li><li><a href="global.html#ReviewCard">ReviewCard</a></li><li><a href="global.html#StatCard">StatCard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Jun 18 2026 14:18:34 GMT+0000 (heure moyenne de Greenwich)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

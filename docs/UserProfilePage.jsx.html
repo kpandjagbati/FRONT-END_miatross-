@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: UserProfilePage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: UserProfilePage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Page de profil utilisateur
+ * @description Affiche les informations de profil utilisateur, historique de commandes,
+ * wishlist et statistiques d'achat. Permet la gestion des paramètres de compte.
+ * @version 1.0.0
+ */
+
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import {
+  User, Mail, Phone, MapPin, Calendar, ShoppingBag,
+  Heart, ArrowRight, Settings
+} from 'lucide-react'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+
+// ── Données utilisateur (mock) ───────────────────────────────────────────────
+const USER_DATA = {
+  name: 'Kofi Mensah',
+  email: 'kofi.mensah@email.com',
+  phone: '+228 90 12 34 56',
+  address: 'Lomé, Togo',
+  joinDate: '15 Mars 2024',
+  stats: {
+    orders: 12,
+    wishlist: 8,
+    reviews: 5
+  }
+}
+
+const RECENT_ORDERS = [
+  {
+    id: 'CMD-2024-001',
+    date: '12 Jan 2025',
+    status: 'Livré',
+    total: 45000,
+    items: 2
+  },
+  {
+    id: 'CMD-2024-002',
+    date: '5 Jan 2025',
+    status: 'En livraison',
+    total: 87000,
+    items: 3
+  },
+]
+
+/**
+ * Composant InfoCard
+ * @component Affiche une information avec icône, libellé et valeur
+ * @param {Object} props - Props du composant
+ * @param {React.ElementType} props.icon - Composant icône Lucide
+ * @param {string} props.label - Libellé de l'information
+ * @param {string} props.value - Valeur à afficher
+ * @returns {JSX.Element} Carte d'information stylisée
+ * @example
+ * &lt;InfoCard icon={Mail} label="Email" value="user@example.com" />
+ */
+// ── Composant carte info ───────────────────────────────────────────────────
+function InfoCard({ icon: Icon, label, value }) {
+  return (
+    &lt;div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+      &lt;div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+        &lt;Icon size={18} className="text-brand" />
+      &lt;/div>
+      &lt;div className="min-w-0">
+        &lt;p className="text-xs text-gray-500 mb-0.5">{label}&lt;/p>
+        &lt;p className="text-sm font-semibold text-gray-900 truncate">{value}&lt;/p>
+      &lt;/div>
+    &lt;/div>
+  )
+}
+
+/**
+ * Composant StatCard
+ * @component Carte de statistique cliquable avec icône et valeur
+ * @param {Object} props - Props du composant
+ * @param {React.ElementType} props.icon - Composant icône Lucide
+ * @param {string} props.label - Libellé de la statistique
+ * @param {number|string} props.value - Valeur à afficher
+ * @param {string} props.to - Route de redirection au clic
+ * @returns {JSX.Element} Carte statistique avec effet hover
+ * @example
+ * &lt;StatCard icon={ShoppingBag} label="Commandes" value={12} to="/orders" />
+ */
+// ── Composant stat ─────────────────────────────────────────────────────────
+function StatCard({ icon: Icon, label, value, to }) {
+  return (
+    &lt;Link
+      to={to}
+      className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-brand
+                 hover:shadow-lg transition-all group"
+    >
+      &lt;div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mb-4">
+        &lt;Icon size={24} className="text-brand" />
+      &lt;/div>
+      &lt;p className="text-3xl font-bold text-gray-900 mb-1">{value}&lt;/p>
+      &lt;p className="text-sm text-gray-600 mb-3">{label}&lt;/p>
+      &lt;div className="flex items-center gap-1 text-sm text-brand opacity-0
+                  group-hover:opacity-100 transition-opacity">
+        Voir &lt;ArrowRight size={14} />
+      &lt;/div>
+    &lt;/Link>
+  )
+}
+
+/**
+ * Composant UserProfilePage
+ * @component Page de profil utilisateur avec gestion des informations
+ * @returns {JSX.Element} Page profil avec infos personnelles, statistiques et actions rapides
+ * @description
+ * - Affiche les informations du profil utilisateur
+ * - Affiche les statistiques (commandes, favoris, avis)
+ * - Affiche l'historique des commandes récentes
+ * - Actions rapides pour naviguer vers wishlist et paramètres
+ */
+// ── Page principale ───────────────────────────────────────────────────────────
+export default function UserProfilePage() {
+  return (
+    &lt;div className="min-h-dvh bg-gray-50">
+      &lt;Navbar />
+
+      &lt;main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        {/* Header */}
+        &lt;motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          &lt;h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Mon profil&lt;/h1>
+          &lt;p className="text-gray-600">Gérez vos informations personnelles&lt;/p>
+        &lt;/motion.div>
+
+        &lt;div className="grid lg:grid-cols-3 gap-8">
+          {/* Colonne gauche - Infos utilisateur */}
+          &lt;motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:col-span-1 space-y-6"
+          >
+            {/* Carte profil */}
+            &lt;div className="bg-white rounded-2xl p-6 border border-gray-200">
+              &lt;div className="flex items-center gap-4 mb-6">
+                &lt;div className="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                  &lt;User size={32} className="text-brand" />
+                &lt;/div>
+                &lt;div>
+                  &lt;h2 className="text-xl font-bold text-gray-900">{USER_DATA.name}&lt;/h2>
+                  &lt;p className="text-sm text-gray-500">Membre depuis {USER_DATA.joinDate}&lt;/p>
+                &lt;/div>
+              &lt;/div>
+
+              &lt;div className="space-y-3">
+                &lt;InfoCard
+                  icon={Mail}
+                  label="Email"
+                  value={USER_DATA.email}
+                />
+                &lt;InfoCard
+                  icon={Phone}
+                  label="Téléphone"
+                  value={USER_DATA.phone}
+                />
+                &lt;InfoCard
+                  icon={MapPin}
+                  label="Adresse"
+                  value={USER_DATA.address}
+                />
+                &lt;InfoCard
+                  icon={Calendar}
+                  label="Membre depuis"
+                  value={USER_DATA.joinDate}
+                />
+              &lt;/div>
+            &lt;/div>
+
+            {/* Actions rapides */}
+            &lt;div className="bg-white rounded-2xl p-6 border border-gray-200">
+              &lt;h3 className="font-semibold text-gray-900 mb-4">Actions rapides&lt;/h3>
+              &lt;div className="space-y-2">
+                &lt;Link
+                  to="/categories"
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
+                             transition-colors text-gray-700 hover:text-brand"
+                >
+                  &lt;ShoppingBag size={18} />
+                  &lt;span className="text-sm">Nouvel achat&lt;/span>
+                &lt;/Link>
+                &lt;Link
+                  to="/wishlist"
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
+                             transition-colors text-gray-700 hover:text-brand"
+                >
+                  &lt;Heart size={18} />
+                  &lt;span className="text-sm">Mes favoris&lt;/span>
+                &lt;/Link>
+                &lt;button className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50
+                                transition-colors text-gray-700 hover:text-brand w-full text-left">
+                  &lt;Settings size={18} />
+                  &lt;span className="text-sm">Paramètres&lt;/span>
+                &lt;/button>
+              &lt;/div>
+            &lt;/div>
+          &lt;/motion.div>
+
+          {/* Colonne droite - Stats et commandes */}
+          &lt;motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:col-span-2 space-y-6"
+          >
+            {/* Stats */}
+            &lt;div className="grid grid-cols-3 gap-4">
+              &lt;StatCard
+                icon={ShoppingBag}
+                label="Commandes"
+                value={USER_DATA.stats.orders}
+                to="#"
+              />
+              &lt;StatCard
+                icon={Heart}
+                label="Favoris"
+                value={USER_DATA.stats.wishlist}
+                to="/wishlist"
+              />
+              &lt;StatCard
+                icon={User}
+                label="Avis"
+                value={USER_DATA.stats.reviews}
+                to="#"
+              />
+            &lt;/div>
+
+            {/* Commandes récentes */}
+            &lt;div className="bg-white rounded-2xl p-6 border border-gray-200">
+              &lt;div className="flex items-center justify-between mb-6">
+                &lt;h3 className="font-semibold text-gray-900">Commandes récentes&lt;/h3>
+                &lt;button className="text-sm text-brand hover:underline font-medium">
+                  Voir tout
+                &lt;/button>
+              &lt;/div>
+
+              &lt;div className="space-y-4">
+                {RECENT_ORDERS.map(order => (
+                  &lt;div
+                    key={order.id}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                  >
+                    &lt;div className="flex items-center gap-4">
+                      &lt;div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                        &lt;ShoppingBag size={18} className="text-brand" />
+                      &lt;/div>
+                      &lt;div>
+                        &lt;p className="font-semibold text-gray-900">{order.id}&lt;/p>
+                        &lt;p className="text-xs text-gray-500">{order.date} • {order.items} article{order.items > 1 ? 's' : ''}&lt;/p>
+                      &lt;/div>
+                    &lt;/div>
+                    &lt;div className="text-right">
+                      &lt;p className="font-bold text-gray-900">{order.total.toLocaleString('fr-FR')} FCFA&lt;/p>
+                      &lt;span className={`text-xs font-medium ${
+                        order.status === 'Livré' ? 'text-brand' : 'text-orange-500'
+                      }`}>
+                        {order.status}
+                      &lt;/span>
+                    &lt;/div>
+                  &lt;/div>
+                ))}
+              &lt;/div>
+            &lt;/div>
+
+            {/* Informations supplémentaires */}
+            &lt;div className="bg-white rounded-2xl p-6 border border-gray-200">
+              &lt;h3 className="font-semibold text-gray-900 mb-4">Préférences&lt;/h3>
+              &lt;div className="space-y-4">
+                &lt;div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  &lt;div className="flex items-center gap-3">
+                    &lt;Mail size={18} className="text-gray-500" />
+                    &lt;span className="text-sm text-gray-700">Notifications par email&lt;/span>
+                  &lt;/div>
+                  &lt;div className="w-12 h-6 bg-brand rounded-full relative">
+                    &lt;div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full" />
+                  &lt;/div>
+                &lt;/div>
+                &lt;div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  &lt;div className="flex items-center gap-3">
+                    &lt;Phone size={18} className="text-gray-500" />
+                    &lt;span className="text-sm text-gray-700">Notifications SMS&lt;/span>
+                  &lt;/div>
+                  &lt;div className="w-12 h-6 bg-gray-300 rounded-full relative">
+                    &lt;div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full" />
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/main>
+
+      &lt;Footer />
+    &lt;/div>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-README.html">README</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ImageGallery">ImageGallery</a></li><li><a href="global.html#InfoCard">InfoCard</a></li><li><a href="global.html#ReviewCard">ReviewCard</a></li><li><a href="global.html#StatCard">StatCard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Jun 18 2026 14:18:34 GMT+0000 (heure moyenne de Greenwich)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

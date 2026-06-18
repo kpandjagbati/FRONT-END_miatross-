@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Page de profil utilisateur
+ * @description Affiche les informations de profil utilisateur, historique de commandes,
+ * wishlist et statistiques d'achat. Permet la gestion des paramètres de compte.
+ * @version 1.0.0
+ */
+
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
@@ -38,6 +45,17 @@ const RECENT_ORDERS = [
   },
 ]
 
+/**
+ * Composant InfoCard
+ * @component Affiche une information avec icône, libellé et valeur
+ * @param {Object} props - Props du composant
+ * @param {React.ElementType} props.icon - Composant icône Lucide
+ * @param {string} props.label - Libellé de l'information
+ * @param {string} props.value - Valeur à afficher
+ * @returns {JSX.Element} Carte d'information stylisée
+ * @example
+ * <InfoCard icon={Mail} label="Email" value="user@example.com" />
+ */
 // ── Composant carte info ───────────────────────────────────────────────────
 function InfoCard({ icon: Icon, label, value }) {
   return (
@@ -53,6 +71,18 @@ function InfoCard({ icon: Icon, label, value }) {
   )
 }
 
+/**
+ * Composant StatCard
+ * @component Carte de statistique cliquable avec icône et valeur
+ * @param {Object} props - Props du composant
+ * @param {React.ElementType} props.icon - Composant icône Lucide
+ * @param {string} props.label - Libellé de la statistique
+ * @param {number|string} props.value - Valeur à afficher
+ * @param {string} props.to - Route de redirection au clic
+ * @returns {JSX.Element} Carte statistique avec effet hover
+ * @example
+ * <StatCard icon={ShoppingBag} label="Commandes" value={12} to="/orders" />
+ */
 // ── Composant stat ─────────────────────────────────────────────────────────
 function StatCard({ icon: Icon, label, value, to }) {
   return (
@@ -74,6 +104,16 @@ function StatCard({ icon: Icon, label, value, to }) {
   )
 }
 
+/**
+ * Composant UserProfilePage
+ * @component Page de profil utilisateur avec gestion des informations
+ * @returns {JSX.Element} Page profil avec infos personnelles, statistiques et actions rapides
+ * @description
+ * - Affiche les informations du profil utilisateur
+ * - Affiche les statistiques (commandes, favoris, avis)
+ * - Affiche l'historique des commandes récentes
+ * - Actions rapides pour naviguer vers wishlist et paramètres
+ */
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function UserProfilePage() {
   return (
