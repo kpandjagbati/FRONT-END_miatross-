@@ -40,6 +40,26 @@ docs/
   - Actions rapides (wishlist, paramètres)
   - Informations de contact
 
+### 3. **CategoriesPage** 📂
+- **Chemin:** `src/pages/utilisateur/CategoriesPage.jsx`
+- **Description:** Page de consultation des catégories et produits avec:
+  - Navigation par catégories (Mode, Électronique, Maison, Beauté, Sport)
+  - Recherche de produits en temps réel
+  - Tri par prix (bas/élevé), popularité et notes
+  - Affichage en grille de produits
+  - Indicateurs de stock
+  - Intégration avec le contexte ShopContext
+
+### 4. **CartPage** 🛒
+- **Chemin:** `src/pages/utilisateur/CartPage.jsx`
+- **Description:** Page du panier d'achat avec:
+  - Liste des articles avec images et prix
+  - Gestion de la quantité (+/-) et suppression
+  - Application de codes promo (MIATROSSE, WELCOME5)
+  - Calcul automatique du total, remise et frais de livraison
+  - Livraison gratuite au-delà de 20000 FCFA
+  - Lien vers la commande/paiement
+
 ## 🔧 Composants documentés
 
 ### ProductDetailPage
@@ -49,6 +69,12 @@ docs/
 ### UserProfilePage
 - `InfoCard` - Carte d'information utilisateur avec icône
 - `StatCard` - Carte de statistique cliquable
+
+### CategoriesPage
+- `ProductCard` - Affichage d'une carte produit avec image, prix, note et actions
+
+### CartPage
+- `CartItem` - Affichage d'un article du panier avec gestion de la quantité
 
 ## 🚀 Génération de la documentation
 

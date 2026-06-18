@@ -4,7 +4,12 @@
     "dictionaries": ["jsdoc", "closure"]
   },
   "source": {
-    "include": ["src/pages/utilisateur"],
+    "include": [
+      "src/pages/utilisateur/ProductDetailPage.jsx",
+      "src/pages/utilisateur/UserProfilePage.jsx",
+      "src/pages/utilisateur/CategoriesPage.jsx",
+      "src/pages/utilisateur/CartPage.jsx"
+    ],
     "excludePattern": "(^|\\/|\\\\)\\."
   },
   "opts": {

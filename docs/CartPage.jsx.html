@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CartPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CartPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Page du panier d'achat
  * @description Affiche les articles du panier, gère les quantités, applique des codes promo
  * et calcule le total. Permet la suppression d'articles et la modification des quantités.
@@ -39,7 +67,7 @@ const PROMO_CODES = [
  * @param {Function} props.onOpenDetails - Callback pour voir les détails
  * @returns {JSX.Element} Ligne de panier avec contrôles de quantité
  * @example
- * <CartItem item={cartItem} onUpdateQuantity={handleUpdate} onRemove={handleRemove} />
+ * &lt;CartItem item={cartItem} onUpdateQuantity={handleUpdate} onRemove={handleRemove} />
  */
 // ── Composant item panier ─────────────────────────────────────────────────────
 function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
@@ -50,62 +78,62 @@ function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
   }
 
   const increaseQty = () => {
-    if (item.quantity < item.stock) {
+    if (item.quantity &lt; item.stock) {
       onUpdateQuantity(item.id, item.quantity + 1)
     }
   }
 
   return (
-    <motion.div
+    &lt;motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-2xl p-4 md:p-6 border border-gray-200 gap-4
                  flex flex-col md:flex-row items-start md:items-center"
     >
       {/* Image */}
-      <button
+      &lt;button
         type="button"
         onClick={() => onOpenDetails(item)}
         className="shrink-0"
       >
-        <ProductImageFrame
+        &lt;ProductImageFrame
           src={item.img}
           alt={item.name}
           size="cart"
           border={false}
           className="rounded-xl border border-gray-100"
         />
-      </button>
+      &lt;/button>
 
       {/* Infos */}
-      <div className="flex-1 min-w-0">
-        <button
+      &lt;div className="flex-1 min-w-0">
+        &lt;button
           type="button"
           onClick={() => onOpenDetails(item)}
           className="text-left w-full"
         >
-          <h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-brand transition-colors">
+          &lt;h3 className="font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-brand transition-colors">
             {item.name}
-          </h3>
-        </button>
-        <p className="text-sm text-gray-500 mb-3">
+          &lt;/h3>
+        &lt;/button>
+        &lt;p className="text-sm text-gray-500 mb-3">
           {item.stock} en stock
-        </p>
+        &lt;/p>
 
         {/* Quantité */}
-        <div className="flex items-center gap-3">
-          <button
+        &lt;div className="flex items-center gap-3">
+          &lt;button
             type="button"
             onClick={decreaseQty}
             className="w-8 h-8 rounded-lg border border-gray-300 text-gray-800 flex items-center
                        justify-center hover:border-brand hover:text-brand transition-all"
           >
-            <Minus size={16} />
-          </button>
-          <span className="w-10 text-center font-semibold text-gray-900 tabular-nums">
+            &lt;Minus size={16} />
+          &lt;/button>
+          &lt;span className="w-10 text-center font-semibold text-gray-900 tabular-nums">
             {item.quantity}
-          </span>
-          <button
+          &lt;/span>
+          &lt;button
             type="button"
             onClick={increaseQty}
             disabled={item.quantity >= item.stock}
@@ -114,31 +142,31 @@ function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
                        transition-all disabled:opacity-60 disabled:text-gray-400
                        disabled:border-gray-200 disabled:cursor-not-allowed"
           >
-            <Plus size={16} />
-          </button>
-        </div>
-      </div>
+            &lt;Plus size={16} />
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
 
       {/* Prix + Supprimer */}
-      <div className="flex md:flex-col items-center md:items-end gap-4 md:gap-2 w-full md:w-auto">
-        <div className="text-right">
-          <p className="text-lg font-bold text-gray-900">
+      &lt;div className="flex md:flex-col items-center md:items-end gap-4 md:gap-2 w-full md:w-auto">
+        &lt;div className="text-right">
+          &lt;p className="text-lg font-bold text-gray-900">
             {(item.price * item.quantity).toLocaleString('fr-FR')} FCFA
-          </p>
-          {item.oldPrice && (
-            <p className="text-sm text-gray-400 line-through">
+          &lt;/p>
+          {item.oldPrice &amp;&amp; (
+            &lt;p className="text-sm text-gray-400 line-through">
               {(item.oldPrice * item.quantity).toLocaleString('fr-FR')} FCFA
-            </p>
+            &lt;/p>
           )}
-        </div>
-        <button
+        &lt;/div>
+        &lt;button
           onClick={() => onRemove(item.id)}
           className="text-red-500 hover:text-red-600 transition-colors"
         >
-          <Trash2 size={18} />
-        </button>
-      </div>
-    </motion.div>
+          &lt;Trash2 size={18} />
+        &lt;/button>
+      &lt;/div>
+    &lt;/motion.div>
   )
 }
 
@@ -205,50 +233,50 @@ export default function CartPage() {
   const total = subtotal - discount + shipping
 
   return (
-    <div className="min-h-dvh bg-gray-50">
-      <Navbar />
+    &lt;div className="min-h-dvh bg-gray-50">
+      &lt;Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      &lt;main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
-        <motion.div
+        &lt;motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Mon panier</h1>
-          <p className="text-gray-600">
+          &lt;h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Mon panier&lt;/h1>
+          &lt;p className="text-gray-600">
             {cartCount} article{cartCount > 1 ? 's' : ''} dans votre panier
-          </p>
-        </motion.div>
+          &lt;/p>
+        &lt;/motion.div>
 
         {cartItems.length === 0 ? (
           /* Panier vide */
-          <motion.div
+          &lt;motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-2xl p-12 text-center"
           >
-            <ShoppingBag size={64} className="text-gray-300 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Votre panier est vide</h2>
-            <p className="text-gray-600 mb-6">Ajoutez des produits pour commencer vos achats</p>
-            <Link
+            &lt;ShoppingBag size={64} className="text-gray-300 mx-auto mb-6" />
+            &lt;h2 className="text-2xl font-bold text-gray-900 mb-2">Votre panier est vide&lt;/h2>
+            &lt;p className="text-gray-600 mb-6">Ajoutez des produits pour commencer vos achats&lt;/p>
+            &lt;Link
               to="/categories"
               className="inline-flex items-center gap-2 bg-brand hover:bg-brand-hover
                          text-white font-bold px-6 py-3 rounded-xl transition-colors"
             >
-              Parcourir les catégories <ArrowRight size={18} />
-            </Link>
-          </motion.div>
+              Parcourir les catégories &lt;ArrowRight size={18} />
+            &lt;/Link>
+          &lt;/motion.div>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-8">
+          &lt;div className="grid lg:grid-cols-3 gap-8">
             {/* Liste articles */}
-            <motion.div
+            &lt;motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               className="lg:col-span-2 space-y-4"
             >
               {cartItems.map(item => (
-                <CartItem
+                &lt;CartItem
                   key={item.id}
                   item={item}
                   onUpdateQuantity={handleUpdateQuantity}
@@ -256,38 +284,38 @@ export default function CartPage() {
                   onOpenDetails={handleOpenDetails}
                 />
               ))}
-            </motion.div>
+            &lt;/motion.div>
 
             {/* Résumé commande */}
-            <motion.div
+            &lt;motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               className="lg:col-span-1"
             >
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 sticky top-24">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Résumé</h2>
+              &lt;div className="bg-white rounded-2xl p-6 border border-gray-200 sticky top-24">
+                &lt;h2 className="text-xl font-bold text-gray-900 mb-6">Résumé&lt;/h2>
 
                 {/* Code promo */}
-                <div className="mb-6">
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                &lt;div className="mb-6">
+                  &lt;label className="block text-sm font-semibold text-gray-900 mb-2">
                     Code promo
-                  </label>
+                  &lt;/label>
                   {appliedPromo ? (
-                    <div className="flex items-center gap-2 bg-brand/10 border border-brand/20
+                    &lt;div className="flex items-center gap-2 bg-brand/10 border border-brand/20
                                 rounded-lg px-3 py-2">
-                      <span className="text-sm font-semibold text-brand flex-1">
+                      &lt;span className="text-sm font-semibold text-brand flex-1">
                         {appliedPromo.code} (-{appliedPromo.discount}%)
-                      </span>
-                      <button
+                      &lt;/span>
+                      &lt;button
                         onClick={handleRemovePromo}
                         className="text-brand hover:text-brand-hover"
                       >
-                        <X size={16} />
-                      </button>
-                    </div>
+                        &lt;X size={16} />
+                      &lt;/button>
+                    &lt;/div>
                   ) : (
-                    <div className="flex gap-2">
-                      <input
+                    &lt;div className="flex gap-2">
+                      &lt;input
                         type="text"
                         value={promoCode}
                         onChange={e => {
@@ -298,78 +326,101 @@ export default function CartPage() {
                         className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl
                                    outline-none focus:border-brand text-sm"
                       />
-                      <button
+                      &lt;button
                         onClick={handleApplyPromo}
                         className="px-4 py-2.5 bg-gray-900 hover:bg-gray-800 text-white
                                    rounded-xl text-sm font-semibold transition-colors"
                       >
                         Appliquer
-                      </button>
-                    </div>
+                      &lt;/button>
+                    &lt;/div>
                   )}
-                  {promoError && (
-                    <p className="text-red-500 text-xs mt-1">{promoError}</p>
+                  {promoError &amp;&amp; (
+                    &lt;p className="text-red-500 text-xs mt-1">{promoError}&lt;/p>
                   )}
-                </div>
+                &lt;/div>
 
                 {/* Calculs */}
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-gray-600">
-                    <span>Sous-total</span>
-                    <span>{subtotal.toLocaleString('fr-FR')} FCFA</span>
-                  </div>
-                  {discount > 0 && (
-                    <div className="flex justify-between text-brand">
-                      <span>Réduction</span>
-                      <span>-{discount.toLocaleString('fr-FR')} FCFA</span>
-                    </div>
+                &lt;div className="space-y-3 mb-6">
+                  &lt;div className="flex justify-between text-gray-600">
+                    &lt;span>Sous-total&lt;/span>
+                    &lt;span>{subtotal.toLocaleString('fr-FR')} FCFA&lt;/span>
+                  &lt;/div>
+                  {discount > 0 &amp;&amp; (
+                    &lt;div className="flex justify-between text-brand">
+                      &lt;span>Réduction&lt;/span>
+                      &lt;span>-{discount.toLocaleString('fr-FR')} FCFA&lt;/span>
+                    &lt;/div>
                   )}
-                  <div className="flex justify-between text-gray-600">
-                    <span>Livraison</span>
-                    <span>{shipping === 0 ? 'Gratuite' : shipping.toLocaleString('fr-FR') + ' FCFA'}</span>
-                  </div>
-                  {shipping > 0 && (
-                    <p className="text-xs text-gray-500">
+                  &lt;div className="flex justify-between text-gray-600">
+                    &lt;span>Livraison&lt;/span>
+                    &lt;span>{shipping === 0 ? 'Gratuite' : shipping.toLocaleString('fr-FR') + ' FCFA'}&lt;/span>
+                  &lt;/div>
+                  {shipping > 0 &amp;&amp; (
+                    &lt;p className="text-xs text-gray-500">
                       Livraison gratuite dès 20 000 FCFA
-                    </p>
+                    &lt;/p>
                   )}
-                  <div className="border-t border-gray-200 pt-3 flex justify-between">
-                    <span className="font-bold text-gray-900">Total</span>
-                    <span className="font-bold text-xl text-gray-900">
+                  &lt;div className="border-t border-gray-200 pt-3 flex justify-between">
+                    &lt;span className="font-bold text-gray-900">Total&lt;/span>
+                    &lt;span className="font-bold text-xl text-gray-900">
                       {total.toLocaleString('fr-FR')} FCFA
-                    </span>
-                  </div>
-                </div>
+                    &lt;/span>
+                  &lt;/div>
+                &lt;/div>
 
                 {/* Bouton commander */}
-                <Link
+                &lt;Link
                   to="/auth"
                   className="w-full bg-brand hover:bg-brand-hover text-white font-bold
                              py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mb-4"
                 >
-                  Passer la commande <ArrowRight size={18} />
-                </Link>
+                  Passer la commande &lt;ArrowRight size={18} />
+                &lt;/Link>
 
                 {/* Garanties */}
-                <div className="space-y-3 pt-4 border-t border-gray-200">
+                &lt;div className="space-y-3 pt-4 border-t border-gray-200">
                   {[
                     { icon: Truck, text: 'Livraison rapide partout au Togo' },
                     { icon: Shield, text: 'Paiement 100% sécurisé' },
                     { icon: RefreshCw, text: 'Retour gratuit sous 14 jours' }
                   ].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-3 text-sm text-gray-600">
-                      <Icon size={16} className="text-brand shrink-0" />
+                    &lt;div key={text} className="flex items-center gap-3 text-sm text-gray-600">
+                      &lt;Icon size={16} className="text-brand shrink-0" />
                       {text}
-                    </div>
+                    &lt;/div>
                   ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
+                &lt;/div>
+              &lt;/div>
+            &lt;/motion.div>
+          &lt;/div>
         )}
-      </main>
+      &lt;/main>
 
-      <Footer />
-    </div>
+      &lt;Footer />
+    &lt;/div>
   )
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-README.html">README</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CartItem">CartItem</a></li><li><a href="global.html#ImageGallery">ImageGallery</a></li><li><a href="global.html#InfoCard">InfoCard</a></li><li><a href="global.html#ProductCard">ProductCard</a></li><li><a href="global.html#ReviewCard">ReviewCard</a></li><li><a href="global.html#StatCard">StatCard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Jun 18 2026 14:27:53 GMT+0000 (heure moyenne de Greenwich)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

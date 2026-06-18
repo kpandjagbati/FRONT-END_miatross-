@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CategoriesPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CategoriesPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Page de catégories et produits
  * @description Affiche les produits par catégories avec filtrage, recherche et tri.
  * Permet la navigation entre catégories, la recherche de produits et le tri par prix/note.
@@ -18,11 +46,11 @@ import { useShop } from '../../context/ShopContext'
 
 const CATEGORIES = [
   { key: 'tous', label: 'Tous les produits', icon: LayoutGrid, count: CATEGORY_COUNTS.tous },
-  { key: 'mode', label: 'Mode & Accessoires', icon: Footprints, count: CATEGORY_COUNTS.mode },
+  { key: 'mode', label: 'Mode &amp; Accessoires', icon: Footprints, count: CATEGORY_COUNTS.mode },
   { key: 'electronique', label: 'Électronique', icon: Plug, count: CATEGORY_COUNTS.electronique },
-  { key: 'maison', label: 'Maison & Bureau', icon: Home, count: CATEGORY_COUNTS.maison },
-  { key: 'beaute', label: 'Beauté & Santé', icon: Sparkles, count: CATEGORY_COUNTS.beaute },
-  { key: 'sport', label: 'Sports & Loisirs', icon: Dumbbell, count: CATEGORY_COUNTS.sport },
+  { key: 'maison', label: 'Maison &amp; Bureau', icon: Home, count: CATEGORY_COUNTS.maison },
+  { key: 'beaute', label: 'Beauté &amp; Santé', icon: Sparkles, count: CATEGORY_COUNTS.beaute },
+  { key: 'sport', label: 'Sports &amp; Loisirs', icon: Dumbbell, count: CATEGORY_COUNTS.sport },
 ]
 
 /**
@@ -42,7 +70,7 @@ const CATEGORIES = [
  * @param {string} props.categoryLabel - Libellé de la catégorie
  * @returns {JSX.Element} Carte produit animée avec boutons d'action
  * @example
- * <ProductCard product={product} index={0} categoryLabel="Électronique" />
+ * &lt;ProductCard product={product} index={0} categoryLabel="Électronique" />
  */
 // ── Composant carte produit ─────────────────────────────────────────────────
 function ProductCard({ product, index, categoryLabel }) {
@@ -62,30 +90,30 @@ function ProductCard({ product, index, categoryLabel }) {
   }
 
   return (
-    <motion.div
+    &lt;motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
       onClick={handleOpenDetails}
-      onKeyDown={e => e.key === 'Enter' && handleOpenDetails()}
+      onKeyDown={e => e.key === 'Enter' &amp;&amp; handleOpenDetails()}
       role="button"
       tabIndex={0}
       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl
                  transition-shadow duration-300 flex flex-col h-full cursor-pointer"
     >
-      <ProductImageFrame
+      &lt;ProductImageFrame
         src={product.img}
         alt={product.name}
         imgClassName="group-hover:scale-105 transition-transform duration-300"
         className="group"
       >
         {/* Badge stock */}
-        <div className="absolute top-3 left-3 bg-brand text-white text-xs
+        &lt;div className="absolute top-3 left-3 bg-brand text-white text-xs
                         font-bold px-3 py-1 rounded-full inline-flex items-center gap-1">
-          <Check size={12} /> {product.inStock} en stock
-        </div>
+          &lt;Check size={12} /> {product.inStock} en stock
+        &lt;/div>
         {/* Favori */}
-        <button
+        &lt;button
           type="button"
           onClick={e => {
             e.stopPropagation()
@@ -95,62 +123,62 @@ function ProductCard({ product, index, categoryLabel }) {
                      hover:bg-gray-50 transition-colors border border-gray-100"
           aria-label={isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
         >
-          <Heart
+          &lt;Heart
             size={18}
             className={isFav ? 'fill-red-500 text-red-500' : 'text-gray-400'}
           />
-        </button>
-      </ProductImageFrame>
+        &lt;/button>
+      &lt;/ProductImageFrame>
 
       {/* Contenu */}
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 flex-1">
+      &lt;div className="p-4 flex flex-col flex-1">
+        &lt;h3 className="text-sm font-bold text-gray-900 line-clamp-2 flex-1">
           {product.name}
-        </h3>
+        &lt;/h3>
 
         {/* Rating */}
-        <div className="flex items-center gap-1 mt-3">
-          <div className="flex text-yellow-400">
+        &lt;div className="flex items-center gap-1 mt-3">
+          &lt;div className="flex text-yellow-400">
             {new Array(5).fill(0).map((_, i) => (
-              <Star
+              &lt;Star
                 key={`star-${i}`}
                 size={14}
-                className={i < Math.floor(product.rating) ? 'fill-current' : ''}
+                className={i &lt; Math.floor(product.rating) ? 'fill-current' : ''}
               />
             ))}
-          </div>
-          <span className="text-xs text-gray-600">
+          &lt;/div>
+          &lt;span className="text-xs text-gray-600">
             {product.reviews}
-          </span>
-        </div>
+          &lt;/span>
+        &lt;/div>
 
         {/* Prix */}
-        <div className="mt-4 mb-4">
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-gray-900">
+        &lt;div className="mt-4 mb-4">
+          &lt;div className="flex items-center gap-2">
+            &lt;span className="text-lg font-bold text-gray-900">
               {product.price.toLocaleString()} FCFA
-            </span>
-            {product.oldPrice && (
-              <span className="text-sm text-gray-500 line-through">
+            &lt;/span>
+            {product.oldPrice &amp;&amp; (
+              &lt;span className="text-sm text-gray-500 line-through">
                 {product.oldPrice.toLocaleString()}
-              </span>
+              &lt;/span>
             )}
-          </div>
-        </div>
+          &lt;/div>
+        &lt;/div>
 
         {/* Bouton panier */}
-        <button
+        &lt;button
           type="button"
           onClick={handleAddToCart}
           className="w-full bg-brand hover:bg-brand-hover text-white
                      font-bold py-2 rounded-xl transition-colors flex items-center
                      justify-center gap-2 text-sm"
         >
-          <ShoppingCart size={16} />
+          &lt;ShoppingCart size={16} />
           {addedFeedback ? 'Ajouté !' : 'Ajouter'}
-        </button>
-      </div>
-    </motion.div>
+        &lt;/button>
+      &lt;/div>
+    &lt;/motion.div>
   )
 }
 
@@ -171,7 +199,7 @@ export default function CategoriesPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const catParam = searchParams.get('cat')
   const queryParam = searchParams.get('q') ?? ''
-  const initialCategory = catParam && PRODUCTS_BY_CATEGORY[catParam] ? catParam : 'tous'
+  const initialCategory = catParam &amp;&amp; PRODUCTS_BY_CATEGORY[catParam] ? catParam : 'tous'
 
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [searchQuery, setSearchQuery] = useState(queryParam)
@@ -186,9 +214,9 @@ export default function CategoriesPage() {
   }, [searchParams])
 
   useEffect(() => {
-    if (catParam && PRODUCTS_BY_CATEGORY[catParam]) {
+    if (catParam &amp;&amp; PRODUCTS_BY_CATEGORY[catParam]) {
       setSelectedCategory(catParam)
-    } else if (queryParam && !catParam) {
+    } else if (queryParam &amp;&amp; !catParam) {
       setSelectedCategory('tous')
     }
   }, [catParam, queryParam])
@@ -240,38 +268,38 @@ export default function CategoriesPage() {
   const categoryData = CATEGORIES.find(c => c.key === selectedCategory)
 
   return (
-    <div className="min-h-dvh bg-gray-50">
-      <Navbar />
+    &lt;div className="min-h-dvh bg-gray-50">
+      &lt;Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      &lt;main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+        &lt;motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          &lt;h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
             Toutes les catégories
-          </h1>
-          <p className="text-gray-600 text-lg">
+          &lt;/h1>
+          &lt;p className="text-gray-600 text-lg">
             {searchQuery.trim()
               ? `Résultats pour « ${searchQuery.trim()} »`
               : `Explorez nos ${categoryData?.count.toLocaleString()} produits de qualité`}
-          </p>
-        </motion.div>
+          &lt;/p>
+        &lt;/motion.div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        &lt;div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar filtres */}
-          <motion.div
+          &lt;motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-1"
           >
-            <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-20">
+            &lt;div className="bg-white rounded-2xl p-6 shadow-sm sticky top-20">
               {/* Recherche */}
-              <div className="mb-6">
-                <label htmlFor="search-input" className="block text-sm font-bold text-gray-900 mb-3">
+              &lt;div className="mb-6">
+                &lt;label htmlFor="search-input" className="block text-sm font-bold text-gray-900 mb-3">
                   Rechercher
-                </label>
-                <div className="relative">
-                  <Search size={18} className="absolute left-3 top-3 text-gray-400" />
-                  <input
+                &lt;/label>
+                &lt;div className="relative">
+                  &lt;Search size={18} className="absolute left-3 top-3 text-gray-400" />
+                  &lt;input
                     id="search-input"
                     type="text"
                     placeholder="Nom du produit…"
@@ -281,19 +309,19 @@ export default function CategoriesPage() {
                                rounded-xl outline-none focus:border-brand
                                focus:ring-2 focus:ring-brand/20"
                   />
-                </div>
-              </div>
+                &lt;/div>
+              &lt;/div>
 
               {/* Catégories */}
-              <div className="mb-6 pb-6 border-b border-gray-200">
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+              &lt;div className="mb-6 pb-6 border-b border-gray-200">
+                &lt;label className="block text-sm font-bold text-gray-900 mb-3">
                   Catégories
-                </label>
-                <div className="space-y-2">
+                &lt;/label>
+                &lt;div className="space-y-2">
                   {CATEGORIES.map(cat => {
                     const CatIcon = cat.icon
                     return (
-                    <button
+                    &lt;button
                       key={cat.key}
                       onClick={() => setSelectedCategory(cat.key)}
                       className={`w-full text-left px-4 py-2.5 rounded-lg font-medium
@@ -302,25 +330,25 @@ export default function CategoriesPage() {
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
-                      <span className="flex justify-between items-center gap-2">
-                        <span className="inline-flex items-center gap-2">
-                          {CatIcon && <CatIcon size={16} className="shrink-0" />}
+                      &lt;span className="flex justify-between items-center gap-2">
+                        &lt;span className="inline-flex items-center gap-2">
+                          {CatIcon &amp;&amp; &lt;CatIcon size={16} className="shrink-0" />}
                           {cat.label}
-                        </span>
-                        <span className="text-xs opacity-70">({cat.count})</span>
-                      </span>
-                    </button>
+                        &lt;/span>
+                        &lt;span className="text-xs opacity-70">({cat.count})&lt;/span>
+                      &lt;/span>
+                    &lt;/button>
                     )
                   })}
-                </div>
-              </div>
+                &lt;/div>
+              &lt;/div>
 
               {/* Tri */}
-              <div>
-                <label htmlFor="sort-select" className="block text-sm font-bold text-gray-900 mb-3">
+              &lt;div>
+                &lt;label htmlFor="sort-select" className="block text-sm font-bold text-gray-900 mb-3">
                   Trier par
-                </label>
-                <select
+                &lt;/label>
+                &lt;select
                   id="sort-select"
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
@@ -329,52 +357,75 @@ export default function CategoriesPage() {
                              focus:ring-brand/20 text-sm cursor-pointer
                              bg-white text-gray-900"
                 >
-                  <option value="popular">Populaires</option>
-                  <option value="price-low">Prix (bas au haut)</option>
-                  <option value="price-high">Prix (haut au bas)</option>
-                  <option value="rating">Meilleures notes</option>
-                </select>
-              </div>
-            </div>
-          </motion.div>
+                  &lt;option value="popular">Populaires&lt;/option>
+                  &lt;option value="price-low">Prix (bas au haut)&lt;/option>
+                  &lt;option value="price-high">Prix (haut au bas)&lt;/option>
+                  &lt;option value="rating">Meilleures notes&lt;/option>
+                &lt;/select>
+              &lt;/div>
+            &lt;/div>
+          &lt;/motion.div>
 
           {/* Grille produits */}
-          <motion.div
+          &lt;motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="lg:col-span-3"
           >
             {/* Résultats */}
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-gray-600">
-                <span className="font-bold text-gray-900">{sortedProducts.length}</span> produits
-                {searchQuery && ' trouvés'}
-              </p>
-            </div>
+            &lt;div className="mb-6 flex items-center justify-between">
+              &lt;p className="text-sm text-gray-600">
+                &lt;span className="font-bold text-gray-900">{sortedProducts.length}&lt;/span> produits
+                {searchQuery &amp;&amp; ' trouvés'}
+              &lt;/p>
+            &lt;/div>
 
             {sortedProducts.length > 0 ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              &lt;div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sortedProducts.map((product, index) => (
-                  <ProductCard
+                  &lt;ProductCard
                     key={product.id}
                     product={product}
                     index={index}
                     categoryLabel={product.category || (selectedCategory !== 'tous' ? CATEGORY_LABELS[selectedCategory] : undefined)}
                   />
                 ))}
-              </div>
+              &lt;/div>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-xl text-gray-600 mb-2">Aucun produit trouvé</p>
-                <p className="text-gray-500">Essayez de modifier vos filtres ou votre recherche</p>
-              </div>
+              &lt;div className="text-center py-16">
+                &lt;p className="text-xl text-gray-600 mb-2">Aucun produit trouvé&lt;/p>
+                &lt;p className="text-gray-500">Essayez de modifier vos filtres ou votre recherche&lt;/p>
+              &lt;/div>
             )}
-          </motion.div>
-        </div>
-      </main>
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/main>
 
-      <Footer />
-    </div>
+      &lt;Footer />
+    &lt;/div>
   )
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-README.html">README</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CartItem">CartItem</a></li><li><a href="global.html#ImageGallery">ImageGallery</a></li><li><a href="global.html#InfoCard">InfoCard</a></li><li><a href="global.html#ProductCard">ProductCard</a></li><li><a href="global.html#ReviewCard">ReviewCard</a></li><li><a href="global.html#StatCard">StatCard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Thu Jun 18 2026 14:27:53 GMT+0000 (heure moyenne de Greenwich)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
