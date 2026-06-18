@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Plus, Store } from 'lucide-react'
 import AdminPageHeader from './components/AdminPageHeader'
 import StatCard from './components/StatCard'
-import SimpleDonutChart from './components/SimpleDonutChart'
+import SimpleDonutChart from '../../components/SimpleDonutChart'
 import { fetchAdminDashboard } from '../../services/api/dashboardApi'
 import { buildStatutChart, formatPrice, formatStatut, statutToBadgeClass } from '../../utils/backendHelpers'
 

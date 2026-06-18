@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import AdminPageHeader from './components/AdminPageHeader'
 import StatCard from './components/StatCard'
-import SimpleDonutChart from './components/SimpleDonutChart'
+import SimpleDonutChart from '../../components/SimpleDonutChart'
 import SimpleLineChart from './components/SimpleLineChart'
 import { fetchAdminDashboard } from '../../services/api/dashboardApi'
 import { buildStatutChart, buildStatutTrendData, formatPrice } from '../../utils/backendHelpers'

@@ -69,19 +69,24 @@ function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
         {/* Quantité */}
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={decreaseQty}
-            className="w-8 h-8 rounded-lg border border-gray-300 flex items-center
+            className="w-8 h-8 rounded-lg border border-gray-300 text-gray-800 flex items-center
                        justify-center hover:border-brand hover:text-brand transition-all"
           >
             <Minus size={16} />
           </button>
-          <span className="w-10 text-center font-semibold">{item.quantity}</span>
+          <span className="w-10 text-center font-semibold text-gray-900 tabular-nums">
+            {item.quantity}
+          </span>
           <button
+            type="button"
             onClick={increaseQty}
             disabled={item.quantity >= item.stock}
-            className="w-8 h-8 rounded-lg border border-gray-300 flex items-center
+            className="w-8 h-8 rounded-lg border border-gray-300 text-gray-800 flex items-center
                        justify-center hover:border-brand hover:text-brand
-                       transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                       transition-all disabled:opacity-60 disabled:text-gray-400
+                       disabled:border-gray-200 disabled:cursor-not-allowed"
           >
             <Plus size={16} />
           </button>

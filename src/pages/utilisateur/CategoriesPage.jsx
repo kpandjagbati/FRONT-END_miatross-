@@ -45,7 +45,7 @@ function ProductCard({ product, index, categoryLabel }) {
       role="button"
       tabIndex={0}
       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl
-                 transition-shadow duration-300 flex flex-col cursor-pointer"
+                 transition-shadow duration-300 flex flex-col h-full cursor-pointer"
     >
       <ProductImageFrame
         src={product.img}

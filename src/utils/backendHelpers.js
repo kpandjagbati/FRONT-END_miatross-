@@ -105,12 +105,13 @@ export function buildStatutChart(produitsParStatut) {
     VENDU: '#4a6fa5',
   }
 
-  const entries = Object.entries(produitsParStatut || {})
+  const entries = Object.entries(produitsParStatut || {}).filter(([, value]) => value > 0)
   const total = entries.reduce((sum, [, v]) => sum + v, 0) || 1
 
   return entries.map(([label, value]) => ({
     label: formatStatut(label),
     value: Math.round((value / total) * 100),
+    count: value,
     color: colors[label] || '#94a3b8',
   }))
 }

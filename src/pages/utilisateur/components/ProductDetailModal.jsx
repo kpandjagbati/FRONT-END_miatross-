@@ -193,17 +193,22 @@ export default function ProductDetailModal() {
                     <button
                       type="button"
                       onClick={decreaseQty}
-                      className="w-10 h-10 rounded-lg border border-gray-300 flex items-center
+                      className="w-10 h-10 rounded-lg border border-gray-300 text-gray-800 flex items-center
                                  justify-center hover:border-brand hover:text-brand transition-all"
                     >
                       <Minus size={18} />
                     </button>
-                    <span className="w-12 text-center font-semibold text-lg">{quantity}</span>
+                    <span className="w-12 text-center font-semibold text-lg text-gray-900 tabular-nums">
+                      {quantity}
+                    </span>
                     <button
                       type="button"
                       onClick={increaseQty}
-                      className="w-10 h-10 rounded-lg border border-gray-300 flex items-center
-                                 justify-center hover:border-brand hover:text-brand transition-all"
+                      disabled={quantity >= stock}
+                      className="w-10 h-10 rounded-lg border border-gray-300 text-gray-800 flex items-center
+                                 justify-center hover:border-brand hover:text-brand transition-all
+                                 disabled:opacity-60 disabled:text-gray-400 disabled:border-gray-200
+                                 disabled:cursor-not-allowed"
                     >
                       <Plus size={18} />
                     </button>

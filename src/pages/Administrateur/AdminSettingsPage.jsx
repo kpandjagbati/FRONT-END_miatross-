@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react'
+import { Settings } from 'lucide-react'
 import AdminPageHeader from './components/AdminPageHeader'
 import { fetchCurrentUser, updateCurrentUser } from '../../services/api/utilisateurApi'
+import {
+  DashboardFormActions,
+  DashboardFormAlert,
+  DashboardFormCard,
+  DashboardFormField,
+  DashboardFormPage,
+  DashboardFormSection,
+  DashboardSubmitButton,
+  dashboardInputClass,
+} from '../../components/dashboard/DashboardForm'
 
 export default function AdminSettingsPage() {
   const [form, setForm] = useState({
@@ -51,61 +62,89 @@ export default function AdminSettingsPage() {
   if (loading) return <p className="text-gray-500 text-center py-12">Chargement…</p>
 
   return (
-    <div>
+    <DashboardFormPage>
       <AdminPageHeader title="Paramètres" description="Configuration de votre compte administrateur" />
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm max-w-xl space-y-4">
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {success && <p className="text-brand text-sm">{success}</p>}
+      <DashboardFormCard
+        icon={Settings}
+        title="Mon compte"
+        description="Mettez à jour vos informations et votre mot de passe"
+        onSubmit={handleSubmit}
+      >
+        <DashboardFormAlert type="error">{error}</DashboardFormAlert>
+        <DashboardFormAlert type="success">{success}</DashboardFormAlert>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Prénom</label>
-            <input value={form.prenom_utilisateur}
-              onChange={e => setForm(f => ({ ...f, prenom_utilisateur: e.target.value }))}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
+        <DashboardFormSection title="Identité">
+          <div className="grid sm:grid-cols-2 gap-3">
+            <DashboardFormField label="Prénom" htmlFor="admin-prenom" required>
+              <input
+                id="admin-prenom"
+                value={form.prenom_utilisateur}
+                onChange={e => setForm(f => ({ ...f, prenom_utilisateur: e.target.value }))}
+                className={dashboardInputClass}
+              />
+            </DashboardFormField>
+            <DashboardFormField label="Nom" htmlFor="admin-nom" required>
+              <input
+                id="admin-nom"
+                value={form.nom_utilisateur}
+                onChange={e => setForm(f => ({ ...f, nom_utilisateur: e.target.value }))}
+                className={dashboardInputClass}
+              />
+            </DashboardFormField>
           </div>
-          <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Nom</label>
-            <input value={form.nom_utilisateur}
-              onChange={e => setForm(f => ({ ...f, nom_utilisateur: e.target.value }))}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-          </div>
-        </div>
+        </DashboardFormSection>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Email</label>
-          <input type="email" value={form.mail_utilisateur}
-            onChange={e => setForm(f => ({ ...f, mail_utilisateur: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
+        <DashboardFormSection title="Contact">
+          <DashboardFormField label="Email" htmlFor="admin-email">
+            <input
+              id="admin-email"
+              type="email"
+              value={form.mail_utilisateur}
+              onChange={e => setForm(f => ({ ...f, mail_utilisateur: e.target.value }))}
+              className={dashboardInputClass}
+            />
+          </DashboardFormField>
+          <DashboardFormField label="Téléphone" htmlFor="admin-tel">
+            <input
+              id="admin-tel"
+              value={form.telephone_urilisateur}
+              onChange={e => setForm(f => ({ ...f, telephone_urilisateur: e.target.value }))}
+              className={dashboardInputClass}
+            />
+          </DashboardFormField>
+          <DashboardFormField label="Résidence" htmlFor="admin-residence">
+            <input
+              id="admin-residence"
+              value={form.residence_utilisateur}
+              onChange={e => setForm(f => ({ ...f, residence_utilisateur: e.target.value }))}
+              className={dashboardInputClass}
+            />
+          </DashboardFormField>
+        </DashboardFormSection>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Téléphone</label>
-          <input value={form.telephone_urilisateur}
-            onChange={e => setForm(f => ({ ...f, telephone_urilisateur: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
+        <DashboardFormSection
+          title="Sécurité"
+          description="Laissez vide pour conserver le mot de passe actuel"
+        >
+          <DashboardFormField label="Nouveau mot de passe" htmlFor="admin-password" hint="Minimum 6 caractères">
+            <input
+              id="admin-password"
+              type="password"
+              value={form.Password_utilisateur}
+              onChange={e => setForm(f => ({ ...f, Password_utilisateur: e.target.value }))}
+              className={dashboardInputClass}
+              autoComplete="new-password"
+            />
+          </DashboardFormField>
+        </DashboardFormSection>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Résidence</label>
-          <input value={form.residence_utilisateur}
-            onChange={e => setForm(f => ({ ...f, residence_utilisateur: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Nouveau mot de passe</label>
-          <input type="password" value={form.Password_utilisateur}
-            onChange={e => setForm(f => ({ ...f, Password_utilisateur: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
-
-        <button type="submit" disabled={saving}
-          className="bg-brand hover:bg-brand-hover disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-xl">
-          {saving ? 'Enregistrement…' : 'Enregistrer'}
-        </button>
-      </form>
-    </div>
+        <DashboardFormActions>
+          <DashboardSubmitButton loading={saving} loadingLabel="Enregistrement…">
+            Enregistrer
+          </DashboardSubmitButton>
+        </DashboardFormActions>
+      </DashboardFormCard>
+    </DashboardFormPage>
   )
 }

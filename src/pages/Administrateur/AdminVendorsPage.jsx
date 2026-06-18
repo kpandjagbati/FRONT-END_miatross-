@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, Store, UserPlus } from 'lucide-react'
 import AdminPageHeader from './components/AdminPageHeader'
 import { createVendeur, fetchVendeurs, getUtilisateurLogin } from '../../services/api/utilisateurApi'
+import {
+  DashboardFormActions,
+  DashboardFormAlert,
+  DashboardFormCard,
+  DashboardFormField,
+  DashboardFormSection,
+  DashboardSubmitButton,
+  dashboardInputClass,
+} from '../../components/dashboard/DashboardForm'
 
 const EMPTY_FORM = {
   prenom: '',
@@ -85,103 +94,119 @@ export default function AdminVendorsPage() {
         description="Créez un compte vendeur ou consultez la liste des vendeurs inscrits"
       />
 
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
-      {success && (
-        <div className="mb-4 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800">
-          {success}
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 shadow-sm"
-      >
-        <h2 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Plus size={16} className="text-brand" />
-          Créer un vendeur
-        </h2>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Prénom</label>
-            <input
-              value={form.prenom}
-              required
-              onChange={e => setForm(f => ({ ...f, prenom: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Nom</label>
-            <input
-              value={form.nom}
-              required
-              onChange={e => setForm(f => ({ ...f, nom: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Nom d'utilisateur</label>
-            <input
-              value={form.login}
-              required
-              onChange={e => setForm(f => ({ ...f, login: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Email</label>
-            <input
-              type="email"
-              value={form.email}
-              onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Téléphone</label>
-            <input
-              value={form.telephone}
-              required
-              onChange={e => setForm(f => ({ ...f, telephone: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Mot de passe</label>
-            <input
-              type="password"
-              value={form.password}
-              required
-              minLength={6}
-              onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Confirmer le mot de passe</label>
-            <input
-              type="password"
-              value={form.confirm}
-              required
-              minLength={6}
-              onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand"
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={submitting}
-          className="bg-brand hover:bg-brand-hover disabled:opacity-60 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2"
+      <div className="max-w-3xl mx-auto w-full mb-4">
+        <DashboardFormCard
+          icon={UserPlus}
+          title="Créer un vendeur"
+          description="Le vendeur pourra se connecter et publier des produits immédiatement"
+          maxWidth="3xl"
+          onSubmit={handleSubmit}
         >
-          <Plus size={16} />
-          {submitting ? 'Création…' : 'Créer le vendeur'}
-        </button>
-      </form>
+          <DashboardFormAlert type="error">{error}</DashboardFormAlert>
+          <DashboardFormAlert type="success">{success}</DashboardFormAlert>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <DashboardFormSection title="Identité">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <DashboardFormField label="Prénom" htmlFor="v-prenom" required>
+                <input
+                  id="v-prenom"
+                  value={form.prenom}
+                  required
+                  onChange={e => setForm(f => ({ ...f, prenom: e.target.value }))}
+                  className={dashboardInputClass}
+                />
+              </DashboardFormField>
+              <DashboardFormField label="Nom" htmlFor="v-nom" required>
+                <input
+                  id="v-nom"
+                  value={form.nom}
+                  required
+                  onChange={e => setForm(f => ({ ...f, nom: e.target.value }))}
+                  className={dashboardInputClass}
+                />
+              </DashboardFormField>
+            </div>
+          </DashboardFormSection>
+
+          <DashboardFormSection title="Connexion">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <DashboardFormField label="Nom d'utilisateur" htmlFor="v-login" required>
+                <input
+                  id="v-login"
+                  value={form.login}
+                  required
+                  onChange={e => setForm(f => ({ ...f, login: e.target.value }))}
+                  className={dashboardInputClass}
+                />
+              </DashboardFormField>
+              <DashboardFormField label="Email" htmlFor="v-email">
+                <input
+                  id="v-email"
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  className={dashboardInputClass}
+                />
+              </DashboardFormField>
+              <DashboardFormField label="Téléphone" htmlFor="v-tel" required className="sm:col-span-2">
+                <input
+                  id="v-tel"
+                  value={form.telephone}
+                  required
+                  onChange={e => setForm(f => ({ ...f, telephone: e.target.value }))}
+                  className={dashboardInputClass}
+                />
+              </DashboardFormField>
+            </div>
+          </DashboardFormSection>
+
+          <DashboardFormSection title="Sécurité" description="Minimum 6 caractères">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <DashboardFormField label="Mot de passe" htmlFor="v-password" required>
+                <input
+                  id="v-password"
+                  type="password"
+                  value={form.password}
+                  required
+                  minLength={6}
+                  onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+                  className={dashboardInputClass}
+                  autoComplete="new-password"
+                />
+              </DashboardFormField>
+              <DashboardFormField label="Confirmer le mot de passe" htmlFor="v-confirm" required>
+                <input
+                  id="v-confirm"
+                  type="password"
+                  value={form.confirm}
+                  required
+                  minLength={6}
+                  onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))}
+                  className={dashboardInputClass}
+                  autoComplete="new-password"
+                />
+              </DashboardFormField>
+            </div>
+          </DashboardFormSection>
+
+          <DashboardFormActions>
+            <DashboardSubmitButton loading={submitting} loadingLabel="Création…">
+              <span className="inline-flex items-center gap-2">
+                <Plus size={16} />
+                Créer le vendeur
+              </span>
+            </DashboardSubmitButton>
+          </DashboardFormActions>
+        </DashboardFormCard>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-brand/5 via-white to-white">
+          <h2 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+            <Store size={16} className="text-brand" />
+            Vendeurs inscrits
+          </h2>
+        </div>
         {loading ? (
           <p className="p-8 text-center text-gray-500">Chargement…</p>
         ) : (

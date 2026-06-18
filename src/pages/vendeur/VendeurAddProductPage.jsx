@@ -1,8 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PackagePlus } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'
 import { createProduit } from '../../services/api/produitApi'
 import { fetchCategories } from '../../services/api/categorieApi'
+import {
+  DashboardFormActions,
+  DashboardFormAlert,
+  DashboardFormCard,
+  DashboardFormField,
+  DashboardFormPage,
+  DashboardFormSection,
+  DashboardFileInput,
+  DashboardSubmitButton,
+  dashboardInputClass,
+  dashboardSelectClass,
+  dashboardTextareaClass,
+} from '../../components/dashboard/DashboardForm'
 
 export default function VendeurAddProductPage() {
   const navigate = useNavigate()
@@ -43,59 +57,89 @@ export default function VendeurAddProductPage() {
   }
 
   return (
-    <div>
+    <DashboardFormPage>
       <VendeurPageHeader title="Ajouter un produit" description="Le produit sera publié immédiatement dans la boutique" />
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm max-w-xl space-y-4">
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+      <DashboardFormCard
+        icon={PackagePlus}
+        title="Nouveau produit"
+        description="Renseignez les informations de votre article"
+        onSubmit={handleSubmit}
+      >
+        <DashboardFormAlert type="error">{error}</DashboardFormAlert>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Nom du produit</label>
-          <input required value={form.nom_produit}
-            onChange={e => setForm(f => ({ ...f, nom_produit: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
+        <DashboardFormSection title="Détails du produit">
+          <DashboardFormField label="Nom du produit" htmlFor="produit-nom" required>
+            <input
+              id="produit-nom"
+              required
+              value={form.nom_produit}
+              onChange={e => setForm(f => ({ ...f, nom_produit: e.target.value }))}
+              className={dashboardInputClass}
+              placeholder="Ex. Casque Bluetooth JBL"
+            />
+          </DashboardFormField>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Description</label>
-          <textarea rows={3} value={form.description}
-            onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand resize-none" />
-        </div>
+          <DashboardFormField label="Description" htmlFor="produit-desc">
+            <textarea
+              id="produit-desc"
+              rows={3}
+              value={form.description}
+              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              className={dashboardTextareaClass}
+              placeholder="Décrivez votre produit en quelques lignes…"
+            />
+          </DashboardFormField>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Prix (FCFA)</label>
-          <input required type="number" min="0" value={form.prix}
-            onChange={e => setForm(f => ({ ...f, prix: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <DashboardFormField label="Prix (FCFA)" htmlFor="produit-prix" required>
+              <input
+                id="produit-prix"
+                required
+                type="number"
+                min="0"
+                value={form.prix}
+                onChange={e => setForm(f => ({ ...f, prix: e.target.value }))}
+                className={dashboardInputClass}
+                placeholder="0"
+              />
+            </DashboardFormField>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Catégorie</label>
-          <select required value={form.categorieId}
-            onChange={e => setForm(f => ({ ...f, categorieId: e.target.value }))}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand bg-white">
-            <option value="">Choisir une catégorie</option>
-            {categories.map(c => (
-              <option key={c.idcategorie_produit} value={c.idcategorie_produit}>
-                {c.nom_categorieproduit}
-              </option>
-            ))}
-          </select>
-        </div>
+            <DashboardFormField label="Catégorie" htmlFor="produit-cat" required>
+              <select
+                id="produit-cat"
+                required
+                value={form.categorieId}
+                onChange={e => setForm(f => ({ ...f, categorieId: e.target.value }))}
+                className={dashboardSelectClass}
+              >
+                <option value="">Choisir une catégorie</option>
+                {categories.map(c => (
+                  <option key={c.idcategorie_produit} value={c.idcategorie_produit}>
+                    {c.nom_categorieproduit}
+                  </option>
+                ))}
+              </select>
+            </DashboardFormField>
+          </div>
+        </DashboardFormSection>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Image</label>
-          <input required type="file" accept="image/*"
+        <DashboardFormSection title="Image du produit">
+          <DashboardFileInput
+            id="produit-image"
+            label="Photo principale"
+            hint={image ? `Fichier sélectionné : ${image.name}` : 'Une image claire augmente vos ventes'}
+            required
             onChange={e => setImage(e.target.files?.[0] || null)}
-            className="w-full text-sm" />
-        </div>
+          />
+        </DashboardFormSection>
 
-        <button type="submit" disabled={loading}
-          className="w-full bg-brand hover:bg-brand-hover disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors">
-          {loading ? 'Publication…' : 'Publier le produit'}
-        </button>
-      </form>
-    </div>
+        <DashboardFormActions>
+          <DashboardSubmitButton loading={loading} loadingLabel="Publication…">
+            Publier le produit
+          </DashboardSubmitButton>
+        </DashboardFormActions>
+      </DashboardFormCard>
+    </DashboardFormPage>
   )
 }

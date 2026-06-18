@@ -41,9 +41,13 @@ export function AuthProvider({ children }) {
       setUser(mapped)
       return mapped
     } catch (err) {
+      const isNetworkError = err instanceof TypeError
+        || (err instanceof Error && /fetch|network|failed/i.test(err.message))
       const message = err instanceof ApiError
         ? err.message
-        : 'Impossible de joindre le serveur. Vérifiez que le backend est démarré.'
+        : isNetworkError
+          ? 'Impossible de joindre le serveur. Vérifiez que le backend tourne sur http://localhost:8080 et que CORS est configuré (redémarrez le backend après mise à jour).'
+          : 'Impossible de joindre le serveur. Vérifiez que le backend est démarré.'
       throw new Error(message)
     } finally {
       setLoading(false)

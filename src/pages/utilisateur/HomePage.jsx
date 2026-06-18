@@ -334,7 +334,7 @@ function ProductCard({ product }) {
       role="button"
       tabIndex={0}
       className="group relative bg-white rounded-2xl border border-gray-100
-                 shadow-sm overflow-hidden cursor-pointer"
+                 shadow-sm overflow-hidden cursor-pointer flex flex-col h-full"
     >
       <ProductImageFrame
         src={product.img}
@@ -633,6 +633,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 24, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: i * 0.06, duration: 0.4, ease: EASE }}
+                className="h-full"
               >
                 <ProductCard product={p} />
               </motion.div>

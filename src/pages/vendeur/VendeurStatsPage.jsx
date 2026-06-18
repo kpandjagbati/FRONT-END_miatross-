@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import VendeurPageHeader from './components/VendeurPageHeader'
 import StatCard from './components/StatCard'
-import SimpleDonutChart from './components/SimpleDonutChart'
+import SimpleDonutChart from '../../components/SimpleDonutChart'
 import SimpleLineChart from './components/SimpleLineChart'
 import { fetchVendeurDashboard } from '../../services/api/dashboardApi'
 import { buildStatutChart, buildStatutTrendData, formatPrice } from '../../utils/backendHelpers'

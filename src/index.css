@@ -90,6 +90,11 @@ textarea::placeholder {
   color: #9ca3af;
 }
 
+/* Boutons outline — évite le texte blanc hérité de DaisyUI sur fond clair */
+button.border-gray-300 {
+  color: #1f2937;
+}
+
 /* Dashboard admin / vendeur — contraste lisible sur fond clair */
 .dashboard-main {
   color: #111827;

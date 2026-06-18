@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { FolderPlus, Plus, Trash2 } from 'lucide-react'
 import AdminPageHeader from './components/AdminPageHeader'
 import { createCategory, deleteCategory, fetchCategories } from '../../services/api/categorieApi'
+import {
+  DashboardFormActions,
+  DashboardFormAlert,
+  DashboardFormCard,
+  DashboardFormField,
+  DashboardSubmitButton,
+  dashboardInputClass,
+} from '../../components/dashboard/DashboardForm'
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState([])
@@ -24,6 +32,7 @@ export default function AdminCategoriesPage() {
     try {
       await createCategory(form)
       setForm({ nom_categorieproduit: '', description: '' })
+      setError('')
       load()
     } catch (err) {
       setError(err.message)
@@ -43,27 +52,54 @@ export default function AdminCategoriesPage() {
   return (
     <div>
       <AdminPageHeader title="Catégories" description="Gestion des catégories produits" />
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 shadow-sm flex flex-wrap gap-3 items-end">
-        <div className="flex-1 min-w-[180px]">
-          <label className="text-xs font-medium text-gray-600 block mb-1">Nom</label>
-          <input value={form.nom_categorieproduit} required
-            onChange={e => setForm(f => ({ ...f, nom_categorieproduit: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
-        <div className="flex-1 min-w-[180px]">
-          <label className="text-xs font-medium text-gray-600 block mb-1">Description</label>
-          <input value={form.description}
-            onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-brand" />
-        </div>
-        <button type="submit" className="bg-brand hover:bg-brand-hover text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-          <Plus size={16} /> Ajouter
-        </button>
-      </form>
+      <div className="max-w-2xl mx-auto w-full mb-4">
+        <DashboardFormCard
+          icon={FolderPlus}
+          title="Ajouter une catégorie"
+          description="Les vendeurs pourront classer leurs produits dans ces catégories"
+          maxWidth="2xl"
+          onSubmit={handleSubmit}
+        >
+          <DashboardFormAlert type="error">{error}</DashboardFormAlert>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="grid sm:grid-cols-2 gap-3">
+            <DashboardFormField label="Nom" htmlFor="cat-nom" required>
+              <input
+                id="cat-nom"
+                value={form.nom_categorieproduit}
+                required
+                onChange={e => setForm(f => ({ ...f, nom_categorieproduit: e.target.value }))}
+                className={dashboardInputClass}
+                placeholder="Ex. Électronique"
+              />
+            </DashboardFormField>
+            <DashboardFormField label="Description" htmlFor="cat-desc">
+              <input
+                id="cat-desc"
+                value={form.description}
+                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                className={dashboardInputClass}
+                placeholder="Courte description"
+              />
+            </DashboardFormField>
+          </div>
+
+          <DashboardFormActions>
+            <DashboardSubmitButton>
+              <span className="inline-flex items-center gap-2">
+                <Plus size={16} />
+                Ajouter
+              </span>
+            </DashboardSubmitButton>
+          </DashboardFormActions>
+        </DashboardFormCard>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-brand/5 via-white to-white">
+          <h2 className="text-sm font-bold text-gray-900">Catégories existantes</h2>
+        </div>
         {loading ? (
           <p className="p-8 text-center text-gray-500">Chargement…</p>
         ) : (
@@ -83,12 +119,19 @@ export default function AdminCategoriesPage() {
                     <td className="px-5 py-3 text-gray-600">{c.description || '—'}</td>
                     <td className="px-5 py-3">
                       <button type="button" onClick={() => handleDelete(c.idcategorie_produit)}
-                        className="p-1.5 rounded-lg hover:bg-red-50 text-red-500">
+                        className="p-2 rounded-lg hover:bg-red-50 text-red-500 transition-colors">
                         <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>
                 ))}
+                {categories.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="px-5 py-8 text-center text-gray-500">
+                      Aucune catégorie. Ajoutez-en une ci-dessus.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
