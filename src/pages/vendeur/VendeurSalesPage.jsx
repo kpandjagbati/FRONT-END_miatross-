@@ -1,3 +1,17 @@
+/**
+ * VendeurSalesPage
+ * ───────────────
+ * Tableau de suivi des ventes du vendeur.
+ * Affiche les statistiques de performance :
+ * - Nombre total de ventes (produits VENDU)
+ * - Chiffre d'affaires cumulé
+ * - Panier moyen (CA / nombre de ventes)
+ * 
+ * Détail des ventes :
+ * - Tableau chronologique avec produit, date et montant
+ * - Montants affichés en FCFA avec mise en évidence
+ */
+
 import { useEffect, useState } from 'react'
 import VendeurPageHeader from './components/VendeurPageHeader'
 import StatCard from './components/StatCard'

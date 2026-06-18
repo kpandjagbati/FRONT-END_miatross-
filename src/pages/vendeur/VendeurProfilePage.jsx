@@ -1,3 +1,20 @@
+/**
+ * VendeurProfilePage
+ * ─────────────────
+ * Gestion du profil personnel du vendeur.
+ * Permet la modification des informations :
+ * - Identité : Prénom, Nom
+ * - Contact : Email, Téléphone, Adresse
+ * - Profil : Genre
+ * - Sécurité : Mot de passe (optionnel)
+ * 
+ * Processus :
+ * 1. Chargement des données utilisateur actuelles
+ * 2. Modification et validation du formulaire
+ * 3. Mise à jour via updateCurrentUser()
+ * 4. Feedback succès/erreur
+ */
+
 import { useEffect, useState } from 'react'
 import { User } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'

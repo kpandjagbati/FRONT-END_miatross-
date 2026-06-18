@@ -1,3 +1,21 @@
+/**
+ * VendeurReviewsPage
+ * ─────────────────
+ * Suivi des avis et produits refusés.
+ * Affiche les produits avec statut REFUSE :
+ * - Ces produits ont été rejetés par l'administrateur
+ * - Raison : Non-conformité aux règles de la plateforme
+ * 
+ * Actions recommandées :
+ * - Modifier le produit pour qu'il soit conforme
+ * - Ajouter un nouveau produit
+ * 
+ * Affichage :
+ * - Carte d'alerte par produit refusé
+ * - Icône AlertTriangle en rouge
+ * - Prix et statut visibles
+ */
+
 import { useEffect, useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'

@@ -1,3 +1,17 @@
+/**
+ * VendeurProductsPage
+ * ───────────────────
+ * Gestion complète des produits du vendeur.
+ * Affiche la liste de tous les produits publiés avec :
+ * - Nom, catégorie, prix et statut
+ * - Actions : marquer comme vendu, supprimer
+ * 
+ * Statuts possibles : ACTIF, EN_ATTENTE, REFUSE, VENDU
+ * Actions disponibles :
+ * - Supprimer un produit (avec confirmation)
+ * - Marquer un produit actif comme vendu
+ */
+
 import { useEffect, useState } from 'react'
 import { ShoppingBag, Trash2 } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'

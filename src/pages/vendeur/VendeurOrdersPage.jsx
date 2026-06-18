@@ -1,3 +1,19 @@
+/**
+ * VendeurOrdersPage
+ * ────────────────
+ * Affiche les commandes finalisées du vendeur.
+ * Correspond aux produits marqués comme VENDU.
+ * 
+ * Colonnes du tableau :
+ * - Référence commande (CMD-XXX)
+ * - Nom du produit
+ * - Date de vente
+ * - Montant de la transaction
+ * - Statut (VENDU)
+ * 
+ * Données : Filtrage des produits avec statut VENDU
+ */
+
 import { useEffect, useState } from 'react'
 import VendeurPageHeader from './components/VendeurPageHeader'
 import { fetchMesProduits } from '../../services/api/produitApi'

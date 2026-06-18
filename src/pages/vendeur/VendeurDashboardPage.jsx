@@ -1,3 +1,16 @@
+/**
+ * VendeurDashboardPage
+ * ─────────────────────
+ * Tableau de bord principal du vendeur.
+ * Affiche les statistiques clés :
+ * - Nombre de produits publiés et actifs
+ * - Produits en attente de validation
+ * - Ventes estimées
+ * - Tableau des produits récents avec leurs statuts
+ * 
+ * Données : Récupérées via fetchVendeurDashboard() au chargement
+ */
+
 import { useEffect, useState } from 'react'
 import StatCard from './components/StatCard'
 import VendeurPageHeader from './components/VendeurPageHeader'

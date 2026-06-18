@@ -1,3 +1,20 @@
+/**
+ * VendeurMessagesPage
+ * ──────────────────
+ * Centre de notifications du vendeur.
+ * Affiche les alertes générées automatiquement sur les produits :
+ * - Info : Nouveaux produits
+ * - Success : Produits approuvés
+ * - Error : Produits refusés ou problèmes
+ * 
+ * Types de notifications construites à partir du statut des produits :
+ * - EN_ATTENTE : Info
+ * - ACTIF : Success
+ * - REFUSE : Error
+ * 
+ * Données : Construites via buildProductNotifications() depuis fetchMesProduits()
+ */
+
 import { useEffect, useState } from 'react'
 import { Bell, CheckCircle, AlertCircle, Info } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'

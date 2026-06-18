@@ -1,3 +1,18 @@
+/**
+ * VendeurAddProductPage
+ * ────────────────────
+ * Page de création d'un nouveau produit.
+ * Le vendeur renseigne :
+ * - Nom, description, prix du produit
+ * - Catégorie de classification
+ * - Image principale
+ * 
+ * Processus :
+ * 1. Récupération des catégories disponibles
+ * 2. Soumission du formulaire avec upload d'image
+ * 3. Redirection vers la liste des produits après succès
+ */
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PackagePlus } from 'lucide-react'

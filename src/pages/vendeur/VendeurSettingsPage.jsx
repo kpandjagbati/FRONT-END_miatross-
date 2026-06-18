@@ -1,3 +1,17 @@
+/**
+ * VendeurSettingsPage
+ * ──────────────────
+ * Hub central des paramètres du vendeur.
+ * Accès rapide aux pages de configuration :
+ * 
+ * Liens disponibles :
+ * 1. Mon profil - Modifier les informations personnelles
+ * 2. Notifications - Consulter les alertes sur les produits
+ * 3. Sécurité - Redirecte vers la page auth pour changer le mot de passe
+ * 
+ * Format : Grille de cartes cliquables avec icônes et descriptions
+ */
+
 import { Link } from 'react-router-dom'
 import { User, Bell, Shield } from 'lucide-react'
 import VendeurPageHeader from './components/VendeurPageHeader'

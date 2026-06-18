@@ -1,3 +1,21 @@
+/**
+ * VendeurStatsPage
+ * ───────────────
+ * Page d'analyse détaillée et statistiques avancées.
+ * Affiche les performances et tendances du vendeur :
+ * 
+ * Statistiques clés :
+ * - Produits publiés (total et actifs)
+ * - Produits en attente de validation
+ * - Estimation des ventes en FCFA
+ * 
+ * Visualisations :
+ * - Diagramme donut : Répartition des produits par statut
+ * - Graphique linéaire : Tendance du volume par statut
+ * 
+ * Données : Récupérées via fetchVendeurDashboard()
+ */
+
 import { useEffect, useState } from 'react'
 import VendeurPageHeader from './components/VendeurPageHeader'
 import StatCard from './components/StatCard'
