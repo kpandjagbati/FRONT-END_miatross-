@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/productSearch.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/productSearch.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { CATEGORY_LABELS } from '../data/productsByCategory'
+
+/** Synonymes et mots associés pour élargir la recherche */
+const SEARCH_EXPANSIONS = {
+  chaussure: ['basket', 'baskets', 'jordan', 'samba', 'sandale', 'sandales', 'mocassin', 'mocassins', 'crocs', 'sabot', 'sabots', 'nike', 'adidas', 'sneaker', 'sneakers', 'footwear'],
+  chaussures: ['basket', 'baskets', 'jordan', 'samba', 'sandale', 'sandales', 'mocassin', 'crocs', 'sabot', 'nike', 'adidas'],
+  basket: ['basket', 'baskets', 'jordan', 'samba', 'nike', 'adidas', 'chaussure', 'chaussures', 'sneaker'],
+  baskets: ['basket', 'baskets', 'jordan', 'samba', 'nike', 'adidas', 'chaussure', 'chaussures'],
+  sneaker: ['basket', 'baskets', 'jordan', 'samba', 'nike', 'adidas', 'chaussure'],
+  sandale: ['sandale', 'sandales', 'hermes', 'laurent', 'chaussure'],
+  sac: ['sac', 'sacs', 'birkin', 'vuitton', 'hermes', 'maroquinerie'],
+  sacs: ['sac', 'sacs', 'birkin', 'vuitton', 'hermes'],
+  lunette: ['lunette', 'lunettes', 'clubmaster', 'accessoire'],
+  lunettes: ['lunette', 'lunettes', 'clubmaster', 'accessoire'],
+  vetement: ['polo', 'polos', 'cardigan', 'gilet', 'survetement', 'survêtement', 'mode', 'habit'],
+  vêtement: ['polo', 'polos', 'cardigan', 'gilet', 'survetement', 'mode', 'habit'],
+  habit: ['polo', 'cardigan', 'gilet', 'survetement', 'mode', 'vetement'],
+  mode: ['mode', 'accessoire', 'accessoires', 'polo', 'basket', 'sac', 'lunette'],
+  casque: ['casque', 'casques', 'sony', 'airpod', 'airpods', 'audio', 'ecouteur', 'écouteur', 'musique'],
+  ecouteur: ['ecouteur', 'écouteur', 'ecouteurs', 'airpod', 'buds', 'casque', 'audio'],
+  écouteur: ['ecouteur', 'écouteur', 'airpod', 'buds', 'casque'],
+  audio: ['casque', 'enceinte', 'airpod', 'jbl', 'sony', 'musique', 'bluetooth'],
+  musique: ['casque', 'enceinte', 'airpod', 'jbl', 'audio', 'bluetooth'],
+  enceinte: ['enceinte', 'enceintes', 'jbl', 'bluetooth', 'audio', 'musique'],
+  telephone: ['iphone', 'telephone', 'téléphone', 'smartphone', 'mobile', 'huawei'],
+  téléphone: ['iphone', 'telephone', 'téléphone', 'smartphone', 'mobile'],
+  smartphone: ['iphone', 'telephone', 'téléphone', 'smartphone', 'mobile'],
+  mobile: ['iphone', 'telephone', 'smartphone', 'mobile'],
+  iphone: ['iphone', 'telephone', 'smartphone', 'apple'],
+  ordinateur: ['macbook', 'huawei', 'ordinateur', 'laptop', 'pc', 'portable'],
+  pc: ['macbook', 'huawei', 'ordinateur', 'laptop', 'portable'],
+  laptop: ['macbook', 'huawei', 'ordinateur', 'laptop', 'portable'],
+  portable: ['macbook', 'huawei', 'ordinateur', 'laptop'],
+  console: ['playstation', 'ps5', 'jeu', 'gaming'],
+  jeux: ['playstation', 'ps5', 'console', 'gaming'],
+  camera: ['camera', 'caméra', 'dji', 'hasselblad', 'photo'],
+  caméra: ['camera', 'caméra', 'dji', 'hasselblad', 'photo'],
+  photo: ['camera', 'caméra', 'dji', 'hasselblad'],
+  montre: ['garmin', 'montre', 'epix', 'gps'],
+  souris: ['souris', 'logitech', 'gaming'],
+  chargeur: ['chargeur', 'usb', 'cable', 'câble'],
+  usb: ['usb', 'cle', 'clé', 'chargeur'],
+  sport: ['sport', 'fitness', 'ballon', 'haltère', 'haltères', 'running', 'tennis', 'gym'],
+  fitness: ['sport', 'fitness', 'haltère', 'tapis', 'gym', 'musculation'],
+  gym: ['sport', 'fitness', 'haltère', 'tapis', 'musculation'],
+  ballon: ['ballon', 'basket', 'adidas', 'football'],
+  beaute: ['beaute', 'beauté', 'creme', 'crème', 'serum', 'sérum', 'parfum', 'maquillage', 'soin'],
+  beauté: ['beaute', 'beauté', 'creme', 'crème', 'serum', 'parfum', 'soin'],
+  soin: ['creme', 'crème', 'serum', 'sérum', 'masque', 'shampoing', 'beaute'],
+  parfum: ['parfum', 'eau', 'toilette', 'beaute'],
+  maquillage: ['rouge', 'mascara', 'levres', 'lèvres', 'beaute'],
+  maison: ['maison', 'bureau', 'cuisine', 'electromenager', 'électroménager'],
+  cuisine: ['casserole', 'couteau', 'couteaux', 'mixeur', 'bouilloire', 'cafetiere', 'cafetière'],
+  bureau: ['lampe', 'organisateur', 'maison'],
+  electronique: ['electronique', 'électronique', 'tech', 'technologie', 'gadget'],
+  électronique: ['electronique', 'électronique', 'tech', 'technologie'],
+}
+
+const CATEGORY_KEYWORDS = {
+  mode: ['mode', 'accessoire', 'accessoires', 'chaussure', 'chaussures', 'vetement', 'vêtement', 'habit', 'style', 'fashion', 'marque'],
+  electronique: ['electronique', 'électronique', 'tech', 'technologie', 'gadget', 'high-tech', 'numerique', 'numérique'],
+  sport: ['sport', 'sports', 'loisir', 'loisirs', 'fitness', 'entrainement', 'entraînement', 'gym'],
+  beaute: ['beaute', 'beauté', 'sante', 'santé', 'cosmetique', 'cosmétique', 'soin', 'soins', 'hygiene', 'hygiène'],
+  maison: ['maison', 'bureau', 'menager', 'ménager', 'cuisine', 'maison', 'domestique'],
+}
+
+function normalize(str) {
+  return String(str)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+}
+
+function tokenize(str) {
+  return normalize(str).split(/[\s&amp;\-–—/]+/).filter(Boolean)
+}
+
+/** Construit la liste de termes à chercher à partir de la requête utilisateur */
+export function buildSearchTerms(query) {
+  const q = normalize(query)
+  if (!q) return []
+
+  const terms = new Set([q, ...tokenize(q)])
+
+  for (const [key, aliases] of Object.entries(SEARCH_EXPANSIONS)) {
+    const normKey = normalize(key)
+    const keyMatches = normKey.includes(q) || q.includes(normKey) ||
+      tokenize(q).some(t => normKey.includes(t) || t.includes(normKey))
+    const aliasMatches = aliases.some(alias => {
+      const normAlias = normalize(alias)
+      return normAlias.includes(q) || q.includes(normAlias) ||
+        tokenize(q).some(t => normAlias.includes(t) || t.includes(normAlias))
+    })
+
+    if (keyMatches || aliasMatches) {
+      terms.add(normKey)
+      aliases.forEach(alias => terms.add(normalize(alias)))
+    }
+  }
+
+  for (const [catKey, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    const label = normalize(CATEGORY_LABELS[catKey])
+    const catMatch = keywords.some(kw => {
+      const n = normalize(kw)
+      return n.includes(q) || q.includes(n) || tokenize(q).some(t => n.includes(t) || t.includes(n))
+    }) || label.includes(q) || q.includes(label) || catKey.includes(q)
+
+    if (catMatch) {
+      terms.add(catKey)
+      terms.add(label)
+      keywords.forEach(kw => terms.add(normalize(kw)))
+    }
+  }
+
+  return [...terms]
+}
+
+/** Vérifie si un produit correspond à la recherche */
+export function productMatchesSearch(product, query) {
+  const q = normalize(query)
+  if (!q) return true
+
+  const searchTerms = buildSearchTerms(query)
+  const categoryKey = product.categoryKey || ''
+  const categoryLabel = product.category || CATEGORY_LABELS[categoryKey] || ''
+
+  const haystack = normalize([
+    product.name,
+    categoryLabel,
+    categoryKey,
+    ...(CATEGORY_KEYWORDS[categoryKey] || []),
+    ...tokenize(product.name),
+  ].join(' '))
+
+  return searchTerms.some(term => {
+    if (term.length &lt; 2) return haystack.includes(term)
+    return haystack.includes(term) || term.split(' ').some(part => haystack.includes(part))
+  })
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BACKEND_DEMO_ACCOUNTS">BACKEND_DEMO_ACCOUNTS</a></li><li><a href="global.html#CartItem">CartItem</a></li><li><a href="global.html#ImageGallery">ImageGallery</a></li><li><a href="global.html#InfoCard">InfoCard</a></li><li><a href="global.html#ProductCard">ProductCard</a></li><li><a href="global.html#ReviewCard">ReviewCard</a></li><li><a href="global.html#SEARCH_EXPANSIONS">SEARCH_EXPANSIONS</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#buildSearchTerms">buildSearchTerms</a></li><li><a href="global.html#productMatchesSearch">productMatchesSearch</a></li><li><a href="global.html#resolveCatalogProduct">resolveCatalogProduct</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jun 19 2026 09:57:01 GMT+0000 (heure moyenne de Greenwich)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

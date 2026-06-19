@@ -4,12 +4,7 @@
     "dictionaries": ["jsdoc", "closure"]
   },
   "source": {
-    "include": [
-      "src/pages/utilisateur/ProductDetailPage.jsx",
-      "src/pages/utilisateur/UserProfilePage.jsx",
-      "src/pages/utilisateur/CategoriesPage.jsx",
-      "src/pages/utilisateur/CartPage.jsx"
-    ],
+    "include": ["src"],
     "excludePattern": "(^|\\/|\\\\)\\."
   },
   "opts": {
@@ -17,8 +12,7 @@
     "destination": "./docs",
     "recurse": true,
     "readme": "./README.md",
-    "template": "./node_modules/jsdoc/templates/default",
-    "tutorials": "./tutorials"
+    "template": "./node_modules/jsdoc/templates/default"
   },
   "templates": {
     "cleverLinks": false,
