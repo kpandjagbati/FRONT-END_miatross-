@@ -17,19 +17,20 @@ export function getStoredAuth() {
 }
 
 export async function apiFetch(path, options = {}) {
+  const { skipAuth = false, ...fetchOptions } = options
   const auth = getStoredAuth()
-  const headers = { ...options.headers }
+  const headers = { ...fetchOptions.headers }
 
-  if (!(options.body instanceof FormData) && !headers['Content-Type']) {
+  if (!(fetchOptions.body instanceof FormData) && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json'
   }
 
-  if (auth?.token) {
+  if (!skipAuth && auth?.token) {
     headers.Authorization = `Bearer ${auth.token}`
   }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
+    ...fetchOptions,
     headers,
   })
 

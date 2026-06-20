@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin, Loader2, CheckCircle2 } from 'lucide-react'
 import logoImg from '../../../assets/MiaTrossè-logo1.png'
 import { submitToFormspree } from '../../../config/formspree'
@@ -193,8 +194,14 @@ export default function Footer() {
         <div>
           <p className="text-white font-semibold mb-2">Mon compte</p>
           <ul className="space-y-1.5 text-sm">
-            {['Mes commandes', 'Mes favoris', 'Mes achats', 'Paramètres'].map(l => (
-              <li key={l}><a href="#" className="hover:text-brand transition-colors">{l}</a></li>
+            {[
+              { label: 'Mes favoris', to: '/wishlist' },
+              { label: 'Mon panier', to: '/cart' },
+              { label: 'Mon profil', to: '/profile' },
+            ].map(({ label, to }) => (
+              <li key={label}>
+                <Link to={to} className="hover:text-brand transition-colors">{label}</Link>
+              </li>
             ))}
           </ul>
         </div>

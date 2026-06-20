@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Heart, Trash2, ShoppingBag, ArrowRight, Star
 } from 'lucide-react'
@@ -9,7 +9,7 @@ import ProductImageFrame from './components/ProductImageFrame'
 import { useShop } from '../../context/ShopContext'
 
 // ── Composant carte favori ───────────────────────────────────────────────────
-function WishlistItem({ item, onRemove, onOrder, onOpenDetails }) {
+function WishlistItem({ item, onRemove, onAddToCart, onOpenDetails }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -94,12 +94,12 @@ function WishlistItem({ item, onRemove, onOrder, onOpenDetails }) {
           </button>
           <button
             type="button"
-            onClick={() => onOrder(item)}
+            onClick={() => onAddToCart(item)}
             disabled={!item.inStock}
             className="p-2 rounded-lg border border-gray-200 text-gray-400
                        hover:border-brand hover:text-brand transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Passer commande"
+            title="Ajouter au panier"
           >
             <ShoppingBag size={18} />
           </button>
@@ -111,8 +111,7 @@ function WishlistItem({ item, onRemove, onOrder, onOpenDetails }) {
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function WishlistPage() {
-  const navigate = useNavigate()
-  const { wishlistItems, removeFromWishlist, clearWishlist, openProductModal } = useShop()
+  const { wishlistItems, removeFromWishlist, clearWishlist, openProductModal, addToCart } = useShop()
 
   const handleRemove = (id) => {
     removeFromWishlist(id)
@@ -122,8 +121,8 @@ export default function WishlistPage() {
     clearWishlist()
   }
 
-  const handleOrder = () => {
-    navigate('/auth')
+  const handleAddToCart = (item) => {
+    addToCart(item)
   }
 
   const handleOpenDetails = (item) => {
@@ -189,7 +188,7 @@ export default function WishlistPage() {
                 key={item.id}
                 item={item}
                 onRemove={handleRemove}
-                onOrder={handleOrder}
+                onAddToCart={handleAddToCart}
                 onOpenDetails={handleOpenDetails}
               />
             ))}

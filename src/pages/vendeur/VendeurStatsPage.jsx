@@ -54,7 +54,7 @@ export default function VendeurStatsPage() {
         {stats.map(stat => <StatCard key={stat.label} {...stat} />)}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 items-start">
         <SimpleDonutChart data={buildStatutChart(data.produitsParStatut)} title="Répartition de vos produits" />
         <SimpleLineChart data={buildStatutTrendData(data.produitsParStatut)} title="Volume par statut" />
       </div>

@@ -34,10 +34,10 @@ export default function SimpleDonutChart({ data, title }) {
   })
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-      {title && <h3 className="text-sm font-bold text-gray-900 mb-4">{title}</h3>}
-      <div className="flex flex-col sm:flex-row items-center gap-6">
-        <svg viewBox="0 0 100 100" className="w-36 h-36 shrink-0" role="img" aria-label={title}>
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+      {title && <h3 className="text-sm font-bold text-gray-900 mb-2">{title}</h3>}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <svg viewBox="0 0 100 100" className="w-24 h-24 shrink-0" role="img" aria-label={title}>
           {segments.map(item => {
             const span = item.end - item.start
             if (span >= 99.99) {
@@ -68,9 +68,9 @@ export default function SimpleDonutChart({ data, title }) {
             </>
           )}
         </svg>
-        <div className="flex-1 space-y-2 w-full">
+        <div className="flex-1 space-y-1.5 w-full">
           {safeData.map(item => (
-            <div key={item.label} className="flex items-center justify-between text-sm gap-3">
+            <div key={item.label} className="flex items-center justify-between text-xs gap-2">
               <div className="flex items-center gap-2 min-w-0">
                 <span
                   className="w-3 h-3 rounded-full shrink-0"

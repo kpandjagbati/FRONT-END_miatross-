@@ -145,14 +145,14 @@ function CartItem({ item, onUpdateQuantity, onRemove, onOpenDetails }) {
 /**
  * Composant CartPage
  * @component Page du panier avec gestion des articles et codes promo
- * @returns {JSX.Element} Page complète avec liste du panier, codes promo et résumé de commande
+ * @returns {JSX.Element} Page complète avec liste du panier, codes promo et résumé
  * @description
  * - Affiche la liste des articles avec images et prix
  * - Gestion de la quantité avec +/- et suppression
  * - Application de codes promo (MIATROSSE, WELCOME5)
  * - Calcul automatique du total, remise et frais de livraison
  * - Livraison gratuite au-delà de 20000 FCFA
- * - Lien vers la commande/paiement
+ * - Bouton pour contacter le vendeur
  */
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function CartPage() {
@@ -160,6 +160,7 @@ export default function CartPage() {
   const [promoCode, setPromoCode] = useState('')
   const [appliedPromo, setAppliedPromo] = useState(null)
   const [promoError, setPromoError] = useState('')
+  const [vendorContactMessage, setVendorContactMessage] = useState(false)
 
   const handleUpdateQuantity = (id, quantity) => {
     updateCartQuantity(id, quantity)
@@ -258,7 +259,7 @@ export default function CartPage() {
               ))}
             </motion.div>
 
-            {/* Résumé commande */}
+            {/* Résumé panier */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -341,14 +342,25 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                {/* Bouton commander */}
-                <Link
-                  to="/auth"
+                {/* Contacter le vendeur */}
+                <button
+                  type="button"
+                  onClick={() => setVendorContactMessage(true)}
                   className="w-full bg-brand hover:bg-brand-hover text-white font-bold
                              py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mb-4"
                 >
-                  Passer la commande <ArrowRight size={18} />
-                </Link>
+                  Contacter le vendeur <ArrowRight size={18} />
+                </button>
+
+                {vendorContactMessage && (
+                  <div
+                    role="alert"
+                    className="mb-4 rounded-xl border border-brand/20 bg-brand/5 px-4 py-3 text-sm text-gray-800"
+                  >
+                    <p className="font-semibold text-brand mb-1">Demande envoyée</p>
+                    <p>Un vendeur vous contactera plus tard pour finaliser votre achat.</p>
+                  </div>
+                )}
 
                 {/* Garanties */}
                 <div className="space-y-3 pt-4 border-t border-gray-200">

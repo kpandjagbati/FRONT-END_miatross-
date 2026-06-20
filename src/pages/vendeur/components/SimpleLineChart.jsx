@@ -1,4 +1,4 @@
-export default function SimpleLineChart({ data = [], title, height = 180 }) {
+export default function SimpleLineChart({ data = [], title, height = 100 }) {
   const safeData = data.length ? data : [0, 0, 0, 0]
   const max = Math.max(...safeData)
   const min = Math.min(...safeData)
@@ -16,9 +16,13 @@ export default function SimpleLineChart({ data = [], title, height = 180 }) {
   const areaPoints = `${padding},${height - padding} ${points} ${width - padding},${height - padding}`
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-      {title && <h3 className="text-sm font-bold text-gray-900 mb-4">{title}</h3>}
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full" preserveAspectRatio="none">
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+      {title && <h3 className="text-sm font-bold text-gray-900 mb-2">{title}</h3>}
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full h-24"
+        preserveAspectRatio="none"
+      >
         <defs>
           <linearGradient id="vendeurChartGradient" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#273c75" stopOpacity="0.25" />

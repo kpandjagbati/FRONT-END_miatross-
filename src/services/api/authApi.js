@@ -3,6 +3,7 @@ import { apiFetch } from './httpClient'
 export async function loginRequest(login, password) {
   return apiFetch('/api/auth/login', {
     method: 'POST',
+    skipAuth: true,
     body: JSON.stringify({ login, password }),
   })
 }
@@ -10,6 +11,7 @@ export async function loginRequest(login, password) {
 export async function registerVendeur(data) {
   return apiFetch('/api/auth/register/vendeur', {
     method: 'POST',
+    skipAuth: true,
     body: JSON.stringify(data),
   })
 }

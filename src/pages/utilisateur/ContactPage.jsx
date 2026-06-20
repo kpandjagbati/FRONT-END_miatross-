@@ -32,7 +32,6 @@ const CONTACT_INFO = [
 
 const SUBJECT_LABELS = {
   general: 'Question générale',
-  order: 'Problème de commande',
   delivery: 'Livraison',
   product: 'Produit défectueux',
   vendor: 'Devenir vendeur',
@@ -46,7 +45,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Quels sont les délais de livraison ?',
-    a: 'Les commandes sont livrées en 2-5 jours ouvrables selon votre localisation au Togo.',
+    a: 'Délai habituel de livraison : 2 à 5 jours ouvrables selon votre localisation au Togo.',
   },
   {
     q: 'Puis-je retourner un produit ?',
@@ -302,7 +301,6 @@ export default function ContactPage() {
                 >
                   <option value="">Sélectionnez un sujet</option>
                   <option value="general">Question générale</option>
-                  <option value="order">Problème de commande</option>
                   <option value="delivery">Livraison</option>
                   <option value="product">Produit défectueux</option>
                   <option value="vendor">Devenir vendeur</option>

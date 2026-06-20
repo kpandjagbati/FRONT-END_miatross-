@@ -17,9 +17,6 @@ import AdminUsersPage from './pages/Administrateur/AdminUsersPage'
 import AdminVendorsPage from './pages/Administrateur/AdminVendorsPage'
 import AdminProductsPage from './pages/Administrateur/AdminProductsPage'
 import AdminCategoriesPage from './pages/Administrateur/AdminCategoriesPage'
-import AdminOrdersPage from './pages/Administrateur/AdminOrdersPage'
-import AdminTransactionsPage from './pages/Administrateur/AdminTransactionsPage'
-import AdminReviewsPage from './pages/Administrateur/AdminReviewsPage'
 import AdminStatsPage from './pages/Administrateur/AdminStatsPage'
 import AdminSettingsPage from './pages/Administrateur/AdminSettingsPage'
 
@@ -27,10 +24,6 @@ import VendeurLayout from './pages/vendeur/components/VendeurLayout'
 import VendeurDashboardPage from './pages/vendeur/VendeurDashboardPage'
 import VendeurProductsPage from './pages/vendeur/VendeurProductsPage'
 import VendeurAddProductPage from './pages/vendeur/VendeurAddProductPage'
-import VendeurOrdersPage from './pages/vendeur/VendeurOrdersPage'
-import VendeurSalesPage from './pages/vendeur/VendeurSalesPage'
-import VendeurMessagesPage from './pages/vendeur/VendeurMessagesPage'
-import VendeurReviewsPage from './pages/vendeur/VendeurReviewsPage'
 import VendeurStatsPage from './pages/vendeur/VendeurStatsPage'
 import VendeurProfilePage from './pages/vendeur/VendeurProfilePage'
 import VendeurSettingsPage from './pages/vendeur/VendeurSettingsPage'
@@ -61,9 +54,6 @@ export default function App() {
           <Route path="vendeurs" element={<AdminVendorsPage />} />
           <Route path="produits" element={<AdminProductsPage />} />
           <Route path="categories" element={<AdminCategoriesPage />} />
-          <Route path="commandes" element={<AdminOrdersPage />} />
-          <Route path="transactions" element={<AdminTransactionsPage />} />
-          <Route path="avis" element={<AdminReviewsPage />} />
           <Route path="statistiques" element={<AdminStatsPage />} />
           <Route path="parametres" element={<AdminSettingsPage />} />
         </Route>
@@ -77,10 +67,6 @@ export default function App() {
           <Route path="dashboard" element={<VendeurDashboardPage />} />
           <Route path="produits" element={<VendeurProductsPage />} />
           <Route path="ajouter-produit" element={<VendeurAddProductPage />} />
-          <Route path="commandes" element={<VendeurOrdersPage />} />
-          <Route path="ventes" element={<VendeurSalesPage />} />
-          <Route path="messages" element={<VendeurMessagesPage />} />
-          <Route path="avis" element={<VendeurReviewsPage />} />
           <Route path="statistiques" element={<VendeurStatsPage />} />
           <Route path="profil" element={<VendeurProfilePage />} />
           <Route path="parametres" element={<VendeurSettingsPage />} />

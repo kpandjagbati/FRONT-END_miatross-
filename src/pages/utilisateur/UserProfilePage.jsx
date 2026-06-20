@@ -1,7 +1,7 @@
 /**
  * @fileoverview Page de profil utilisateur
- * @description Affiche les informations de profil utilisateur, historique de commandes,
- * wishlist et statistiques d'achat. Permet la gestion des paramètres de compte.
+ * @description Affiche les informations de profil utilisateur, favoris
+ * et statistiques. Permet la gestion des paramètres de compte.
  * @version 1.0.0
  */
 
@@ -22,28 +22,10 @@ const USER_DATA = {
   address: 'Lomé, Togo',
   joinDate: '15 Mars 2024',
   stats: {
-    orders: 12,
     wishlist: 8,
     reviews: 5
   }
 }
-
-const RECENT_ORDERS = [
-  {
-    id: 'CMD-2024-001',
-    date: '12 Jan 2025',
-    status: 'Livré',
-    total: 45000,
-    items: 2
-  },
-  {
-    id: 'CMD-2024-002',
-    date: '5 Jan 2025',
-    status: 'En livraison',
-    total: 87000,
-    items: 3
-  },
-]
 
 /**
  * Composant InfoCard
@@ -81,7 +63,7 @@ function InfoCard({ icon: Icon, label, value }) {
  * @param {string} props.to - Route de redirection au clic
  * @returns {JSX.Element} Carte statistique avec effet hover
  * @example
- * <StatCard icon={ShoppingBag} label="Commandes" value={12} to="/orders" />
+ * <StatCard icon={Heart} label="Favoris" value={8} to="/wishlist" />
  */
 // ── Composant stat ─────────────────────────────────────────────────────────
 function StatCard({ icon: Icon, label, value, to }) {
@@ -110,8 +92,7 @@ function StatCard({ icon: Icon, label, value, to }) {
  * @returns {JSX.Element} Page profil avec infos personnelles, statistiques et actions rapides
  * @description
  * - Affiche les informations du profil utilisateur
- * - Affiche les statistiques (commandes, favoris, avis)
- * - Affiche l'historique des commandes récentes
+ * - Affiche les statistiques (favoris, avis)
  * - Actions rapides pour naviguer vers wishlist et paramètres
  */
 // ── Page principale ───────────────────────────────────────────────────────────
@@ -184,7 +165,7 @@ export default function UserProfilePage() {
                              transition-colors text-gray-700 hover:text-brand"
                 >
                   <ShoppingBag size={18} />
-                  <span className="text-sm">Nouvel achat</span>
+                  <span className="text-sm">Parcourir le catalogue</span>
                 </Link>
                 <Link
                   to="/wishlist"
@@ -203,20 +184,14 @@ export default function UserProfilePage() {
             </div>
           </motion.div>
 
-          {/* Colonne droite - Stats et commandes */}
+          {/* Colonne droite - Stats */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-2 space-y-6"
           >
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              <StatCard
-                icon={ShoppingBag}
-                label="Commandes"
-                value={USER_DATA.stats.orders}
-                to="#"
-              />
+            <div className="grid grid-cols-2 gap-4">
               <StatCard
                 icon={Heart}
                 label="Favoris"
@@ -229,43 +204,6 @@ export default function UserProfilePage() {
                 value={USER_DATA.stats.reviews}
                 to="#"
               />
-            </div>
-
-            {/* Commandes récentes */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="font-semibold text-gray-900">Commandes récentes</h3>
-                <button className="text-sm text-brand hover:underline font-medium">
-                  Voir tout
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                {RECENT_ORDERS.map(order => (
-                  <div
-                    key={order.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
-                        <ShoppingBag size={18} className="text-brand" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{order.id}</p>
-                        <p className="text-xs text-gray-500">{order.date} • {order.items} article{order.items > 1 ? 's' : ''}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold text-gray-900">{order.total.toLocaleString('fr-FR')} FCFA</p>
-                      <span className={`text-xs font-medium ${
-                        order.status === 'Livré' ? 'text-brand' : 'text-orange-500'
-                      }`}>
-                        {order.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* Informations supplémentaires */}
