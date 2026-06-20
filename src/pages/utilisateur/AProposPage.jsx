@@ -72,10 +72,10 @@ const TEAM_MEMBERS = [
     imgAlt: 'GNOFAM Glordia — Responsable Commerciale',
   },
   {
-    name: 'SAWANDOUGOU Ziad',
+    name: 'SANHONGOU Ziad',
     role: 'Responsable Support Client',
     img: sawandougouZiad,
-    imgAlt: 'SAWANDOUGOU Ziad — Responsable Support Client',
+    imgAlt: 'SANHONGOU Ziad — Responsable Support Client',
   },
   {
     name: 'Aristide KPANDJA',
