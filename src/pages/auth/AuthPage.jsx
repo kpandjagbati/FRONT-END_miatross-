@@ -60,7 +60,7 @@ function SignInForm({ defaultLogin = '', successMessage = '', redirectTo = null 
       <div className="mb-2">
         <p className="text-base font-semibold text-base-content">Connexion</p>
         <p className="text-sm text-base-content/60 mt-0.5">
-          Connectez-vous avec votre compte et mot de passe pour accéder au dashboard.
+          Utilisez votre <strong>nom d&apos;utilisateur (login)</strong>, email ou téléphone — pas votre nom complet.
         </p>
       </div>
 
@@ -74,11 +74,12 @@ function SignInForm({ defaultLogin = '', successMessage = '', redirectTo = null 
         <User size={16} className="text-base-content/40 shrink-0" />
         <input
           type="text"
-          placeholder="Nom d'utilisateur"
+          placeholder="Login, email ou téléphone"
           className="grow bg-transparent outline-none text-base-content placeholder:text-base-content/40 text-sm"
           value={form.identifier}
           onChange={e => setForm({ ...form, identifier: e.target.value })}
           required
+          autoComplete="username"
         />
       </label>
 

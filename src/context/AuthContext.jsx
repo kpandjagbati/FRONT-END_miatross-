@@ -43,11 +43,16 @@ export function AuthProvider({ children }) {
     } catch (err) {
       const isNetworkError = err instanceof TypeError
         || (err instanceof Error && /fetch|network|failed/i.test(err.message))
-      const message = err instanceof ApiError
+      let message = err instanceof ApiError
         ? err.message
         : isNetworkError
           ? 'Impossible de joindre le serveur. Vérifiez que le backend tourne sur http://localhost:8080 et que CORS est configuré (redémarrez le backend après mise à jour).'
           : 'Impossible de joindre le serveur. Vérifiez que le backend est démarré.'
+
+      if (/bad credentials|unauthorized|401|utilisateur introuvable/i.test(message)) {
+        message = "Identifiants incorrects. Utilisez le nom d'utilisateur (login), l'email ou le téléphone — pas le nom complet — avec le bon mot de passe."
+      }
+
       throw new Error(message)
     } finally {
       setLoading(false)

@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
+    "apexcharts": "^6.6.1",
     "daisyui": "^5.5.20",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
+    "react-apexcharts": "^2.1.1",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.17.0",
     "swiper": "^12.2.0",
